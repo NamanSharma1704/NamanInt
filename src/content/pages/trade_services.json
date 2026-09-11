@@ -1,0 +1,68 @@
+{
+  "hero": {
+    "eyebrow": "Trade services",
+    "title": "Trade discipline that holds every detail together.",
+    "text": "For retailers and wholesale buyers, NAMAN INTERNATIONAL LTD provides a clear, coordinated framework for navigating the practical work of international supply.",
+    "cta": "Start an inquiry"
+  },
+  "framework": {
+    "eyebrow": "Our approach",
+    "title": "From brief to delivery, each stage stays connected.",
+    "text": "We bring a measured, partner-led perspective to the working relationships, product expectations, and movement that turn an opportunity into a dependable supply arrangement."
+  },
+  "services": [
+    {
+      "title": "Sourcing & procurement",
+      "number": "01",
+      "text": "Focused sourcing support that begins with a clear brief, commercial priorities, and a practical view of the product opportunity.",
+      "image": "procurement",
+      "id": "yziKVablMxdrMzC5pNOMQ"
+    },
+    {
+      "title": "Supplier coordination",
+      "number": "02",
+      "text": "Consistent communication that connects buyers and supply partners around expectations, timing, and key working details.",
+      "image": "warehouse",
+      "id": "fS1LuGzA-CX266UXk9x_8"
+    },
+    {
+      "title": "Quality coordination",
+      "number": "03",
+      "text": "A considered quality process that keeps product requirements visible as preparation moves toward readiness.",
+      "image": "materials",
+      "id": "E9DGCLKHogSXBgRKZuW9E"
+    },
+    {
+      "title": "Logistics support",
+      "number": "04",
+      "text": "Coordinated handoffs and shipment planning to create more clarity across the movement of goods.",
+      "image": "route",
+      "id": "6Lp6gzRWM7Ax5VBN9zZgT"
+    }
+  ],
+  "principles": {
+    "eyebrow": "Built for long-term trade",
+    "items": [
+      {
+        "title": "Clear expectations",
+        "text": "A disciplined start makes the working relationship more dependable.",
+        "id": "sXIH12Mj_ieJ1r2REhamu"
+      },
+      {
+        "title": "Commercial awareness",
+        "text": "Trade decisions should remain connected to the needs of the buyer.",
+        "id": "8OvxnYkIK337Qtx7HMmxk"
+      },
+      {
+        "title": "Consistent communication",
+        "text": "The right details reach the right partners when they are needed.",
+        "id": "cpmXhjkuLsAr-4NHIaXiw"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Bring clarity to your next trade opportunity.",
+    "text": "Begin a direct conversation about the products, relationships, and trade requirements that matter to your business.",
+    "button": "Make an inquiry"
+  }
+}

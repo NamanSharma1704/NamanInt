@@ -1,0 +1,420 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:wght@400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* === NAMAN INTERNATIONAL LTD — Premium Trade Enterprise Palette ===
+       Deep Teal Accent (#0E7B7A) with cool grey base and deep navy primary.
+       Maritime / precision trade aesthetic.
+    */
+
+    /* Core Colors */
+    --background: 210 20% 97%;          /* #F3F5F7 — cool light grey */
+    --foreground: 213 30% 10%;          /* #0D1B2A — deep navy */
+    --card: 0 0% 100%;                  /* pure white */
+    --card-foreground: 213 30% 10%;     /* deep navy */
+    --popover: 0 0% 100%;
+    --popover-foreground: 213 30% 10%;
+    --primary: 213 35% 13%;             /* #0D1D2E — very deep navy */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 14% 89%;           /* #E1E5EA — cool light */
+    --secondary-foreground: 213 20% 30%;
+    --muted: 210 15% 93%;               /* #ECF0F3 — section bg */
+    --muted-foreground: 213 12% 44%;    /* #606A75 — subdued text */
+    --accent: 179 80% 27%;              /* #0E7B7A — deep teal */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 160 84% 39%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 100%;
+    --border: 210 15% 87%;              /* #D8DDE4 — cool grey border */
+    --input: 210 15% 87%;
+    --ring: 179 80% 27%;                /* teal focus ring */
+
+    /* Extended Colors */
+    --chart-1: 179 80% 27%;
+    --chart-2: 213 35% 25%;
+    --chart-3: 213 35% 13%;
+    --chart-4: 213 35% 45%;
+    --chart-5: 179 60% 50%;
+
+    /* Sidebar Colors */
+    --sidebar: 210 15% 93%;
+    --sidebar-foreground: 213 30% 10%;
+    --sidebar-primary: 213 35% 13%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 179 80% 27%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 210 15% 87%;
+    --sidebar-ring: 179 80% 27%;
+
+    /* Typography */
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-heading: "DM Serif Display", Georgia, serif;
+    --font-serif: ui-serif, Georgia, "Times New Roman", serif;
+    --font-mono: ui-monospace, "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+
+    /* Border Radius */
+    --radius: 0.5rem;
+    --radius-button: calc(var(--radius) - 2px);
+
+    /* Shadows — more pronounced for enterprise feel */
+    --shadow-2xs: 0 1px 2px 0px hsl(213 30% 10% / 0.04);
+    --shadow-xs: 0 1px 3px 0px hsl(213 30% 10% / 0.06);
+    --shadow-sm: 0 1px 3px 0px hsl(213 30% 10% / 0.08), 0 1px 2px -1px hsl(213 30% 10% / 0.08);
+    --shadow: 0 2px 4px 0px hsl(213 30% 10% / 0.08), 0 1px 3px -1px hsl(213 30% 10% / 0.08);
+    --shadow-md: 0 4px 8px -2px hsl(213 30% 10% / 0.10), 0 2px 4px -2px hsl(213 30% 10% / 0.06);
+    --shadow-lg: 0 8px 16px -4px hsl(213 30% 10% / 0.12), 0 4px 8px -4px hsl(213 30% 10% / 0.06);
+    --shadow-xl: 0 16px 32px -8px hsl(213 30% 10% / 0.14), 0 8px 16px -8px hsl(213 30% 10% / 0.06);
+    --shadow-2xl: 0 24px 48px -12px hsl(213 30% 10% / 0.22);
+
+    /* Teal Glow shadows */
+    --shadow-teal: 0 0 0 1px hsl(179 80% 27% / 0.15), 0 4px 12px hsl(179 80% 27% / 0.12);
+    --shadow-teal-lg: 0 0 0 1px hsl(179 80% 27% / 0.20), 0 8px 24px hsl(179 80% 27% / 0.18);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-heading);
+  }
+
+  h4, h5, h6 {
+    font-family: var(--font-sans);
+  }
+}
+
+/* Editorial rhythm and text balance */
+@layer components {
+  main h1,
+  main h2 {
+    text-wrap: balance;
+    letter-spacing: -0.022em;
+  }
+
+
+  main h2[class*='leading-'] {
+    line-height: 1.06 !important;
+  }
+
+  main h1 + p,
+  main h2 + p {
+    text-wrap: pretty;
+  }
+
+  main p[class*='leading-7'] {
+    max-width: 65ch;
+  }
+}
+
+/* Type scale */
+@layer components {
+  .page-title {
+    font-size: clamp(1.875rem, 2vw + 1rem, 2.25rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.022em;
+    color: hsl(var(--foreground));
+  }
+
+  .rich-text {
+    color: hsl(var(--muted-foreground));
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+  .rich-text h1 {
+    font-size: clamp(1.5rem, 1.5vw + 1rem, 1.875rem);
+    font-weight: 700;
+    line-height: 1.3;
+    color: hsl(var(--foreground));
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .rich-text h2 {
+    font-size: clamp(1.5rem, 1.5vw + 1rem, 1.875rem);
+    font-weight: 700;
+    line-height: 1.3;
+    color: hsl(var(--foreground));
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .rich-text h3 {
+    font-size: clamp(1.25rem, 1vw + 0.9rem, 1.5rem);
+    font-weight: 700;
+    color: hsl(var(--foreground));
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .rich-text h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .rich-text p { margin-bottom: 1.25rem; }
+  .rich-text a {
+    color: hsl(var(--accent));
+    text-decoration: underline;
+  }
+  .rich-text ul,
+  .rich-text ol {
+    margin: 1.25rem 0;
+    padding-left: 1.5rem;
+  }
+  .rich-text ul { list-style: disc; }
+  .rich-text ol { list-style: decimal; }
+  .rich-text li { margin-bottom: 0.5rem; }
+  .rich-text blockquote {
+    border-left: 3px solid hsl(var(--accent));
+    padding-left: 1rem;
+    font-style: italic;
+    margin: 1.5rem 0;
+    color: hsl(var(--foreground));
+  }
+  .rich-text code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: hsl(var(--muted));
+    padding: 0.15rem 0.35rem;
+    border-radius: 0.25rem;
+  }
+  .rich-text pre {
+    background: hsl(var(--muted));
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+  .rich-text pre code {
+    background: transparent;
+    padding: 0;
+  }
+  .rich-text img {
+    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+    max-width: 100%;
+    height: auto;
+  }
+  .rich-text table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+  }
+  .rich-text th,
+  .rich-text td {
+    border: 1px solid hsl(var(--border));
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+
+  /* =============================================
+     Design System Components
+  ============================================= */
+
+  /* Dark Hero Sections */
+  .hero-dark {
+    background: linear-gradient(135deg, hsl(213 35% 8%) 0%, hsl(213 35% 13%) 50%, hsl(179 50% 12%) 100%);
+  }
+
+  /* Teal Accent Eyebrow Label */
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.18em] text-accent;
+  }
+
+  /* Section Label with accent bar */
+  .section-label {
+    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-accent;
+  }
+  .section-label::before {
+    content: '';
+    @apply block h-[2px] w-6 bg-accent rounded-full;
+  }
+
+  /* Enterprise Card */
+  .enterprise-card {
+    @apply rounded-2xl border border-border bg-card shadow-sm transition-all duration-300;
+  }
+  .enterprise-card:hover {
+    @apply shadow-md -translate-y-0.5;
+  }
+
+  /* Enterprise Button Primary */
+  .btn-enterprise {
+    @apply inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground tracking-wide transition-all duration-200;
+  }
+  .btn-enterprise:hover {
+    @apply bg-accent shadow-teal;
+  }
+
+  /* Teal highlight badge */
+  .teal-badge {
+    @apply inline-flex items-center rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent ring-1 ring-accent/20;
+  }
+
+  /* Dark Section Variant */
+  .section-dark {
+    background: linear-gradient(160deg, hsl(213 35% 8%) 0%, hsl(213 35% 12%) 100%);
+    color: white;
+  }
+
+  /* Gradient divider */
+  .divider-teal {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-accent/40 to-transparent;
+  }
+}
+
+/* Custom utility classes */
+@layer utilities {
+  .animate-in {
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+  }
+
+  .fade-in {
+    animation-name: fadeIn;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Teal text glow */
+  .text-glow-teal {
+    text-shadow: 0 0 20px hsl(179 80% 27% / 0.4);
+  }
+
+  /* Shadow utilities */
+  .shadow-teal {
+    box-shadow: var(--shadow-teal);
+  }
+  .shadow-teal-lg {
+    box-shadow: var(--shadow-teal-lg);
+  }
+
+  /* Dark bg glass utilities */
+  .bg-white\/3 { background-color: rgb(255 255 255 / 0.03); }
+  .bg-white\/4 { background-color: rgb(255 255 255 / 0.04); }
+  .bg-white\/8 { background-color: rgb(255 255 255 / 0.08); }
+  .hover\:bg-white\/8:hover { background-color: rgb(255 255 255 / 0.08); }
+  .border-white\/8 { border-color: rgb(255 255 255 / 0.08); }
+  .border-white\/10 { border-color: rgb(255 255 255 / 0.10); }
+  .border-white\/12 { border-color: rgb(255 255 255 / 0.12); }
+  .border-white\/15 { border-color: rgb(255 255 255 / 0.15); }
+  .text-white\/35 { color: rgb(255 255 255 / 0.35); }
+  .text-white\/40 { color: rgb(255 255 255 / 0.40); }
+  .text-white\/45 { color: rgb(255 255 255 / 0.45); }
+  .text-white\/50 { color: rgb(255 255 255 / 0.50); }
+  .text-white\/55 { color: rgb(255 255 255 / 0.55); }
+  .text-white\/60 { color: rgb(255 255 255 / 0.60); }
+  .text-white\/65 { color: rgb(255 255 255 / 0.65); }
+  .text-white\/70 { color: rgb(255 255 255 / 0.70); }
+  .text-white\/72 { color: rgb(255 255 255 / 0.72); }
+  .text-white\/75 { color: rgb(255 255 255 / 0.75); }
+  .text-white\/80 { color: rgb(255 255 255 / 0.80); }
+  .accent\/12 { color: hsl(179 80% 27% / 0.12); }
+  .bg-accent\/12 { background-color: hsl(179 80% 27% / 0.12); }
+}
+
+/* Premium scrollbar */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border-radius: 9999px;
+    transition: background-color 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--accent) / 0.5);
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background-color: hsl(var(--accent) / 0.8);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+/* =============================================================================
+   Animation Utilities
+============================================================================= */
+@keyframes border-beam {
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+@keyframes logo-slider-scroll-left {
+  from { transform: translateX(0%); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes logo-slider-scroll-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0%); }
+}
+
+.logo-slider__track {
+  display: flex;
+  width: max-content;
+  animation: logo-slider-scroll-left calc(var(--speed, 30) * 1s) linear infinite;
+}
+
+[data-direction="right"] .logo-slider__track {
+  animation-name: logo-slider-scroll-right;
+}
+
+[data-pause-on-hover="true"]:hover .logo-slider__track {
+  animation-play-state: paused;
+}
+
+/* Hero gradient shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.hero-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(179 80% 27% / 0) 0%,
+    hsl(179 80% 27% / 0.15) 50%,
+    hsl(179 80% 27% / 0) 100%
+  );
+  background-size: 200% auto;
+  animation: shimmer 4s linear infinite;
+}

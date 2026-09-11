@@ -1,0 +1,421 @@
+{
+  "pages/home/warehouse-coordination": {
+    "requestedSize": {
+      "width": 1200,
+      "height": 900,
+      "fit": "cover"
+    },
+    "orientations": "horizontal",
+    "graphicalStyles": "photography",
+    "sortOrder": "best_match",
+    "minimumSize": "large",
+    "mediaType": "image",
+    "currentUrl": "https://img1.wsimg.com/isteam/getty/1405039859",
+    "searchQuery": "warehouse quality inspection export boxes documentary photography",
+    "alternatives": [
+      "https://img1.wsimg.com/isteam/getty/2201864936",
+      "https://img1.wsimg.com/isteam/getty/2155128897",
+      "https://img1.wsimg.com/isteam/getty/1493193006",
+      "https://img1.wsimg.com/isteam/getty/1370537187"
+    ],
+    "userModified": false,
+    "createdAt": "2026-09-05T08:17:01.731Z",
+    "lastUpdated": "2026-09-05T08:17:01.731Z",
+    "gettyId": "1405039859",
+    "alternativeGettyIds": [
+      "2201864936",
+      "2155128897",
+      "1493193006",
+      "1370537187"
+    ]
+  },
+  "pages/home/materials-detail": {
+    "requestedSize": {
+      "width": 1000,
+      "height": 900,
+      "fit": "cover"
+    },
+    "orientations": "square",
+    "graphicalStyles": "photography",
+    "sortOrder": "best_match",
+    "minimumSize": "large",
+    "mediaType": "image",
+    "currentUrl": "https://img1.wsimg.com/isteam/getty/2277566432",
+    "searchQuery": "premium natural materials textile detail warehouse trade photography",
+    "alternatives": [
+      "https://img1.wsimg.com/isteam/getty/2280530918",
+      "https://img1.wsimg.com/isteam/getty/484867616",
+      "https://img1.wsimg.com/isteam/getty/2203535889",
+      "https://img1.wsimg.com/isteam/getty/1458304094"
+    ],
+    "userModified": false,
+    "createdAt": "2026-09-05T08:17:03.769Z",
+    "lastUpdated": "2026-09-05T08:17:03.769Z",
+    "gettyId": "2277566432",
+    "alternativeGettyIds": [
+      "2280530918",
+      "484867616",
+      "2203535889",
+      "1458304094"
+    ]
+  },
+  "pages/home/hero-container-terminal": {
+    "requestedSize": {
+      "width": 1800,
+      "height": 1200,
+      "fit": "cover"
+    },
+    "orientations": "horizontal",
+    "graphicalStyles": "photography",
+    "sortOrder": "best_match",
+    "minimumSize": "large",
+    "mediaType": "image",
+    "currentUrl": "https://img1.wsimg.com/isteam/getty/2252110004",
+    "searchQuery": "container terminal cargo stacks cinematic documentary photography warm evening",
+    "alternatives": [
+      "https://img1.wsimg.com/isteam/getty/2277223658",
+      "https://img1.wsimg.com/isteam/getty/2123123943",
+      "https://img1.wsimg.com/isteam/getty/1341051088",
+      "https://img1.wsimg.com/isteam/getty/1521707229"
+    ],
+    "userModified": false,
+    "createdAt": "2026-09-05T08:17:04.581Z",
+    "lastUpdated": "2026-09-05T08:17:04.581Z",
+    "gettyId": "2252110004",
+    "alternativeGettyIds": [
+      "2277223658",
+      "2123123943",
+      "1341051088",
+      "1521707229"
+    ]
+  },
+  "logo/horizontal": {
+    "mediaType": "logo",
+    "currentUrl": "/airo-assets/uploads/logo-horizontal-86282ae4.jpg",
+    "searchQuery": "",
+    "alternatives": [
+      "/airo-assets/uploads/uploads-hero-logo-naman-86282ae4.jpg",
+      "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/6158b8d6-aecb-4f5c-92dd-514efc35c61b/horizontal-transparent-1720aa0b-b7bd-445a-8315-a2b56cddc822/logo-logo.png"
+    ],
+    "productMockupsMap": {
+      "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/6158b8d6-aecb-4f5c-92dd-514efc35c61b/horizontal-transparent-1720aa0b-b7bd-445a-8315-a2b56cddc822/logo-logo.png": [
+        {
+          "type": "mug",
+          "label": "Mug",
+          "url": "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/6158b8d6-aecb-4f5c-92dd-514efc35c61b/horizontal-mockup-mug-1720aa0b-b7bd-445a-8315-a2b56cddc822/logo-logo.png"
+        },
+        {
+          "type": "card",
+          "label": "Business Card",
+          "url": "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/6158b8d6-aecb-4f5c-92dd-514efc35c61b/horizontal-mockup-card-1720aa0b-b7bd-445a-8315-a2b56cddc822/logo-logo.png"
+        },
+        {
+          "type": "tshirt",
+          "label": "T-Shirt",
+          "url": "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/6158b8d6-aecb-4f5c-92dd-514efc35c61b/horizontal-mockup-tshirt-1720aa0b-b7bd-445a-8315-a2b56cddc822/logo-logo.png"
+        },
+        {
+          "type": "box",
+          "label": "Packaging",
+          "url": "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/6158b8d6-aecb-4f5c-92dd-514efc35c61b/horizontal-mockup-box-1720aa0b-b7bd-445a-8315-a2b56cddc822/logo-logo.png"
+        }
+      ]
+    },
+    "productMockups": [
+      {
+        "type": "mug",
+        "label": "Mug",
+        "url": "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/6158b8d6-aecb-4f5c-92dd-514efc35c61b/horizontal-mockup-mug-1720aa0b-b7bd-445a-8315-a2b56cddc822/logo-logo.png"
+      },
+      {
+        "type": "card",
+        "label": "Business Card",
+        "url": "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/6158b8d6-aecb-4f5c-92dd-514efc35c61b/horizontal-mockup-card-1720aa0b-b7bd-445a-8315-a2b56cddc822/logo-logo.png"
+      },
+      {
+        "type": "tshirt",
+        "label": "T-Shirt",
+        "url": "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/6158b8d6-aecb-4f5c-92dd-514efc35c61b/horizontal-mockup-tshirt-1720aa0b-b7bd-445a-8315-a2b56cddc822/logo-logo.png"
+      },
+      {
+        "type": "box",
+        "label": "Packaging",
+        "url": "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/6158b8d6-aecb-4f5c-92dd-514efc35c61b/horizontal-mockup-box-1720aa0b-b7bd-445a-8315-a2b56cddc822/logo-logo.png"
+      }
+    ],
+    "userModified": true,
+    "createdAt": "2026-09-05T08:17:32.526Z",
+    "lastUpdated": "2026-09-05T08:49:22.703Z",
+    "surfaceMode": "light",
+    "generatedForSurfaceColor": "#f5f0e7",
+    "lightSurfaceUrl": "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/6158b8d6-aecb-4f5c-92dd-514efc35c61b/horizontal-transparent-1720aa0b-b7bd-445a-8315-a2b56cddc822/logo-logo.png",
+    "uploadSources": {
+      "/airo-assets/uploads/logo-horizontal-86282ae4.jpg": "nevba9hqli_1788596985947_file_Cc2YndAcO-.jpg"
+    },
+    "uploadContentHash": "4a6f31af03a871c23efdd10fc0d87a3da4f0cd5ca7182c15ee7e981cb2cc3d2e",
+    "naturalOrientation": "horizontal"
+  },
+  "logo/favicon": {
+    "mediaType": "logo",
+    "currentUrl": "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/f9fd6fbd-d90d-41c3-9ee8-765140b221c6/favicon-transparent-49016c4a-d191-4186-8ece-7b9a54990bd4/logo-logo.png",
+    "searchQuery": "favicon",
+    "alternatives": [],
+    "logoSourceMap": {
+      "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/f9fd6fbd-d90d-41c3-9ee8-765140b221c6/favicon-transparent-49016c4a-d191-4186-8ece-7b9a54990bd4/logo-logo.png": {
+        "sessionId": "f9fd6fbd-d90d-41c3-9ee8-765140b221c6",
+        "logoId": "49016c4a-d191-4186-8ece-7b9a54990bd4",
+        "groupId": "e54705a5-bfab-42dd-b643-ecb7eb42a6d9"
+      }
+    },
+    "solidUrlMap": {
+      "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/f9fd6fbd-d90d-41c3-9ee8-765140b221c6/favicon-transparent-49016c4a-d191-4186-8ece-7b9a54990bd4/logo-logo.png": "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/f9fd6fbd-d90d-41c3-9ee8-765140b221c6/favicon-original-49016c4a-d191-4186-8ece-7b9a54990bd4/logo-logo.png"
+    },
+    "userModified": false,
+    "createdAt": "2026-09-05T08:17:49.176Z",
+    "lastUpdated": "2026-09-05T08:30:05.598Z",
+    "surfaceMode": "light",
+    "generatedForSurfaceColor": "#f5f0e7",
+    "lightSurfaceUrl": "https://isteam.wsimg.com/genai-assistant/logoagent/customer/3a19c3ba-7bbd-4f94-83e6-0ea40d80ff61/session/f9fd6fbd-d90d-41c3-9ee8-765140b221c6/favicon-transparent-49016c4a-d191-4186-8ece-7b9a54990bd4/logo-logo.png"
+  },
+  "pages/trade-services/procurement-desk": {
+    "requestedSize": {
+      "width": 1400,
+      "height": 1000,
+      "fit": "cover"
+    },
+    "orientations": "horizontal",
+    "graphicalStyles": "photography",
+    "sortOrder": "best_match",
+    "minimumSize": "large",
+    "mediaType": "image",
+    "currentUrl": "https://img1.wsimg.com/isteam/getty/2229995150",
+    "searchQuery": "international trade procurement documents desk professional photography",
+    "alternatives": [
+      "https://img1.wsimg.com/isteam/getty/2281129022",
+      "https://img1.wsimg.com/isteam/getty/2201230883",
+      "https://img1.wsimg.com/isteam/getty/1218793420",
+      "https://img1.wsimg.com/isteam/getty/856953176"
+    ],
+    "userModified": false,
+    "createdAt": "2026-09-05T08:20:38.092Z",
+    "lastUpdated": "2026-09-05T08:20:38.092Z",
+    "gettyId": "2229995150",
+    "alternativeGettyIds": [
+      "2281129022",
+      "2201230883",
+      "1218793420",
+      "856953176"
+    ]
+  },
+  "pages/categories/textiles-materials": {
+    "requestedSize": {
+      "width": 1200,
+      "height": 900,
+      "fit": "cover"
+    },
+    "orientations": "horizontal",
+    "graphicalStyles": "photography",
+    "sortOrder": "best_match",
+    "minimumSize": "large",
+    "mediaType": "image",
+    "currentUrl": "https://img1.wsimg.com/isteam/getty/1336419387",
+    "searchQuery": "textile fabric rolls material detail warehouse editorial photography",
+    "alternatives": [
+      "https://img1.wsimg.com/isteam/getty/1399379827",
+      "https://img1.wsimg.com/isteam/getty/1336420089",
+      "https://img1.wsimg.com/isteam/getty/1320152088",
+      "https://img1.wsimg.com/isteam/getty/665020514"
+    ],
+    "userModified": false,
+    "createdAt": "2026-09-05T08:22:00.105Z",
+    "lastUpdated": "2026-09-05T08:22:00.105Z",
+    "gettyId": "1336419387",
+    "alternativeGettyIds": [
+      "1399379827",
+      "1336420089",
+      "1320152088",
+      "665020514"
+    ]
+  },
+  "pages/categories/home-living": {
+    "requestedSize": {
+      "width": 1200,
+      "height": 900,
+      "fit": "cover"
+    },
+    "orientations": "horizontal",
+    "graphicalStyles": "photography",
+    "sortOrder": "best_match",
+    "minimumSize": "large",
+    "mediaType": "image",
+    "currentUrl": "https://img1.wsimg.com/isteam/getty/2243887744",
+    "searchQuery": "premium homewares tableware textile products editorial photography",
+    "alternatives": [
+      "https://img1.wsimg.com/isteam/getty/1224858109",
+      "https://img1.wsimg.com/isteam/getty/2263151951",
+      "https://img1.wsimg.com/isteam/getty/2255328175",
+      "https://img1.wsimg.com/isteam/getty/1674500164"
+    ],
+    "userModified": false,
+    "createdAt": "2026-09-05T08:22:02.358Z",
+    "lastUpdated": "2026-09-05T08:22:02.358Z",
+    "gettyId": "2243887744",
+    "alternativeGettyIds": [
+      "1224858109",
+      "2263151951",
+      "2255328175",
+      "1674500164"
+    ]
+  },
+  "pages/categories/packaging-merchandising": {
+    "requestedSize": {
+      "width": 1200,
+      "height": 900,
+      "fit": "cover"
+    },
+    "orientations": "horizontal",
+    "graphicalStyles": "photography",
+    "sortOrder": "best_match",
+    "minimumSize": "large",
+    "mediaType": "image",
+    "currentUrl": "https://img1.wsimg.com/isteam/getty/2276836281",
+    "searchQuery": "retail packaging product boxes branding workspace professional photography",
+    "alternatives": [
+      "https://img1.wsimg.com/isteam/getty/1187362478",
+      "https://img1.wsimg.com/isteam/getty/2232441172",
+      "https://img1.wsimg.com/isteam/getty/2276837559",
+      "https://img1.wsimg.com/isteam/getty/1461363174"
+    ],
+    "userModified": false,
+    "createdAt": "2026-09-05T08:22:04.279Z",
+    "lastUpdated": "2026-09-05T08:22:04.279Z",
+    "gettyId": "2276836281",
+    "alternativeGettyIds": [
+      "1187362478",
+      "2232441172",
+      "2276837559",
+      "1461363174"
+    ]
+  },
+  "pages/categories/seasonal-promotional": {
+    "requestedSize": {
+      "width": 1200,
+      "height": 900,
+      "fit": "cover"
+    },
+    "orientations": "horizontal",
+    "graphicalStyles": "photography",
+    "sortOrder": "best_match",
+    "minimumSize": "large",
+    "mediaType": "image",
+    "currentUrl": "https://img1.wsimg.com/isteam/getty/2183733823",
+    "searchQuery": "seasonal retail merchandise display products professional photography",
+    "alternatives": [
+      "https://img1.wsimg.com/isteam/getty/2291866683",
+      "https://img1.wsimg.com/isteam/getty/2226208656",
+      "https://img1.wsimg.com/isteam/getty/2228204894",
+      "https://img1.wsimg.com/isteam/getty/2124501920"
+    ],
+    "userModified": false,
+    "createdAt": "2026-09-05T08:22:06.943Z",
+    "lastUpdated": "2026-09-05T08:22:06.943Z",
+    "gettyId": "2183733823",
+    "alternativeGettyIds": [
+      "2291866683",
+      "2226208656",
+      "2228204894",
+      "2124501920"
+    ]
+  },
+  "pages/company/global-partnership": {
+    "requestedSize": {
+      "width": 1400,
+      "height": 1000,
+      "fit": "cover"
+    },
+    "orientations": "horizontal",
+    "graphicalStyles": "photography",
+    "sortOrder": "best_match",
+    "minimumSize": "large",
+    "mediaType": "image",
+    "currentUrl": "https://img1.wsimg.com/isteam/getty/1351437615",
+    "searchQuery": "international business partners warehouse port documentary photography",
+    "alternatives": [
+      "https://img1.wsimg.com/isteam/getty/1473416765",
+      "https://media.gettyimages.com/id/2246324097/photo/logistics-team-workers-standing-in-large-warehouse.jpg?b=1&s=2048x2048&w=0&k=20&c=nSDfmmb2LlldGXoflmeSUpQxssnFKgi7upKk5W7E6sU=",
+      "https://img1.wsimg.com/isteam/getty/2164777359",
+      "https://img1.wsimg.com/isteam/getty/2265213716"
+    ],
+    "userModified": false,
+    "createdAt": "2026-09-05T08:23:22.917Z",
+    "lastUpdated": "2026-09-05T08:23:22.917Z",
+    "gettyId": "1351437615",
+    "alternativeGettyIds": [
+      "1473416765",
+      "2246324097",
+      "2164777359",
+      "2265213716"
+    ]
+  },
+  "uploads/hero-logo-naman": {
+    "mediaType": "image",
+    "currentUrl": "/airo-assets/uploads/uploads-hero-logo-naman-86282ae4.jpg",
+    "searchQuery": "global shipping transportation illustration",
+    "alternatives": [],
+    "userModified": true,
+    "createdAt": "2026-09-05T08:29:46.764Z",
+    "lastUpdated": "2026-09-05T08:29:46.764Z",
+    "uploadSources": {
+      "/airo-assets/uploads/uploads-hero-logo-naman-86282ae4.jpg": "nevba9hqli_1788596985947_file_Cc2YndAcO-.jpg"
+    },
+    "uploadContentHash": "4a6f31af03a871c23efdd10fc0d87a3da4f0cd5ca7182c15ee7e981cb2cc3d2e",
+    "caption": "global shipping transportation illustration"
+  },
+  "pages/categories/refurbished-iphones": {
+    "requestedSize": {
+      "width": 1200,
+      "height": 900,
+      "fit": "cover"
+    },
+    "orientations": "horizontal",
+    "graphicalStyles": "photography",
+    "sortOrder": "best_match",
+    "minimumSize": "large",
+    "mediaType": "image",
+    "currentUrl": "https://img1.wsimg.com/isteam/getty/2222027368",
+    "searchQuery": "refurbished smartphones iPhone display premium electronics editorial photography",
+    "alternatives": [],
+    "userModified": false,
+    "createdAt": "2026-09-07T02:41:16.278Z",
+    "lastUpdated": "2026-09-07T02:41:16.278Z",
+    "gettyId": "2222027368"
+  },
+  "pages/categories/refurbished-iphones-gallery-1": {
+    "mediaType": "image",
+    "currentUrl": "/airo-assets/uploads/pages-categories-refurbished-iphones-gallery-1-fb4fd344.webp",
+    "searchQuery": "stacked refurbished iphones for sale",
+    "alternatives": [],
+    "userModified": true,
+    "createdAt": "2026-09-07T02:47:25.561Z",
+    "lastUpdated": "2026-09-07T02:47:25.561Z",
+    "uploadSources": {
+      "/airo-assets/uploads/pages-categories-refurbished-iphones-gallery-1-fb4fd344.webp": "nevba9hqli_1788749134238_file_vzvmQD9y3I.webp"
+    },
+    "uploadContentHash": "d2f6aca1c846b76c71949e5b0d758147667b1500596b9aec07d18355cc035b1e",
+    "caption": "stacked refurbished iphones for sale"
+  },
+  "pages/categories/refurbished-iphones-gallery-2": {
+    "mediaType": "image",
+    "currentUrl": "/airo-assets/uploads/pages-categories-refurbished-iphones-gallery-2-c9bd4636.webp",
+    "searchQuery": "multiple iphone models displayed together",
+    "alternatives": [],
+    "userModified": true,
+    "createdAt": "2026-09-07T02:47:25.820Z",
+    "lastUpdated": "2026-09-07T02:47:25.820Z",
+    "uploadSources": {
+      "/airo-assets/uploads/pages-categories-refurbished-iphones-gallery-2-c9bd4636.webp": "nevba9hqli_1788749065023_file_AC-R5rxrgO.webp"
+    },
+    "uploadContentHash": "4d3b094594af849cbcc1df3309b5e0482ac151bff5cfe4785ad237d61a2adeb3",
+    "caption": "multiple iphone models displayed together"
+  }
+}

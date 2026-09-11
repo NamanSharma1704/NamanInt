@@ -1,0 +1,76 @@
+{
+  "hero": {
+    "eyebrow": "For retail and wholesale partners",
+    "title": "China sourcing and\nprocurement.",
+    "description": "NAMAN INTERNATIONAL LTD helps retailers and wholesale buyers build dependable supply relationships with a disciplined, commercially focused approach to China sourcing and procurement.",
+    "primaryCta": "Begin an inquiry",
+    "secondaryCta": "View trade services",
+    "reachLabel": "Worldwide supply relationships"
+  },
+  "proof": {
+    "items": [
+      {
+        "label": "01",
+        "title": "Cross-border coordination",
+        "text": "The details that connect suppliers, products, and buyers stay in view.",
+        "id": "OHSUxwm9cHmb3gKSoBAoz"
+      },
+      {
+        "label": "02",
+        "title": "Buyer-focused quality process",
+        "text": "A clear line of sight from product expectations through to readiness.",
+        "id": "6BMybYO0jgEoB2DcLRJIv"
+      },
+      {
+        "label": "03",
+        "title": "Long-term supply relationships",
+        "text": "Built with care for consistency, communication, and continuity.",
+        "id": "U_e75l0JCiwo5XLNQp3Gj"
+      }
+    ]
+  },
+  "services": {
+    "eyebrow": "Trade services",
+    "title": "A practical framework for international buying.",
+    "items": [
+      {
+        "title": "Sourcing direction",
+        "text": "Focused product and supplier discovery shaped around the commercial needs of your business.",
+        "image": "materials",
+        "id": "_Nl_JmZ3rEDO6TyevdtKy"
+      },
+      {
+        "title": "Supplier coordination",
+        "text": "Clear communication and aligned expectations through the working relationship.",
+        "image": "warehouse",
+        "id": "BRJdqYd-qSBnW6L54Q98W"
+      },
+      {
+        "title": "Quality assurance",
+        "text": "A considered process that keeps product requirements visible at every stage.",
+        "image": "detail",
+        "id": "M8-Msa-64QhlgmEjHwZ4X"
+      },
+      {
+        "title": "Shipping support",
+        "text": "Coordinated handoffs designed to bring clarity to movement and delivery.",
+        "image": "none",
+        "id": "Ee80oogvM1vX7kT8U2wuG"
+      }
+    ]
+  },
+  "network": {
+    "eyebrow": "Global network",
+    "title": "A measured approach to worldwide supply.",
+    "text": "We work with the perspective North American retailers and wholesale buyers need: commercial, practical, and attentive to the relationships behind every consignment.",
+    "routeStatement": "A considered route\nfrom source to shelf",
+    "origin": "SOURCE / GLOBAL",
+    "destination": "DESTINATION / NORTH AMERICA"
+  },
+  "cta": {
+    "eyebrow": "A partnership begins with a conversation.",
+    "title": "Bring the right people, products, and expectations into alignment.",
+    "text": "Tell us where your next trade opportunity is headed. We will begin with a focused conversation.",
+    "button": "Make an inquiry"
+  }
+}

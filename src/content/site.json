@@ -1,0 +1,24 @@
+{
+  "contact": {
+    "addressChinese": "中国深圳市福田区华强北路赛格科技园西三栋6楼6B65",
+    "addressEnglish": "6B65, 6th Floor, Sega Technology Park, Block 3 West, Huaqiang North Road, Futian District, Shenzhen, China.",
+    "hongKongOffice": {
+      "addressChinese": "香港湾仔区骆克道54-62号博汇大厦16楼04-05室",
+      "addressEnglish": "Unit 04-05, 16th Floor, The Broadway, No. 54-62 Lockhart Road, Wanchai, Hong Kong.",
+      "fax": "00852-30139941",
+      "phone": "0086-13420939352"
+    },
+    "phone": "0086-13420939352",
+    "email": "sales@namanint.com",
+    "usaOffice": {
+      "addressEnglish": "Richmond Ave, Fremont, CA 94536, USA"
+    },
+    "manchesterOffice": {
+      "addressEnglish": "Union East (T1), 19 Water Street, Manchester, M3 4JQ, United Kingdom"
+    }
+  },
+  "footer": {
+    "summary": "A considered trade partner navigating global supply relationships.",
+    "tagline": "Global supply relationships, considered with care."
+  }
+}

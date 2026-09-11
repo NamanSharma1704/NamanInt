@@ -1,0 +1,47 @@
+{
+  "hero": {
+    "eyebrow": "Company profile",
+    "title": "Building dependable supply relationships since 2008.",
+    "text": "Founded in Hong Kong in 2008, NAMAN INTERNATIONAL LTD helps customers source quality products from China through trusted supplier relationships and practical trade coordination.",
+    "cta": "Make an inquiry"
+  },
+  "story": {
+    "eyebrow": "Our experience",
+    "title": "Nearly two decades of sourcing expertise.",
+    "text": "With close to two decades of experience, we have built working relationships with manufacturers and suppliers across Shenzhen, Guangzhou, Beijing, Shanghai, Foshan, Hangzhou, and Yiwu. We bring local market knowledge to every sourcing brief."
+  },
+  "standards": {
+    "eyebrow": "How we work",
+    "items": [
+      {
+        "id": "TBLhCoCGVqtf-EoNkPkOD",
+        "number": "01",
+        "title": "Commercially grounded",
+        "text": "We approach opportunities with attention to the product, the buyer’s objectives, and the practical conditions of supply."
+      },
+      {
+        "id": "0pKaDQmgYHcD1wz4ArZpO",
+        "number": "02",
+        "title": "Clear by design",
+        "text": "Structured communication helps keep requirements, decisions, and next steps understood across the working relationship."
+      },
+      {
+        "id": "z2i0VdGvktQ2QlQEnep-U",
+        "number": "03",
+        "title": "Built for continuity",
+        "text": "We value dependable long-term partnerships shaped by consistency, mutual understanding, and care."
+      }
+    ]
+  },
+  "network": {
+    "eyebrow": "International outlook",
+    "title": "Connected thinking across every trade relationship.",
+    "text": "From pre-production samples and during-production inspection to pre-shipment checks, we support the quality controls that keep sourcing on track. We work on FOB, EXW, and DDP terms, and can coordinate shipping and customs handling in China.",
+    "caption": "Hands-on trade coordination from sourcing through shipment."
+  },
+  "cta": {
+    "title": "Start with a focused conversation.",
+    "text": "Tell us about your product requirements, sourcing priorities, or upcoming trade opportunity.",
+    "button": "Contact NAMAN INTERNATIONAL LTD"
+  }
+}

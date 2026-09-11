@@ -1,0 +1,57 @@
+{
+  "hero": {
+    "eyebrow": "Product categories",
+    "title": "Category insight for considered buying.",
+    "text": "NAMAN INTERNATIONAL LTD supports product discussions with a practical view of sourcing requirements, material expectations, and the details that shape a dependable buying decision.",
+    "cta": "Discuss your requirements"
+  },
+  "intro": {
+    "eyebrow": "Supply capabilities",
+    "title": "A focused starting point for product conversations.",
+    "text": "Our category framework is designed to help retail and wholesale partners begin with clarity. Availability, product specifications, and commercial requirements are considered in direct consultation."
+  },
+  "categories": [
+    {
+      "title": "Home & living",
+      "number": "02",
+      "text": "Practical home-focused product discussions shaped around finish, function, presentation, and buyer expectations.",
+      "detail": "Homewares · Tabletop · Everyday utility",
+      "image": "home-living",
+      "id": "Rh-vi74MasFRuJ2oItalj"
+    },
+    {
+      "title": "Textiles & materials",
+      "number": "03",
+      "text": "Material-led sourcing conversations where quality, feel, construction, and practical use remain central.",
+      "detail": "Textiles · Fabrications · Material components",
+      "image": "textiles-materials",
+      "id": "m6cq8FXMFn6eP7OeI0urn"
+    },
+    {
+      "title": "Seasonal & promotional",
+      "number": "04",
+      "text": "Flexible category planning for timely retail programmes, launches, and changing customer demand.",
+      "detail": "Seasonal programmes · Giftable goods · Retail initiatives",
+      "image": "seasonal-promotional",
+      "id": "vY8ZzlVnS9D8cKsZVtFbm"
+    },
+    {
+      "title": "Packaging & merchandising",
+      "number": "05",
+      "text": "Product presentation and supporting materials considered alongside the larger commercial opportunity.",
+      "detail": "Packaging · Display materials · Branded presentation",
+      "image": "packaging-merchandising",
+      "id": "0yuM41GuACmEOOAlVBuNG"
+    }
+  ],
+  "note": {
+    "label": "A tailored conversation",
+    "title": "Every category begins with the right brief.",
+    "text": "Share the type of product, the market need, and the working parameters. We will respond with a focused starting point for discussion."
+  },
+  "cta": {
+    "title": "Looking for a particular product category?",
+    "text": "Tell us what you need to source. A clear initial brief creates the most productive path forward.",
+    "button": "Make an inquiry"
+  }
+}
