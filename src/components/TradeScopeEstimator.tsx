@@ -154,7 +154,7 @@ export default function TradeScopeEstimator() {
                         {vol.label}
                       </span>
                       <span className="mt-1 text-xs text-muted-foreground">{vol.unitText}</span>
-                      <span className="mt-3 rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-semibold text-accent">
+                      <span className="mt-3 rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-semibold text-accent-on-tint">
                         {vol.moqBadge}
                       </span>
                     </button>

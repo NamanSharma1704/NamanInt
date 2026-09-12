@@ -1,2 +1,9 @@
+# Static fallback. When the SSR server runs (src/server/entry.ts) it serves a
+# host-aware robots.txt ahead of this file: preview/system hosts get Disallow,
+# customer domains get Allow plus an absolute Sitemap URL for that host.
+# This copy only applies if the site is served as static files.
+
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: /sitemap.xml

@@ -220,11 +220,34 @@ The template includes:
 npm run build
 ```
 
+### Serving it
+
+This site is **server-rendered**. `npm run build` emits two artifacts:
+
+- `dist/client/` — static assets
+- `dist/server.bundle.mjs` — the Express app that renders pages and owns
+  `/api/*`, `/robots.txt`, `/sitemap.xml` and `/llms.txt`
+
+Run it with:
+
+```bash
+PORT=3000 node dist/server.bundle.mjs
+```
+
+Serving `dist/client/` alone as a static SPA is **not** a supported
+deployment. Doing so silently loses:
+
+- real 404 statuses on unknown URLs (they degrade to soft 404s)
+- `/sitemap.xml` and `/llms.txt` (they return the HTML shell instead)
+- host-aware `robots.txt` and canonical tags
+- the `/api/contact/:formName` endpoint, i.e. every inbound lead
+
 ### Deploy options:
 
-- **Vercel/Netlify** - Frontend deployment
-- **Railway/Render** - Full-stack deployment
-- **Docker** - Containerized deployment
+- **Railway / Render / Fly / Docker** - run the Node server directly
+- **Vercel / Netlify** - only with all non-asset requests routed to a Node
+  function that mounts `dist/server.bundle.mjs`; a static-only project will
+  break everything in the list above
 
 ## 🔧 Configuration
 

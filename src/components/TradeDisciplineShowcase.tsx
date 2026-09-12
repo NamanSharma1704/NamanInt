@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Check } from 'lucide-react';
 import { Link } from 'react-router';
+import ResponsiveImage from '@/components/ResponsiveImage';
 
 interface Discipline {
   id: string;
@@ -200,9 +201,10 @@ export default function TradeDisciplineShowcase() {
 
             {/* Right Large Clean Photography */}
             <div className="overflow-hidden rounded-xl border border-border shadow-sm">
-              <img
+              <ResponsiveImage
                 src={active.image}
                 alt={active.imageAlt}
+                sizes="(min-width: 1024px) 50vw, 100vw"
                 className="aspect-[4/3] w-full object-cover"
                 loading="eager"
               />

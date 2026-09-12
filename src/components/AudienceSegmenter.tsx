@@ -26,7 +26,7 @@ const audienceData: Record<AudienceType, AudienceData> = {
     tagline: 'Consumer-facing brands',
     title: 'Precision sourcing built for consumer retail compliance.',
     description:
-      'We support North American retail brands with considered overseas procurement—from barcode compliance and retail packaging to strict defect tolerances and scheduled container drops.',
+      'We support North American retail brands with considered overseas procurement, spanning barcode compliance, retail packaging, strict defect tolerances, and scheduled container drops.',
     benefits: [
       {
         title: 'Shelf-Ready Packaging & Barcoding',
@@ -98,13 +98,13 @@ export default function AudienceSegmenter() {
           <div>
             <div className="flex items-center gap-2 mb-5">
               <div className="h-px w-8 bg-accent" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">Commercial Pathways</span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">Commercial Pathways</span>
             </div>
             <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-white">
               Who are you sourcing for?
             </h2>
           </div>
-          <p className="max-w-sm text-sm leading-[1.8] text-white/40 lg:text-right">
+          <p className="max-w-sm text-sm leading-[1.8] text-white/70 lg:text-right">
             Select your commercial profile to inspect tailored operational protocols, compliance standards, and logistics models.
           </p>
         </div>
@@ -121,7 +121,7 @@ export default function AudienceSegmenter() {
                 className={`flex items-center gap-2.5 rounded-lg px-5 py-2.5 text-sm font-semibold transition-all duration-250 ${
                   activeTab === type
                     ? 'bg-accent text-white shadow-[0_0_20px_hsl(179_80%_27%/0.4)]'
-                    : 'text-white/45 hover:text-white/75'
+                    : 'text-white/70 hover:text-white/75'
                 }`}
               >
                 <Icon size={15} />
@@ -146,7 +146,7 @@ export default function AudienceSegmenter() {
               <div>
                 <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent/10 px-3 py-1">
                   <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-accent">{activeData.tagline}</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-accent-on-dark">{activeData.tagline}</span>
                 </div>
                 <h3 className="font-heading text-2xl font-medium leading-[1.15] text-white sm:text-3xl lg:text-[2rem]">
                   {activeData.title}
@@ -161,7 +161,7 @@ export default function AudienceSegmenter() {
                 <span className="font-heading text-4xl font-bold text-white sm:text-5xl">
                   {activeData.metric.value}
                 </span>
-                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-white/35">
+                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-white/70">
                   {activeData.metric.label}
                 </span>
               </div>
@@ -192,7 +192,7 @@ export default function AudienceSegmenter() {
                     </div>
                     <div>
                       <h4 className="text-sm font-semibold text-white">{item.title}</h4>
-                      <p className="mt-2 text-xs leading-[1.75] text-white/45">{item.desc}</p>
+                      <p className="mt-2 text-xs leading-[1.75] text-white/70">{item.desc}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -201,7 +201,7 @@ export default function AudienceSegmenter() {
               {/* Switch prompt */}
               <button
                 onClick={() => setActiveTab(activeTab === 'retail' ? 'wholesale' : 'retail')}
-                className="group flex w-full items-center justify-between rounded-2xl border border-dashed border-white/12 px-6 py-4 text-xs font-semibold text-white/30 transition-all duration-300 hover:border-accent/30 hover:text-accent"
+                className="group flex w-full items-center justify-between rounded-2xl border border-dashed border-white/12 px-6 py-4 text-xs font-semibold text-white/60 transition-all duration-300 hover:border-accent/30 hover:text-accent"
               >
                 <span>Not this profile? Switch to {InactiveData.label}</span>
                 <ArrowRight size={12} className="transition-transform duration-300 group-hover:translate-x-1" />

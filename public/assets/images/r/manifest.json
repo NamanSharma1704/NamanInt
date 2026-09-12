@@ -1,0 +1,198 @@
+{
+  "category-precision-hardware": {
+    "widths": [
+      {
+        "w": 480,
+        "avif": 19787,
+        "webp": 33242,
+        "fallback": 39563,
+        "ext": "jpg"
+      },
+      {
+        "w": 768,
+        "avif": 37230,
+        "webp": 63226,
+        "fallback": 82261,
+        "ext": "jpg"
+      },
+      {
+        "w": 1200,
+        "avif": 67620,
+        "webp": 112848,
+        "fallback": 162948,
+        "ext": "jpg"
+      }
+    ],
+    "intrinsic": {
+      "w": 1200,
+      "h": 896
+    }
+  },
+  "closing-cta-terminal": {
+    "widths": [
+      {
+        "w": 480,
+        "avif": 17847,
+        "webp": 28620,
+        "fallback": 33087,
+        "ext": "jpg"
+      },
+      {
+        "w": 768,
+        "avif": 38754,
+        "webp": 61936,
+        "fallback": 75599,
+        "ext": "jpg"
+      },
+      {
+        "w": 1200,
+        "avif": 76199,
+        "webp": 124762,
+        "fallback": 161770,
+        "ext": "jpg"
+      }
+    ],
+    "intrinsic": {
+      "w": 1200,
+      "h": 896
+    }
+  },
+  "logo": {
+    "widths": [
+      {
+        "w": 220,
+        "avif": 5686,
+        "webp": 8778,
+        "fallback": 6525,
+        "ext": "png"
+      },
+      {
+        "w": 440,
+        "avif": 12313,
+        "webp": 20328,
+        "fallback": 15458,
+        "ext": "png"
+      }
+    ],
+    "intrinsic": {
+      "w": 1346,
+      "h": 408
+    }
+  },
+  "quality-inspection": {
+    "widths": [
+      {
+        "w": 480,
+        "avif": 19638,
+        "webp": 32202,
+        "fallback": 38565,
+        "ext": "jpg"
+      },
+      {
+        "w": 768,
+        "avif": 36107,
+        "webp": 60076,
+        "fallback": 79543,
+        "ext": "jpg"
+      },
+      {
+        "w": 1200,
+        "avif": 63660,
+        "webp": 102962,
+        "fallback": 153001,
+        "ext": "jpg"
+      }
+    ],
+    "intrinsic": {
+      "w": 1200,
+      "h": 896
+    }
+  },
+  "shipping-logistics": {
+    "widths": [
+      {
+        "w": 480,
+        "avif": 23732,
+        "webp": 37378,
+        "fallback": 41583,
+        "ext": "jpg"
+      },
+      {
+        "w": 768,
+        "avif": 50825,
+        "webp": 83522,
+        "fallback": 96142,
+        "ext": "jpg"
+      },
+      {
+        "w": 1200,
+        "avif": 100465,
+        "webp": 170848,
+        "fallback": 208009,
+        "ext": "jpg"
+      }
+    ],
+    "intrinsic": {
+      "w": 1200,
+      "h": 896
+    }
+  },
+  "sourcing-direction": {
+    "widths": [
+      {
+        "w": 480,
+        "avif": 17036,
+        "webp": 29620,
+        "fallback": 35775,
+        "ext": "jpg"
+      },
+      {
+        "w": 768,
+        "avif": 34148,
+        "webp": 59106,
+        "fallback": 75927,
+        "ext": "jpg"
+      },
+      {
+        "w": 1200,
+        "avif": 65627,
+        "webp": 113682,
+        "fallback": 154994,
+        "ext": "jpg"
+      }
+    ],
+    "intrinsic": {
+      "w": 1200,
+      "h": 896
+    }
+  },
+  "supplier-coordination": {
+    "widths": [
+      {
+        "w": 480,
+        "avif": 17244,
+        "webp": 28034,
+        "fallback": 35435,
+        "ext": "jpg"
+      },
+      {
+        "w": 768,
+        "avif": 32557,
+        "webp": 51654,
+        "fallback": 71222,
+        "ext": "jpg"
+      },
+      {
+        "w": 1200,
+        "avif": 59514,
+        "webp": 91666,
+        "fallback": 137038,
+        "ext": "jpg"
+      }
+    ],
+    "intrinsic": {
+      "w": 1200,
+      "h": 896
+    }
+  }
+}

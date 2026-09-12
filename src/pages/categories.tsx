@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { Helmet } from '@dr.pogodin/react-helmet';
+import { useJsonLdSiteUrl } from '@/lib/json-ld-site-url-context';
+import { mediaUrl } from '@/lib/media';
+import ResponsiveImage from '@/components/ResponsiveImage';
 import { ArrowRight, CheckCircle2, SlidersHorizontal, Layers, FileCheck, CalendarClock, Box } from 'lucide-react';
 import { motion, useReducedMotion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router';
@@ -7,8 +10,6 @@ import { categories } from 'virtual:content';
 import { BorderBeam } from '@/components/ui/border-beam';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 
-const siteUrl = 'https://nevba9hqli.preview.c35.airoapp.ai';
-const url = `${siteUrl}/categories`;
 const title = 'Product Categories & Manufacturing Capabilities | NAMAN INTERNATIONAL LTD';
 const description =
   'Explore NAMAN INTERNATIONAL LTD manufacturing portfolio: precision hardware & castings, consumer packaging, technical textiles, home living, and seasonal retail programs.';
@@ -51,7 +52,7 @@ const portfolioCategories: CategoryItem[] = [
     title: 'Consumer Retail Packaging, Rigid Boxes & Displays',
     description:
       'Custom shelf-ready packaging, high-grade rigid gift boxes, corrugated master cartons, and point-of-sale displays engineered to meet stringent North American retail store manuals.',
-    image: '/airo-assets/images/pages/categories/packaging-merchandising',
+    image: mediaUrl('pages/categories/packaging-merchandising'),
     imageAlt: 'Sustainable retail packaging and branded display boxes',
     materials: ['FSC-Certified SBS Paperboard', 'Recycled Greyboard', 'E/B Flute Corrugated', 'Molded Pulp'],
     standards: ['ISTA-3A Drop & transit testing', 'Edge Crush Test (ECT) verified', 'GS1 / UPC barcode readability scan'],
@@ -66,7 +67,7 @@ const portfolioCategories: CategoryItem[] = [
     title: 'Technical Textiles, Woven Materials & Soft Goods',
     description:
       'Fabrication-focused sourcing for home textiles, commercial soft goods, and private-label retail collections with strict mill control over yarn density, dye fastness, and hand-feel.',
-    image: '/airo-assets/images/pages/categories/textiles-materials',
+    image: mediaUrl('pages/categories/textiles-materials'),
     imageAlt: 'Premium natural textiles and material fabrications on design desk',
     materials: ['Long-Staple Combed Cotton', 'Recycled RPET Polyester', 'Linen Blends', 'Performance Canvas'],
     standards: ['OEKO-TEX Standard 100 certification', 'AATCC 8/116 Color Fastness', 'Tensile tear resistance pass'],
@@ -81,7 +82,7 @@ const portfolioCategories: CategoryItem[] = [
     title: 'Everyday Homewares, Tabletop & Kitchen Utility',
     description:
       'Considered home product lines combining aesthetic restraint with commercial durability. From borosilicate kitchenware to bamboo accessories, shaped to retail buyer margins.',
-    image: '/airo-assets/images/pages/categories/home-living',
+    image: mediaUrl('pages/categories/home-living'),
     imageAlt: 'Everyday tabletop and homewares utility goods',
     materials: ['High-Borosilicate Glass', 'Glazed Ceramic', '18/10 Stainless Steel', 'FSC Acacia & Bamboo'],
     standards: ['FDA 21 CFR Food Contact safe', 'LFGB German Food Standard pass', 'Thermal shock & dishwasher tested'],
@@ -96,7 +97,7 @@ const portfolioCategories: CategoryItem[] = [
     title: 'Seasonal Retail Programs & Time-Sensitive Promotions',
     description:
       'Synchronized manufacturing schedules structured around fixed retail catalog releases, holiday promotional deadlines, and guaranteed cross-dock dispatch windows.',
-    image: '/airo-assets/images/pages/categories/seasonal-promotional',
+    image: mediaUrl('pages/categories/seasonal-promotional'),
     imageAlt: 'Seasonal retail goods and promotional merchandise',
     materials: ['Multi-Material Assemblies', 'Decorative Tinplate', 'Custom Molded Polymers', 'Gift Packaging'],
     standards: ['Guaranteed drop-dead shipping window', 'AQL 2.5 Major / 4.0 Minor inspection', 'Pre-cartoned retail packaging'],
@@ -123,6 +124,8 @@ const reveal = (reduced: boolean | null) => ({
 });
 
 export default function CategoriesPage() {
+  const siteUrl = useJsonLdSiteUrl();
+  const url = `${siteUrl}/categories`;
   const reducedMotion = useReducedMotion();
   const [selectedFilter, setSelectedFilter] = useState('all');
 
@@ -157,7 +160,7 @@ export default function CategoriesPage() {
             <motion.div {...reveal(reducedMotion)} className="max-w-3xl">
               <div className="inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-dark">
                   {categories.hero.eyebrow}
                 </span>
               </div>
@@ -165,7 +168,7 @@ export default function CategoriesPage() {
                 {categories.hero.title}
               </h1>
               <p className="mt-6 text-base leading-[1.75] text-white/65 sm:text-lg">
-                {categories.hero.text} We coordinate manufacturing across audited tier-1 partner foundries and factories in Guangdong, Zhejiang, and Jiangsu—delivering direct factory pricing with Western institutional governance.
+                {categories.hero.text} We coordinate manufacturing across audited tier-1 partner foundries and factories in Guangdong, Zhejiang, and Jiangsu, delivering direct factory pricing with Western institutional governance.
               </p>
               <div className="mt-10 flex flex-wrap items-center gap-4">
                 <Link
@@ -256,14 +259,15 @@ export default function CategoriesPage() {
                   )}
                   {/* Photo Side */}
                   <figure className="relative min-h-[300px] lg:min-h-full overflow-hidden bg-muted">
-                    <img
+                    <ResponsiveImage
                       src={item.image}
                       alt={item.imageAlt}
                       width={1200}
                       height={900}
+                      sizes="(min-width: 1024px) 45vw, 100vw"
                       loading={index === 0 ? 'eager' : 'lazy'}
                       fetchPriority={index === 0 ? 'high' : 'auto'}
-                      className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                      className="h-full w-full object-cover transition-opacity duration-300 hover:opacity-95"
                     />
                     <div className="absolute top-4 left-4 rounded-md bg-primary/90 px-3 py-1.5 text-xs font-bold text-primary-foreground backdrop-blur-xs">
                       {item.number} / {item.categoryTag}
@@ -400,7 +404,7 @@ export default function CategoriesPage() {
             className="rounded-2xl bg-primary px-8 py-14 sm:px-12 lg:px-16 lg:py-20 shadow-md"
           >
             <div className="max-w-3xl">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent-on-dark">
                 Direct Engineering Appraisal
               </p>
               <h2 className="mt-4 font-heading text-3xl leading-[1.1] text-primary-foreground sm:text-4xl lg:text-5xl">

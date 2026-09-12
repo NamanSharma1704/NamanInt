@@ -15,7 +15,7 @@ export default function Footer() {
         <div className="mx-auto max-w-[1440px] px-5 py-8 lg:px-10">
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/70">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white">
                 Ready to source smarter?
               </p>
               <p className="mt-1 text-lg font-semibold text-white">
@@ -24,7 +24,7 @@ export default function Footer() {
             </div>
             <Link
               to="/contact"
-              className="shrink-0 rounded-lg border border-white/30 bg-white/15 px-6 py-3 text-sm font-semibold tracking-wide text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/25 hover:border-white/50"
+              className="shrink-0 rounded-lg border border-white/30 bg-black/10 px-6 py-3 text-sm font-semibold tracking-wide text-white backdrop-blur-sm transition-colors duration-200 hover:bg-black/20 hover:border-white/50"
             >
               Start an inquiry →
             </Link>
@@ -43,7 +43,7 @@ export default function Footer() {
               <p className="mt-6 max-w-sm text-sm leading-7 text-primary-foreground/60">
                 {site.footer.summary}
               </p>
-              <div className="mt-6 flex items-center gap-2 text-xs text-primary-foreground/40">
+              <div className="mt-6 flex items-center gap-2 text-xs text-primary-foreground/70">
                 <Globe size={12} />
                 <span>Shenzhen · Hong Kong · California · Manchester</span>
               </div>
@@ -51,7 +51,7 @@ export default function Footer() {
 
             {/* Navigation */}
             <div>
-              <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/40">
+              <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/70">
                 Explore
               </p>
               <nav aria-label="Footer navigation" className="mt-5 flex flex-col gap-3">
@@ -76,7 +76,7 @@ export default function Footer() {
             {/* Shenzhen + HK Offices */}
             <div className="space-y-8">
               <div>
-                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/40">
+                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/70">
                   Shenzhen Office
                 </p>
                 <address className="mt-4 not-italic">
@@ -102,7 +102,7 @@ export default function Footer() {
               </div>
 
               <div>
-                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/40">
+                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/70">
                   Hong Kong Office
                 </p>
                 <address className="mt-4 not-italic">
@@ -124,7 +124,7 @@ export default function Footer() {
             {/* USA + Manchester Offices */}
             <div className="space-y-8">
               <div>
-                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/40">
+                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/70">
                   U.S.A. Office
                 </p>
                 <address className="mt-4 not-italic">
@@ -143,7 +143,7 @@ export default function Footer() {
               </div>
 
               <div>
-                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/40">
+                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/70">
                   Manchester Office
                 </p>
                 <address className="mt-4 not-italic">
@@ -164,7 +164,7 @@ export default function Footer() {
 
             {/* Partnership Column */}
             <div>
-              <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/40">
+              <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/70">
                 Partnership
               </p>
               <p className="mt-5 text-sm leading-7 text-primary-foreground/60">
@@ -182,9 +182,9 @@ export default function Footer() {
           </div>
 
           {/* Bottom Bar */}
-          <div className="flex flex-col gap-3 pt-8 text-xs text-primary-foreground/35 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-3 pt-8 text-xs text-primary-foreground/70 md:flex-row md:items-center md:justify-between">
             <p>© {currentYear} NAMAN INTERNATIONAL LTD. All rights reserved.</p>
-            <p className="text-primary-foreground/25">{site.footer.tagline}</p>
+            <p className="text-primary-foreground/60">{site.footer.tagline}</p>
           </div>
         </div>
       </div>

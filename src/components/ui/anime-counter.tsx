@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { animate } from 'animejs';
+import { prefersReducedMotionNow } from '@/lib/use-reduced-motion';
 
 interface AnimeCounterProps {
   value: number;
@@ -33,6 +34,12 @@ export function AnimeCounter({
         entries.forEach((entry) => {
           if (entry.isIntersecting && !hasAnimatedRef.current) {
             hasAnimatedRef.current = true;
+            // Reduced motion keeps the information (the final figure) and drops
+            // only the count-up, which is decoration.
+            if (prefersReducedMotionNow()) {
+              setDisplayValue(value);
+              return;
+            }
             const targetObj = { val: 0 };
             animate(targetObj, {
               val: value,

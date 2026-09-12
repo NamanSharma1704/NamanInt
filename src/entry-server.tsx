@@ -14,7 +14,7 @@ import {
 import RootLayout from './layouts/RootLayout';
 import Spinner from './components/Spinner';
 import { JsonLdSiteUrlProvider } from './lib/json-ld-site-url-context';
-import { routes } from './routes';
+import { NOT_FOUND_ROUTE_ID, routes } from './routes';
 
 export interface RenderResult {
   html: string;
@@ -103,5 +103,16 @@ export async function render(url: string, siteOrigin?: string): Promise<RenderRe
         .join('\n')
     : '';
 
-  return { html, head, status: context.statusCode ?? 200 };
+  // A matched catch-all route still reports 200, so an unknown URL would be
+  // served as a normal page with the 404 body — a soft 404. Detect the splat
+  // route by id and answer 404 instead, keeping the rendered 404 markup so
+  // visitors still get the styled page. An already-failing status (thrown
+  // Response, loader error) is more specific, so it wins.
+  const statusCode = context.statusCode ?? 200;
+  const matchedNotFound = context.matches.some(
+    (match) => match.route.id === NOT_FOUND_ROUTE_ID
+  );
+  const status = matchedNotFound && statusCode === 200 ? 404 : statusCode;
+
+  return { html, head, status };
 }

@@ -12,6 +12,14 @@ import ProdNotFoundPage from './pages/_404';
 
 const NotFoundPage = ProdNotFoundPage;
 
+/**
+ * Route id for the catch-all. The SSR entry looks for this in the matched
+ * route chain so an unknown URL answers with a real 404 status instead of
+ * rendering the 404 page under HTTP 200 (a soft 404, which search engines
+ * index as a normal page).
+ */
+export const NOT_FOUND_ROUTE_ID = 'not-found';
+
 export const routes: RouteObject[] = [
   {
     path: '/',
@@ -34,6 +42,7 @@ export const routes: RouteObject[] = [
     element: <ContactPage />,
   },
   {
+    id: NOT_FOUND_ROUTE_ID,
     path: '*',
     element: <NotFoundPage />,
   },

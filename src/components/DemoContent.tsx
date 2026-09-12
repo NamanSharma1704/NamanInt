@@ -15,7 +15,7 @@ export default function DemoContent() {
             Demo Content, will be replaced with your app
           </p>
           <button 
-            className="px-8 py-3 bg-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all hover:scale-105"
+            className="px-8 py-3 bg-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-colors cursor-pointer"
             style={{ color: `hsl(var(--primary))` }}
           >
             Get Started
@@ -140,7 +140,7 @@ export default function DemoContent() {
             
             <button
               type="submit"
-              className="w-full py-2 px-4 text-sm text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all hover:scale-[1.02]"
+              className="w-full py-2 px-4 text-sm text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-colors cursor-pointer"
               style={{ backgroundColor: `hsl(var(--primary))` }}
             >
               Send Message
@@ -161,7 +161,7 @@ export default function DemoContent() {
           <p className="text-xl mb-8" style={{ color: `hsl(var(--accent-foreground) / 0.9)` }}>
             Join thousands of satisfied users today
           </p>
-          <button className="px-8 py-3 bg-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all hover:scale-105"
+          <button className="px-8 py-3 bg-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-colors cursor-pointer"
             style={{ color: `hsl(var(--accent))` }}
           >
             Sign Up Now

@@ -69,7 +69,7 @@ export default function Header() {
           {/* Right side */}
           <div className="flex items-center gap-4">
             {/* Global offices indicator (desktop only) */}
-            <div className="hidden items-center gap-2 xl:flex text-white/40">
+            <div className="hidden items-center gap-2 xl:flex text-white/70">
               <Globe size={13} className="text-accent" />
               <span className="text-[11px] font-medium tracking-wider">SZ · HK · CA · UK</span>
             </div>

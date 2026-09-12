@@ -1,4 +1,5 @@
 import { Helmet } from '@dr.pogodin/react-helmet';
+import { useJsonLdSiteUrl } from '@/lib/json-ld-site-url-context';
 import { Building2, MapPin, Award, Clock } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Link } from 'react-router';
@@ -8,8 +9,6 @@ import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button
 import { Link001 } from '@/components/ui/skiper-ui/skiper40';
 import { AnimeCounter } from '@/components/ui/anime-counter';
 
-const siteUrl = 'https://nevba9hqli.preview.c35.airoapp.ai';
-const url = `${siteUrl}/company`;
 const title = 'Company Profile & Global Infrastructure | NAMAN INTERNATIONAL LTD';
 const description =
   'Founded in Hong Kong in 2008, NAMAN INTERNATIONAL LTD operates four strategic hubs in Shenzhen, Hong Kong, California, and Manchester, coordinating high-volume trade with Western institutional governance.';
@@ -103,6 +102,8 @@ const reveal = (reduced: boolean | null) => ({
 });
 
 export default function CompanyPage() {
+  const siteUrl = useJsonLdSiteUrl();
+  const url = `${siteUrl}/company`;
   const reducedMotion = useReducedMotion();
 
   return (
@@ -131,7 +132,7 @@ export default function CompanyPage() {
             <motion.div {...reveal(reducedMotion)} className="max-w-3xl">
               <div className="inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-dark">
                   {company.hero.eyebrow}
                 </span>
               </div>
@@ -203,7 +204,7 @@ export default function CompanyPage() {
                 )}
                 <div>
                   <div className="flex items-center justify-between gap-4">
-                    <span className="rounded-md bg-accent/15 px-3 py-1 text-xs font-bold text-accent">
+                    <span className="rounded-md bg-accent/15 px-3 py-1 text-xs font-bold text-accent-on-tint">
                       {hub.badge}
                     </span>
                     <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -302,7 +303,7 @@ export default function CompanyPage() {
             className="rounded-2xl bg-primary px-8 py-14 sm:px-12 lg:px-16 lg:py-20 shadow-md"
           >
             <div className="max-w-3xl">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent-on-dark">
                 Direct Corporate Dialogue
               </p>
               <h2 className="mt-4 font-heading text-3xl leading-[1.1] text-primary-foreground sm:text-4xl lg:text-5xl">

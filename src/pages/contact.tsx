@@ -1,4 +1,5 @@
 import { Helmet } from '@dr.pogodin/react-helmet';
+import { useJsonLdSiteUrl } from '@/lib/json-ld-site-url-context';
 import { ShieldCheck, Clock, FileCheck2, Globe2, Phone, Mail, MapPin } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router';
@@ -7,8 +8,6 @@ import { BorderBeam } from '@/components/ui/border-beam';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import { Link001 } from '@/components/ui/skiper-ui/skiper40';
 
-const siteUrl = 'https://nevba9hqli.preview.c35.airoapp.ai';
-const url = `${siteUrl}/contact`;
 const title = 'Direct Trade Desk & Inquiries | NAMAN INTERNATIONAL LTD';
 const description =
   'Contact NAMAN INTERNATIONAL LTD to initiate a direct sourcing consultation, review factory audit capabilities, or configure container freight logistics.';
@@ -23,6 +22,8 @@ const inquiryTypes = [
 ];
 
 export default function ContactPage() {
+  const siteUrl = useJsonLdSiteUrl();
+  const url = `${siteUrl}/contact`;
   const [searchParams] = useSearchParams();
   const initialCategory = searchParams.get('category') || '';
   const initialVolume = searchParams.get('volume') || '';
@@ -115,7 +116,7 @@ export default function ContactPage() {
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-dark">
                   Direct Regional Trade Desks
                 </span>
               </div>
@@ -316,7 +317,7 @@ export default function ContactPage() {
                 <BorderBeam size={220} duration={12} colorFrom="#8B4513" colorTo="#2a4365" borderWidth={1.5} />
                 <div className="flex items-center justify-between">
                   <h4 className="font-bold text-foreground">{contact.offices.shenzhen.label}</h4>
-                  <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent">
+                  <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-on-tint">
                     Factory Operations
                   </span>
                 </div>
@@ -324,7 +325,7 @@ export default function ContactPage() {
                   <MapPin size={14} className="text-accent shrink-0 mt-0.5" />
                   <div>
                     <p>{contact.offices.shenzhen.addressEnglish}</p>
-                    <p className="mt-1 text-muted-foreground/70">{contact.offices.shenzhen.addressChinese}</p>
+                    <p className="mt-1 text-muted-foreground">{contact.offices.shenzhen.addressChinese}</p>
                   </div>
                 </div>
                 <div className="mt-4 flex flex-wrap items-center gap-4 border-t border-border pt-3 text-xs">
@@ -347,7 +348,7 @@ export default function ContactPage() {
               <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
                 <div className="flex items-center justify-between">
                   <h4 className="font-bold text-foreground">{contact.offices.hongKong.label}</h4>
-                  <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent">
+                  <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-on-tint">
                     Global HQ & Finance
                   </span>
                 </div>
@@ -355,7 +356,7 @@ export default function ContactPage() {
                   <MapPin size={14} className="text-accent shrink-0 mt-0.5" />
                   <div>
                     <p>{contact.offices.hongKong.addressEnglish}</p>
-                    <p className="mt-1 text-muted-foreground/70">{contact.offices.hongKong.addressChinese}</p>
+                    <p className="mt-1 text-muted-foreground">{contact.offices.hongKong.addressChinese}</p>
                   </div>
                 </div>
                 <div className="mt-4 flex flex-wrap items-center gap-4 border-t border-border pt-3 text-xs">
@@ -374,7 +375,7 @@ export default function ContactPage() {
               <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
                 <div className="flex items-center justify-between">
                   <h4 className="font-bold text-foreground">{contact.offices.usa.label}</h4>
-                  <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent">
+                  <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-on-tint">
                     Pacific Gateway
                   </span>
                 </div>
@@ -394,7 +395,7 @@ export default function ContactPage() {
               <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
                 <div className="flex items-center justify-between">
                   <h4 className="font-bold text-foreground">{contact.offices.manchester.label}</h4>
-                  <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent">
+                  <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-on-tint">
                     UK / European Desk
                   </span>
                 </div>

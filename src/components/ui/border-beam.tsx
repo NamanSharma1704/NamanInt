@@ -3,6 +3,7 @@
 import { useId } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 
 interface BorderBeamProps {
     className?: string;
@@ -26,6 +27,11 @@ export const BorderBeam = ({
 }: BorderBeamProps) => {
     const rawId = useId();
     const id = `border-beam-${rawId.replace(/:/g, "")}`;
+    // `strokeDashoffset` is neither a transform nor a layout property, so
+    // motion's own reduced-motion handling does not cover it. The beam is
+    // purely decorative: under reduced motion the card keeps its gradient
+    // border and loses only the travelling highlight.
+    const prefersReducedMotion = usePrefersReducedMotion();
 
     return (
         <svg
@@ -57,12 +63,16 @@ export const BorderBeam = ({
                 pathLength={100}
                 strokeDasharray="24 76"
                 initial={{ strokeDashoffset: reverse ? -100 : 0 }}
-                animate={{ strokeDashoffset: reverse ? 0 : -100 }}
-                transition={{
-                    repeat: Infinity,
-                    ease: "linear",
-                    duration,
-                }}
+                animate={
+                    prefersReducedMotion
+                        ? { strokeDashoffset: reverse ? -100 : 0 }
+                        : { strokeDashoffset: reverse ? 0 : -100 }
+                }
+                transition={
+                    prefersReducedMotion
+                        ? { duration: 0 }
+                        : { repeat: Infinity, ease: "linear", duration }
+                }
             />
         </svg>
     );

@@ -8,7 +8,7 @@
     "title": "Tell us what you need",
     "text": "Share the details that will help us understand your brief.",
     "submit": "Send inquiry",
-    "success": "Thank you — your details have been submitted successfully. Our team will be in touch shortly.",
+    "success": "Thank you. Your details have been submitted successfully. Our team will be in touch shortly.",
     "fields": {
       "name": "Your name",
       "email": "Work email",

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { animate } from 'animejs';
+import { usePrefersReducedMotion } from '@/lib/use-reduced-motion';
 
 interface AnimeCorridorProps {
   origin: string;
@@ -9,9 +10,13 @@ interface AnimeCorridorProps {
 export function AnimeCorridor({ origin, destination }: AnimeCorridorProps) {
   const beaconRef = useRef<HTMLDivElement>(null);
   const pulseRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     if (!beaconRef.current || !pulseRef.current) return;
+    // The corridor is a decorative loop with no state to convey. Under reduced
+    // motion the beacon stays parked at the origin end of the track.
+    if (prefersReducedMotion) return;
 
     // Expanding pulse ripple
     const pulseAnim = animate(pulseRef.current, {
@@ -35,7 +40,7 @@ export function AnimeCorridor({ origin, destination }: AnimeCorridorProps) {
       pulseAnim.pause();
       beaconAnim.pause();
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   return (
     <div className="flex items-center justify-between border-t border-border pt-4 text-xs font-bold tracking-[0.1em] text-muted-foreground">

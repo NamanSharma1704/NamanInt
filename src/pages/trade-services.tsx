@@ -1,4 +1,6 @@
 import { Helmet } from '@dr.pogodin/react-helmet';
+import { useJsonLdSiteUrl } from '@/lib/json-ld-site-url-context';
+import { mediaUrl } from '@/lib/media';
 import { MoveUpRight } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Link } from 'react-router';
@@ -9,12 +11,10 @@ import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button
 import { Link001 } from '@/components/ui/skiper-ui/skiper40';
 import { AnimeCounter } from '@/components/ui/anime-counter';
 
-const siteUrl = 'https://nevba9hqli.preview.c35.airoapp.ai';
-const url = `${siteUrl}/trade-services`;
 const title = 'Trade Services & Procurement Architecture | NAMAN INTERNATIONAL LTD';
 const description =
   'Bespoke international trade coordination, factory qualification, forensic AQL 2.5 quality audits, and Trans-Pacific container logistics.';
-const jsonLd = {
+const buildJsonLd = (siteUrl: string, url: string) => ({
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   '@id': `${url}#webpage`,
@@ -22,7 +22,7 @@ const jsonLd = {
   url,
   isPartOf: { '@id': `${siteUrl}/#website` },
   about: { '@id': `${siteUrl}/#organization` },
-};
+});
 
 const reveal = (reduced: boolean | null) => ({
   initial: { opacity: 0, y: reduced ? 0 : 20 },
@@ -33,6 +33,9 @@ const reveal = (reduced: boolean | null) => ({
 
 export default function TradeServicesPage() {
   const reducedMotion = useReducedMotion();
+  const siteUrl = useJsonLdSiteUrl();
+  const url = `${siteUrl}/trade-services`;
+  const jsonLd = buildJsonLd(siteUrl, url);
 
   return (
     <>
@@ -46,14 +49,14 @@ export default function TradeServicesPage() {
         <meta property="og:url" content={url} />
         <meta
           property="og:image"
-          content={`${siteUrl}/airo-assets/images/pages/trade-services/procurement-desk`}
+          content={mediaUrl('pages/trade-services/procurement-desk')}
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta
           name="twitter:image"
-          content={`${siteUrl}/airo-assets/images/pages/trade-services/procurement-desk`}
+          content={mediaUrl('pages/trade-services/procurement-desk')}
         />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
@@ -63,7 +66,7 @@ export default function TradeServicesPage() {
         <section className="relative min-h-[72vh] overflow-hidden">
           <figure className="absolute inset-0">
             <img
-              src="/airo-assets/images/pages/trade-services/procurement-desk"
+              src={mediaUrl('pages/trade-services/procurement-desk')}
               alt="Professional reviewing international procurement documents"
               width={1400}
               height={1000}
@@ -79,7 +82,7 @@ export default function TradeServicesPage() {
             <motion.div {...reveal(reducedMotion)} className="max-w-3xl">
               <div className="inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 backdrop-blur-sm">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-dark">
                   Trade Coordination & Sourcing Oversight
                 </span>
               </div>
@@ -87,7 +90,7 @@ export default function TradeServicesPage() {
                 Forensic oversight from factory floor to port delivery.
               </h1>
               <p className="mt-6 max-w-xl text-base leading-[1.75] text-white/70 sm:text-lg">
-                We coordinate international buying programs for North American retail and wholesale importers—providing direct engineering supervision across the Pearl River Delta, 100% pre-shipment AQL audits, and uninterrupted chain of custody.
+                We coordinate international buying programs for North American retail and wholesale importers, providing direct engineering supervision across the Pearl River Delta, 100% pre-shipment AQL audits, and uninterrupted chain of custody.
               </p>
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
                 <Link to="/contact">
@@ -152,7 +155,7 @@ export default function TradeServicesPage() {
           >
             <div className="pointer-events-none absolute top-0 left-0 h-px w-full bg-gradient-to-r from-accent/60 via-accent/20 to-transparent" />
             <div>
-              <p className="section-label text-white/40 before:bg-accent">
+              <p className="section-label text-white/70 before:bg-accent">
                 Direct Procurement Partnership
               </p>
               <h2 className="mt-5 max-w-2xl font-heading text-3xl leading-[1.08] text-white sm:text-4xl lg:text-5xl">
@@ -170,7 +173,7 @@ export default function TradeServicesPage() {
                 <span>Initiate Trade Program</span>
                 <MoveUpRight size={16} />
               </Link>
-              <p className="text-xs text-white/40">
+              <p className="text-xs text-white/70">
                 Direct response within 1 business day across US and Asia business hours.
               </p>
             </div>

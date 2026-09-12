@@ -24,8 +24,14 @@
     --secondary-foreground: 213 20% 30%;
     --muted: 210 15% 93%;               /* #ECF0F3 — section bg */
     --muted-foreground: 213 12% 44%;    /* #606A75 — subdued text */
-    --accent: 179 80% 27%;              /* #0E7B7A — deep teal */
+    --accent: 179 80% 27%;              /* #0E7B7A — deep teal (fills, rules, badges) */
     --accent-foreground: 0 0% 100%;
+    /* Text-only accent variants. --accent itself is a fill colour: as text it
+       measures 3.6–3.9:1 on the dark navy surfaces and 4.1–4.3:1 on its own
+       light tints, both under the 4.5:1 floor. These two carry accent-coloured
+       *text* so the fill colour never has to be compromised. */
+    --accent-on-dark: 179 65% 45%;      /* teal text on navy surfaces — ≥5.79:1 */
+    --accent-on-tint: 179 80% 23%;      /* teal text on accent/10–12 tints — ≥5.22:1 */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --success: 160 84% 39%;
@@ -89,6 +95,12 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    caret-color: hsl(var(--accent));
+  }
+
+  ::selection {
+    background-color: hsl(var(--accent) / 0.18);
+    color: hsl(var(--foreground));
   }
 
   h1, h2, h3 {
@@ -182,8 +194,8 @@
   .rich-text ol { list-style: decimal; }
   .rich-text li { margin-bottom: 0.5rem; }
   .rich-text blockquote {
-    border-left: 3px solid hsl(var(--accent));
-    padding-left: 1rem;
+    border-left: 1.5px solid hsl(var(--accent) / 0.4);
+    padding-left: 1.25rem;
     font-style: italic;
     margin: 1.5rem 0;
     color: hsl(var(--foreground));
@@ -417,4 +429,37 @@
   );
   background-size: 200% auto;
   animation: shimmer 4s linear infinite;
+}
+
+/* =============================================================================
+   Reduced motion
+
+   Covers the decorative loops that run outside React: the carrier marquee, the
+   hero shimmer and the pulsing status dot. Each is ambient and carries no
+   state, so stopping them removes nothing a reader needs. The JS-driven
+   animations (counters, route corridor, border beams, page reveals) are gated
+   in their own components, because a CSS rule cannot reach a timeline that
+   anime.js or motion drives imperatively.
+
+   Scroll behaviour is included: `scroll-behavior: smooth` on <html> animates
+   every in-page anchor jump.
+============================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .logo-slider__track,
+  .hero-shimmer,
+  .animate-pulse {
+    animation: none !important;
+  }
+
+  /* Parked at translateX(0) the track would clip every carrier past the
+     container edge, so let it wrap instead and keep all eight readable. */
+  .logo-slider__track {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
