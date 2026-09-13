@@ -25,7 +25,7 @@ Direct engineering supervision across the Pearl River Delta paired with Western 
 - **Manufacturing Centers**: Shenzhen, Dongguan, Ningbo, and Shanghai factory clusters.
 - **Export Gateway**: Hong Kong free-port hub (customs clearance, consolidation, trade finance).
 - **Destination Gateway**: North American ports (Long Beach, Los Angeles, Savannah, NY/NJ) to inland distribution centers.
-- **Carrier Alliances**: FMC Licensed NVOCC, FIATA International, IATA Cargo Registered, with Maersk, Hapag-Lloyd, MSC, COSCO, and CMA CGM.
+- **Carrier Alliances**: IATA Cargo Registered, with Maersk, Hapag-Lloyd, MSC, COSCO, and CMA CGM.
 
 ## Capabilities and Constraints
 
@@ -45,7 +45,7 @@ Direct engineering supervision across the Pearl River Delta paired with Western 
 
 - Operational track record: Established 2008 with 16+ years continuous trade coordination.
 - Quality benchmark: Target defect ceiling <0.5% on finished inspected goods.
-- Carrier credentials: FMC licensed, FIATA certified, IATA registered.
+- Carrier credentials: IATA registered.
 
 ## Product Principles
 

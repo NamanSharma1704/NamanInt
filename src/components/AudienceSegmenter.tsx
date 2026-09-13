@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Store, Building2, CheckCircle2, ArrowRight } from 'lucide-react';
+import { motion, useReducedMotion } from 'motion/react';
+import { Store, Building2, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
 
 export type AudienceType = 'retail' | 'wholesale';
@@ -18,8 +17,8 @@ interface AudienceData {
   ctaHref: string;
 }
 
-const audienceData: Record<AudienceType, AudienceData> = {
-  retail: {
+const audiences: AudienceData[] = [
+  {
     id: 'retail',
     label: 'Retail Brands & Chains',
     icon: Store,
@@ -45,7 +44,7 @@ const audienceData: Record<AudienceType, AudienceData> = {
     ctaText: 'Discuss Retail Sourcing Program',
     ctaHref: '/contact?segment=retail',
   },
-  wholesale: {
+  {
     id: 'wholesale',
     label: 'Wholesale Importers & Distributors',
     icon: Building2,
@@ -71,144 +70,118 @@ const audienceData: Record<AudienceType, AudienceData> = {
     ctaText: 'Discuss Wholesale Volume Program',
     ctaHref: '/contact?segment=wholesale',
   },
-};
+];
 
+/**
+ * Both commercial paths, side by side and full-bleed, split by a single
+ * hairline.
+ *
+ * This replaced a tab switcher sitting over two stacks of translucent cards.
+ * The tabs hid half the content behind a click a buyer has no reason to make —
+ * they already know which one they are — and the card stacks repeated the same
+ * boxed-grid vocabulary used everywhere else on the page. Showing both at once
+ * costs no extra height and lets a visitor self-identify at a glance.
+ */
 export default function AudienceSegmenter() {
-  const [activeTab, setActiveTab] = useState<AudienceType>('retail');
-  const activeData = audienceData[activeTab];
-  const InactiveData = audienceData[activeTab === 'retail' ? 'wholesale' : 'retail'];
+  const reducedMotion = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-[#060C18] py-28 lg:py-36">
-      {/* Background grid */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.035]"
-        style={{
-          backgroundImage: `linear-gradient(hsl(179 80% 60% / 0.6) 1px, transparent 1px), linear-gradient(90deg, hsl(179 80% 60% / 0.6) 1px, transparent 1px)`,
-          backgroundSize: '72px 72px',
-        }}
-      />
-      {/* Teal radial bloom */}
-      <div className="pointer-events-none absolute left-0 top-1/2 h-[600px] w-[400px] -translate-y-1/2 bg-[radial-gradient(ellipse,hsl(179_80%_27%/0.14)_0%,transparent_70%)]" />
-
-      <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-14">
-
-        {/* Section Header */}
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between mb-16">
-          <div>
-            <div className="flex items-center gap-2 mb-5">
-              <div className="h-px w-8 bg-accent" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">Commercial Pathways</span>
-            </div>
-            <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-white">
-              Who are you sourcing for?
-            </h2>
+    <section className="border-y border-border bg-card">
+      <div className="mx-auto max-w-[1440px] px-5 pb-14 pt-20 sm:px-8 lg:px-14 lg:pt-24">
+        <motion.div
+          initial={{ opacity: 0, y: reducedMotion ? 0 : 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: reducedMotion ? 0 : 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-2xl"
+        >
+          <div className="mb-5 flex items-center gap-2">
+            <div className="h-px w-8 bg-accent" />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-tint">
+              Commercial Pathways
+            </span>
           </div>
-          <p className="max-w-sm text-sm leading-[1.8] text-white/70 lg:text-right">
-            Select your commercial profile to inspect tailored operational protocols, compliance standards, and logistics models.
+          <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-foreground">
+            Who are you sourcing for?
+          </h2>
+          <p className="mt-5 text-base leading-[1.8] text-muted-foreground">
+            Two commercial profiles, each with its own operational protocol, compliance
+            standard, and logistics model.
           </p>
-        </div>
+        </motion.div>
+      </div>
 
-        {/* TAB SWITCHER */}
-        <div className="mb-12 flex items-center gap-1 rounded-xl border border-white/8 bg-white/4 p-1 w-fit">
-          {(['retail', 'wholesale'] as const).map((type) => {
-            const d = audienceData[type];
-            const Icon = d.icon;
-            return (
-              <button
-                key={type}
-                onClick={() => setActiveTab(type)}
-                className={`flex items-center gap-2.5 rounded-lg px-5 py-2.5 text-sm font-semibold transition-all duration-250 ${
-                  activeTab === type
-                    ? 'bg-accent text-white shadow-[0_0_20px_hsl(179_80%_27%/0.4)]'
-                    : 'text-white/70 hover:text-white/75'
-                }`}
-              >
-                <Icon size={15} />
-                <span>{d.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* ANIMATED CONTENT PANEL */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="grid grid-cols-1 gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-start"
-          >
-            {/* LEFT: Title + Description + CTA */}
-            <div className="flex flex-col gap-8 rounded-2xl border border-white/8 bg-white/[0.04] p-8 sm:p-10 backdrop-blur-sm">
-              <div>
-                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent/10 px-3 py-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-accent-on-dark">{activeData.tagline}</span>
-                </div>
-                <h3 className="font-heading text-2xl font-medium leading-[1.15] text-white sm:text-3xl lg:text-[2rem]">
-                  {activeData.title}
-                </h3>
-                <p className="mt-5 text-sm leading-[1.8] text-white/50">
-                  {activeData.description}
-                </p>
-              </div>
-
-              {/* Big metric */}
-              <div className="flex items-baseline gap-3 border-t border-white/8 pt-6">
-                <span className="font-heading text-4xl font-bold text-white sm:text-5xl">
-                  {activeData.metric.value}
-                </span>
-                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-white/70">
-                  {activeData.metric.label}
+      {/* Full-bleed two-up. One hairline across the top and one down the middle —
+          no cards, no gaps, no container gutter. */}
+      <div className="grid border-t border-border lg:grid-cols-2">
+        {audiences.map((audience, index) => {
+          const Icon = audience.icon;
+          const isSecond = index === 1;
+          return (
+            <motion.div
+              key={audience.id}
+              initial={{ opacity: 0, y: reducedMotion ? 0 : 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{
+                duration: reducedMotion ? 0 : 0.55,
+                ease: [0.16, 1, 0.3, 1],
+                delay: reducedMotion ? 0 : index * 0.08,
+              }}
+              className={
+                'flex flex-col px-5 py-12 sm:px-8 lg:px-14 lg:py-16' +
+                (isSecond ? ' border-t border-border lg:border-l lg:border-t-0' : '')
+              }
+            >
+              <div className="flex items-center gap-2.5">
+                <Icon size={16} className="text-accent" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-tint">
+                  {audience.label}
                 </span>
               </div>
 
-              {/* CTA */}
-              <Link
-                to={activeData.ctaHref}
-                className="group inline-flex w-fit items-center gap-3 rounded-xl bg-accent px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-accent/85 hover:shadow-[0_0_30px_hsl(179_80%_27%/0.35)]"
-              >
-                <span>{activeData.ctaText}</span>
-                <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-            </div>
+              <h3 className="mt-6 max-w-md font-heading text-2xl leading-[1.15] text-balance text-foreground sm:text-[1.875rem]">
+                {audience.title}
+              </h3>
+              <p className="mt-4 max-w-md text-base leading-[1.8] text-muted-foreground">
+                {audience.description}
+              </p>
 
-            {/* RIGHT: Benefits list */}
-            <div className="space-y-4">
-              {activeData.benefits.map((item, i) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, x: 12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 * i, duration: 0.3, ease: 'easeOut' }}
-                  className="group rounded-2xl border border-white/8 bg-white/[0.04] p-6 transition-all duration-300 hover:border-accent/30 hover:bg-white/[0.06]"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/15 ring-1 ring-accent/25">
-                      <CheckCircle2 size={14} className="text-accent" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-semibold text-white">{item.title}</h4>
-                      <p className="mt-2 text-xs leading-[1.75] text-white/70">{item.desc}</p>
-                    </div>
+              {/* Benefits as a hairline-divided list rather than a stack of cards. */}
+              <dl className="mt-10 max-w-md">
+                {audience.benefits.map((item) => (
+                  <div key={item.title} className="border-t border-border py-5">
+                    <dt className="text-sm font-semibold text-foreground">{item.title}</dt>
+                    <dd className="mt-1.5 text-sm leading-[1.7] text-muted-foreground">
+                      {item.desc}
+                    </dd>
                   </div>
-                </motion.div>
-              ))}
+                ))}
+              </dl>
 
-              {/* Switch prompt */}
-              <button
-                onClick={() => setActiveTab(activeTab === 'retail' ? 'wholesale' : 'retail')}
-                className="group flex w-full items-center justify-between rounded-2xl border border-dashed border-white/12 px-6 py-4 text-xs font-semibold text-white/60 transition-all duration-300 hover:border-accent/30 hover:text-accent"
-              >
-                <span>Not this profile? Switch to {InactiveData.label}</span>
-                <ArrowRight size={12} className="transition-transform duration-300 group-hover:translate-x-1" />
-              </button>
-            </div>
-          </motion.div>
-        </AnimatePresence>
+              <div className="mt-auto max-w-md pt-10">
+                <div className="flex items-baseline gap-3 border-t-2 border-accent pt-5">
+                  {/* shrink-0 + nowrap: "15–22%" is wider than "<0.5%" and was
+                      breaking across two lines inside the flex row. */}
+                  <span className="shrink-0 whitespace-nowrap font-heading text-4xl text-foreground sm:text-5xl">
+                    {audience.metric.value}
+                  </span>
+                  <span className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                    {audience.metric.label}
+                  </span>
+                </div>
+
+                <Link
+                  to={audience.ctaHref}
+                  className="group mt-8 inline-flex w-fit items-center gap-3 rounded-xl bg-accent px-7 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-accent/90"
+                >
+                  <span>{audience.ctaText}</span>
+                  <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </section>
   );

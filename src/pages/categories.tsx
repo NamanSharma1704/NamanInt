@@ -3,12 +3,12 @@ import { Helmet } from '@dr.pogodin/react-helmet';
 import { useJsonLdSiteUrl } from '@/lib/json-ld-site-url-context';
 import { mediaUrl } from '@/lib/media';
 import ResponsiveImage from '@/components/ResponsiveImage';
-import { ArrowRight, CheckCircle2, SlidersHorizontal, Layers, FileCheck, CalendarClock, Box } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { motion, useReducedMotion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router';
 import { categories } from 'virtual:content';
-import { BorderBeam } from '@/components/ui/border-beam';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
+import { Link001 } from '@/components/ui/skiper-ui/skiper40';
 
 const title = 'Product Categories & Manufacturing Capabilities | NAMAN INTERNATIONAL LTD';
 const description =
@@ -108,12 +108,41 @@ const portfolioCategories: CategoryItem[] = [
 ];
 
 const categoryFilters = [
-  { id: 'all', label: 'All Categories' },
   { id: 'hardware', label: 'Precision Hardware' },
   { id: 'packaging', label: 'Packaging & Retail' },
   { id: 'textiles', label: 'Textiles & Materials' },
   { id: 'home', label: 'Home & Utility' },
   { id: 'seasonal', label: 'Seasonal Programs' },
+];
+
+const proofStats = [
+  { val: '±0.05mm', label: 'CMM Precision Tolerance' },
+  { val: 'AQL 1.5/2.5', label: 'Standardized Sampling Level' },
+  { val: 'ISTA-3A', label: 'Transit Packaging Drop Tested' },
+  { val: '100% SLA', label: 'Raw Material Mill Pass' },
+];
+
+const governanceStages = [
+  {
+    num: '01',
+    title: 'Raw Material Mill Analysis',
+    text: 'Chemical composition testing, alloy verification, and environmental compliance (RoHS/REACH) before production begins.',
+  },
+  {
+    num: '02',
+    title: 'Tooling & In-Line Staging',
+    text: 'Golden prototype dimensional sign-off, mold wear monitoring, and first-off inspection on the assembly floor.',
+  },
+  {
+    num: '03',
+    title: 'Forensic AQL 1.5/2.5 Audit',
+    text: 'ANSI/ASQ Z1.4 General Inspection Level II defect sampling with high-resolution photographic audit logs.',
+  },
+  {
+    num: '04',
+    title: 'ISTA Transit Drop & Barcode',
+    text: 'Master carton drop tests, 100% GS1/UPC barcode scan verification, and container desiccants moisture protection.',
+  },
 ];
 
 const reveal = (reduced: boolean | null) => ({
@@ -127,12 +156,9 @@ export default function CategoriesPage() {
   const siteUrl = useJsonLdSiteUrl();
   const url = `${siteUrl}/categories`;
   const reducedMotion = useReducedMotion();
-  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [selectedFilter, setSelectedFilter] = useState(categoryFilters[0].id);
 
-  const filteredCategories =
-    selectedFilter === 'all'
-      ? portfolioCategories
-      : portfolioCategories.filter((c) => c.id === selectedFilter);
+  const filteredCategories = portfolioCategories.filter((c) => c.id === selectedFilter);
 
   return (
     <>
@@ -152,276 +178,299 @@ export default function CategoriesPage() {
       </Helmet>
 
       <main className="overflow-hidden">
-        {/* 1. Category Hero — Dark Banner */}
+        {/* ═══════════════════════════════════════════════════════
+            1 — HERO. A text-only dark banner, deliberately unlike the
+            photographic heroes on home and trade services.
+        ═══════════════════════════════════════════════════════ */}
         <section className="relative overflow-hidden bg-primary py-20 sm:py-28 lg:py-32">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_60%_20%,hsl(179_80%_27%/0.10)_0%,transparent_60%)]" />
-          <div className="pointer-events-none absolute top-0 left-0 h-px w-full bg-gradient-to-r from-accent/50 via-accent/15 to-transparent" />
-          <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+          <div className="pointer-events-none absolute left-0 top-0 h-px w-full bg-gradient-to-r from-accent/50 via-accent/15 to-transparent" />
+          <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <motion.div {...reveal(reducedMotion)} className="max-w-3xl">
-              <div className="inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-dark">
+              {/* Rule + caps, replacing the translucent pill badge. */}
+              <div className="inline-flex items-center gap-2">
+                <div className="h-px w-8 bg-accent" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
                   {categories.hero.eyebrow}
                 </span>
               </div>
-              <h1 className="mt-7 font-heading text-4xl leading-[1.06] text-white sm:text-5xl lg:text-6xl">
+              <h1 className="mt-7 font-heading text-4xl leading-[1.06] text-balance text-white sm:text-5xl lg:text-6xl">
                 {categories.hero.title}
               </h1>
-              <p className="mt-6 text-base leading-[1.75] text-white/65 sm:text-lg">
-                {categories.hero.text} We coordinate manufacturing across audited tier-1 partner foundries and factories in Guangdong, Zhejiang, and Jiangsu, delivering direct factory pricing with Western institutional governance.
+              <p className="mt-6 text-base leading-[1.8] text-white/70 sm:text-lg">
+                {categories.hero.text} We coordinate manufacturing across audited tier-1 partner
+                foundries and factories in Guangdong, Zhejiang, and Jiangsu, delivering direct
+                factory pricing with Western institutional governance.
               </p>
-              <div className="mt-10 flex flex-wrap items-center gap-4">
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-2.5 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white shadow-teal-lg transition-all duration-200 hover:bg-accent/90"
-                >
-                  <span>{categories.hero.cta}</span>
-                  <ArrowRight size={16} />
+              <div className="mt-10 flex flex-wrap items-center gap-6">
+                <Link to="/contact">
+                  <InteractiveHoverButton className="border-accent bg-accent text-sm tracking-wide text-white hover:bg-accent/90">
+                    {categories.hero.cta}
+                  </InteractiveHoverButton>
                 </Link>
-                <Link
-                  to="/trade-services"
-                  className="text-sm font-semibold text-white/70 transition-colors hover:text-accent"
+                <Link001
+                  href="/trade-services"
+                  className="flex items-center gap-2 text-sm font-semibold text-white/70 transition-colors hover:text-white"
                 >
-                  View quality protocols & governance →
-                </Link>
+                  <span>View quality protocols &amp; governance</span>
+                  <ArrowRight size={14} />
+                </Link001>
               </div>
             </motion.div>
           </div>
         </section>
 
-        {/* 2. Technical Standard Proof Bar */}
+        {/* ═══════════════════════════════════════════════════════
+            2 — PROOF BAR. Already the hairline-divided band used across
+            the site; unchanged apart from sourcing its data from an array.
+        ═══════════════════════════════════════════════════════ */}
         <section className="border-b border-border bg-card">
           <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
-            <div className="grid grid-cols-2 divide-x divide-border sm:grid-cols-4">
-              {[
-                { val: '±0.05mm', label: 'CMM Precision Tolerance' },
-                { val: 'AQL 1.5/2.5', label: 'Standardized Sampling Level' },
-                { val: 'ISTA-3A', label: 'Transit Packaging Drop Tested' },
-                { val: '100% SLA', label: 'Raw Material Mill Pass' },
-              ].map((s) => (
+            <dl className="grid grid-cols-2 divide-x divide-border sm:grid-cols-4">
+              {proofStats.map((s) => (
                 <div key={s.val} className="px-6 py-10 lg:px-10">
-                  <p className="font-heading text-2xl font-bold text-accent sm:text-3xl">{s.val}</p>
-                  <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{s.label}</p>
+                  <dd className="font-heading text-2xl text-accent sm:text-3xl">{s.val}</dd>
+                  <dt className="mt-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                    {s.label}
+                  </dt>
                 </div>
               ))}
-            </div>
+            </dl>
           </div>
         </section>
 
-        {/* 3. Interactive Category Filter & Portfolio Grid */}
-        <section className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
-          <div className="flex flex-col items-start justify-between gap-6 border-b border-border pb-8 md:flex-row md:items-end">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">
-                {categories.intro.eyebrow}
-              </p>
-              <h2 className="mt-2 font-heading text-3xl leading-[1.1] text-foreground sm:text-4xl">
-                Manufacturing Portfolios
-              </h2>
-            </div>
+        {/* ═══════════════════════════════════════════════════════
+            3 — PORTFOLIO. One category at a time, chosen from the filter
+            bar: a flat spread with the photograph beside its specification.
 
-            {/* Filter Pills */}
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="mr-2 hidden items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground lg:flex">
-                <SlidersHorizontal size={14} /> Filter:
+            This was five rounded, shadowed cards stacked in one 3,322px
+            section, with bordered material chips nested inside every
+            card — cards-in-cards, which DESIGN.md rules out — and an
+            off-palette brown BorderBeam on the first.
+        ═══════════════════════════════════════════════════════ */}
+        <section className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-24">
+          <div className="max-w-2xl">
+            <div className="mb-5 flex items-center gap-2">
+              <div className="h-px w-8 bg-accent" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-tint">
+                {categories.intro.eyebrow}
               </span>
-              {categoryFilters.map((tab) => (
+            </div>
+            <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] leading-[1.08] tracking-[-0.025em] text-balance text-foreground">
+              Manufacturing Portfolios
+            </h2>
+          </div>
+
+          {/* Underline filter bar, matching the discipline tabs on trade
+              services. Scrolls sideways inside itself on narrow screens
+              rather than wrapping into a ragged second line. */}
+          <div className="mt-10 flex gap-6 overflow-x-auto border-b border-border sm:gap-8">
+            {categoryFilters.map((tab) => {
+              const isSelected = selectedFilter === tab.id;
+              return (
                 <button
                   key={tab.id}
                   onClick={() => setSelectedFilter(tab.id)}
-                  className={`rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200 ${
-                    selectedFilter === tab.id
-                      ? 'bg-primary text-primary-foreground shadow-xs'
-                      : 'border border-border bg-card text-muted-foreground hover:border-accent hover:text-foreground'
+                  aria-pressed={isSelected}
+                  className={`relative shrink-0 whitespace-nowrap pb-4 text-sm font-semibold transition-colors ${
+                    isSelected ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {tab.label}
+                  {isSelected && (
+                    <motion.div
+                      layoutId="category-filter-line"
+                      className="absolute inset-x-0 bottom-0 h-0.5 bg-accent"
+                      transition={{ duration: reducedMotion ? 0 : 0.25, ease: 'easeOut' }}
+                    />
+                  )}
                 </button>
-              ))}
-            </div>
+              );
+            })}
           </div>
 
-          {/* Category Cards Grid */}
-          <div className="mt-14 space-y-16">
+          <div className="divide-y divide-border">
             <AnimatePresence mode="popLayout">
-              {filteredCategories.map((item, index) => (
-                <motion.article
-                  key={item.id}
-                  layout
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative grid grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card lg:grid-cols-[1.1fr_1.4fr] shadow-xs"
-                >
-                  {index === 0 && (
-                    <BorderBeam size={280} duration={14} colorFrom="#8B4513" colorTo="#2a4365" borderWidth={1.5} />
-                  )}
-                  {/* Photo Side */}
-                  <figure className="relative min-h-[300px] lg:min-h-full overflow-hidden bg-muted">
-                    <ResponsiveImage
-                      src={item.image}
-                      alt={item.imageAlt}
-                      width={1200}
-                      height={900}
-                      sizes="(min-width: 1024px) 45vw, 100vw"
-                      loading={index === 0 ? 'eager' : 'lazy'}
-                      fetchPriority={index === 0 ? 'high' : 'auto'}
-                      className="h-full w-full object-cover transition-opacity duration-300 hover:opacity-95"
-                    />
-                    <div className="absolute top-4 left-4 rounded-md bg-primary/90 px-3 py-1.5 text-xs font-bold text-primary-foreground backdrop-blur-xs">
-                      {item.number} / {item.categoryTag}
-                    </div>
-                  </figure>
+              {filteredCategories.map((item, index) => {
+                return (
+                  <motion.article
+                    key={item.id}
+                    layout={!reducedMotion}
+                    initial={{ opacity: 0, y: reducedMotion ? 0 : 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: reducedMotion ? 0 : 0.3 }}
+                    className="grid items-center gap-10 py-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:py-14"
+                  >
+                    <figure className="relative aspect-[4/3] overflow-hidden bg-muted">
+                      <ResponsiveImage
+                        src={item.image}
+                        alt={item.imageAlt}
+                        width={1200}
+                        height={900}
+                        sizes="(min-width: 1024px) 38vw, 100vw"
+                        loading={index === 0 ? 'eager' : 'lazy'}
+                        fetchPriority={index === 0 ? 'high' : 'auto'}
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                    </figure>
 
-                  {/* Content & Engineering Specifications */}
-                  <div className="flex flex-col justify-between p-7 sm:p-10 lg:p-12">
                     <div>
-                      <h3 className="font-heading text-2xl sm:text-3xl font-semibold text-foreground">
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-xs tracking-[0.18em] text-accent-on-tint">
+                          {item.number}
+                        </span>
+                        <div className="h-px w-6 bg-border" />
+                        <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                          {item.categoryTag}
+                        </span>
+                      </div>
+
+                      <h3 className="mt-5 font-heading text-2xl leading-[1.15] text-balance text-foreground sm:text-3xl">
                         {item.title}
                       </h3>
-                      <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                      <p className="mt-4 max-w-2xl text-base leading-[1.8] text-muted-foreground">
                         {item.description}
                       </p>
 
-                      {/* Technical Specs Breakdown */}
-                      <div className="mt-8 grid grid-cols-1 gap-6 border-t border-border pt-6 sm:grid-cols-2">
-                        <div>
-                          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-accent">
-                            <Layers size={14} /> Key Material Grades
+                      {/* Specification in two columns: grades and commercial
+                          terms on the left, inspection protocols on the right.
+                          Stacking all of it in one column had pushed this
+                          section from 3,322px to 4,191px. */}
+                      <div className="mt-8 grid gap-x-10 gap-y-6 border-t border-border pt-6 sm:grid-cols-2">
+                        <dl className="space-y-4">
+                          <div>
+                            <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                              Key material grades
+                            </dt>
+                            <dd className="mt-1.5 text-sm leading-[1.7] text-foreground">
+                              {item.materials.join(' · ')}
+                            </dd>
                           </div>
-                          <div className="mt-2 flex flex-wrap gap-1.5">
-                            {item.materials.map((mat) => (
-                              <span
-                                key={mat}
-                                className="rounded-md border border-border bg-background px-2.5 py-1 text-xs font-medium text-foreground"
-                              >
-                                {mat}
-                              </span>
-                            ))}
+                          <div>
+                            <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                              Lead time
+                            </dt>
+                            <dd className="mt-1.5 text-sm leading-[1.7] text-foreground">{item.leadTime}</dd>
                           </div>
-                        </div>
+                          <div>
+                            <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                              Volume profile
+                            </dt>
+                            <dd className="mt-1.5 text-sm leading-[1.7] text-foreground">{item.volumeProfile}</dd>
+                          </div>
+                        </dl>
 
                         <div>
-                          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-accent">
-                            <FileCheck size={14} /> Inspection Protocols
-                          </div>
-                          <ul className="mt-2 space-y-1">
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                            Inspection protocols
+                          </p>
+                          <ul className="mt-1.5">
                             {item.standards.map((std) => (
-                              <li key={std} className="flex items-start gap-2 text-xs text-muted-foreground">
-                                <CheckCircle2 size={13} className="text-accent shrink-0 mt-0.5" />
-                                <span>{std}</span>
+                              <li
+                                key={std}
+                                className="border-t border-border py-2 text-sm leading-[1.7] text-foreground first:border-t-0 first:pt-0"
+                              >
+                                {std}
                               </li>
                             ))}
                           </ul>
                         </div>
                       </div>
 
-                      {/* Production Parameters Strip */}
-                      <div className="mt-6 flex flex-wrap items-center gap-6 border-t border-border/60 pt-4 text-xs text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                          <CalendarClock size={14} className="text-accent" />
-                          <span><strong>Lead Time:</strong> {item.leadTime}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Box size={14} className="text-accent" />
-                          <span><strong>Volume Profile:</strong> {item.volumeProfile}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-8 pt-4">
                       <Link
                         to={`/contact?category=${item.contactParam}`}
-                        className="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-xs font-bold tracking-[0.06em] text-primary-foreground shadow-xs transition-colors hover:bg-accent"
+                        className="group mt-8 inline-flex w-fit items-center gap-2 text-sm font-semibold text-accent-on-tint transition-colors hover:text-foreground"
                       >
-                        <span>Inquire For This Category</span>
-                        <ArrowRight size={14} />
+                        <span>Inquire for this category</span>
+                        <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
                       </Link>
                     </div>
-                  </div>
-                </motion.article>
-              ))}
+                  </motion.article>
+                );
+              })}
             </AnimatePresence>
           </div>
         </section>
 
-        {/* 4. Quality & Compliance Assurance Protocol Strip (Inspired by Transpoco) */}
-        <section className="border-y border-border bg-muted/30 py-20 sm:py-24">
+        {/* ═══════════════════════════════════════════════════════
+            4 — GOVERNANCE. Four checkpoints as one hairline-divided
+            rail on dark, in place of four separate bordered cards.
+            Dark here so the long light catalogue above is framed by a
+            dark close rather than running straight into the CTA.
+        ═══════════════════════════════════════════════════════ */}
+        <section className="bg-[#070F1C] py-20 lg:py-24">
           <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
-            <div className="max-w-2xl">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">
-                {categories.note.label}
-              </p>
-              <h2 className="mt-3 font-heading text-3xl leading-[1.1] text-foreground sm:text-4xl">
+            <motion.div {...reveal(reducedMotion)} className="max-w-2xl">
+              <div className="mb-5 flex items-center gap-2">
+                <div className="h-px w-8 bg-accent" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                  {categories.note.label}
+                </span>
+              </div>
+              <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] leading-[1.08] tracking-[-0.025em] text-balance text-white">
                 4-Stage Category Manufacturing Governance
               </h2>
-              <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-                Every manufacturing run is governed by four synchronized operational checkpoints before container seal sign-off.
+              <p className="mt-5 text-base leading-[1.8] text-white/70">
+                Every manufacturing run is governed by four synchronized operational checkpoints
+                before container seal sign-off.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="rounded-xl border border-border bg-card p-6 shadow-xs">
-                <span className="font-heading text-2xl font-bold text-accent">01</span>
-                <h4 className="mt-3 text-base font-bold text-foreground">Raw Material Mill Analysis</h4>
-                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                  Chemical composition testing, alloy verification, and environmental compliance (RoHS/REACH) before production begins.
-                </p>
-              </div>
-
-              <div className="rounded-xl border border-border bg-card p-6 shadow-xs">
-                <span className="font-heading text-2xl font-bold text-accent">02</span>
-                <h4 className="mt-3 text-base font-bold text-foreground">Tooling & In-Line Staging</h4>
-                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                  Golden prototype dimensional sign-off, mold wear monitoring, and first-off inspection on the assembly floor.
-                </p>
-              </div>
-
-              <div className="rounded-xl border border-border bg-card p-6 shadow-xs">
-                <span className="font-heading text-2xl font-bold text-accent">03</span>
-                <h4 className="mt-3 text-base font-bold text-foreground">Forensic AQL 1.5/2.5 Audit</h4>
-                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                  ANSI/ASQ Z1.4 General Inspection Level II defect sampling with high-resolution photographic audit logs.
-                </p>
-              </div>
-
-              <div className="rounded-xl border border-border bg-card p-6 shadow-xs">
-                <span className="font-heading text-2xl font-bold text-accent">04</span>
-                <h4 className="mt-3 text-base font-bold text-foreground">ISTA Transit Drop & Barcode</h4>
-                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                  Master carton drop tests, 100% GS1/UPC barcode scan verification, and container desiccants moisture protection.
-                </p>
-              </div>
-            </div>
+            <ol className="mt-12 grid gap-px border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+              {governanceStages.map((stage) => (
+                <li key={stage.num} className="bg-[#070F1C] px-7 py-8">
+                  <span className="font-mono text-xs tracking-[0.18em] text-accent-on-dark">
+                    {stage.num}
+                  </span>
+                  <h3 className="mt-4 text-base font-semibold text-white">{stage.title}</h3>
+                  <p className="mt-2 text-sm leading-[1.7] text-white/70">{stage.text}</p>
+                </li>
+              ))}
+            </ol>
           </div>
         </section>
 
-        {/* 5. Direct Technical RFQ Callout */}
-        <section className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
-          <motion.div
-            {...reveal(reducedMotion)}
-            className="rounded-2xl bg-primary px-8 py-14 sm:px-12 lg:px-16 lg:py-20 shadow-md"
-          >
-            <div className="max-w-3xl">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent-on-dark">
-                Direct Engineering Appraisal
-              </p>
-              <h2 className="mt-4 font-heading text-3xl leading-[1.1] text-primary-foreground sm:text-4xl lg:text-5xl">
-                {categories.cta.title}
-              </h2>
-              <p className="mt-6 text-base sm:text-lg leading-relaxed text-primary-foreground/80">
-                {categories.cta.text} Send us your engineering drawings, material specifications, or seasonal merchandising briefs. Our Shenzhen and Hong Kong technical desks will deliver a formal feasibility assessment within 1 business day.
-              </p>
-              <div className="mt-8">
-                <Link to="/contact">
-                  <InteractiveHoverButton className="border-border/80 bg-accent text-accent-foreground hover:bg-secondary text-sm tracking-wide">
-                    {categories.cta.button}
-                  </InteractiveHoverButton>
-                </Link>
+        {/* ═══════════════════════════════════════════════════════
+            5 — CLOSING CTA. The short flat band used on home and trade
+            services, separated from the dark governance band above by a
+            hairline. Was a rounded, shadowed card floating in a 723px
+            section.
+        ═══════════════════════════════════════════════════════ */}
+        <section className="relative overflow-hidden border-t border-white/10 bg-[#050E1A] py-20 lg:py-24">
+          <div className="pointer-events-none absolute bottom-0 left-1/4 h-[400px] w-[600px] bg-[radial-gradient(ellipse,hsl(179_80%_27%/0.18)_0%,transparent_70%)] blur-[60px]" />
+
+          <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+            <motion.div
+              {...reveal(reducedMotion)}
+              className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between"
+            >
+              <div className="max-w-2xl">
+                <div className="mb-5 flex items-center gap-2">
+                  <div className="h-px w-6 bg-accent" />
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                    Direct Engineering Appraisal
+                  </span>
+                </div>
+                <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-white">
+                  {categories.cta.title}
+                </h2>
+                <p className="mt-5 max-w-xl text-base leading-[1.8] text-white/70">
+                  {categories.cta.text} Send us your engineering drawings, material specifications,
+                  or seasonal merchandising briefs. Our Shenzhen and Hong Kong technical desks will
+                  deliver a formal feasibility assessment within 1 business day.
+                </p>
               </div>
-            </div>
-          </motion.div>
+
+              <Link
+                to="/contact"
+                className="group inline-flex w-fit shrink-0 items-center gap-3 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-white transition-all duration-300 hover:bg-accent/90 hover:shadow-[0_0_40px_hsl(179_80%_27%/0.35)]"
+              >
+                <span>{categories.cta.button}</span>
+                <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </motion.div>
+          </div>
         </section>
       </main>
     </>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
 import ResponsiveImage from '@/components/ResponsiveImage';
 
@@ -93,7 +93,7 @@ export default function TradeDisciplineShowcase() {
   const active = disciplines[activeIndex];
 
   return (
-    <section className="border-b border-border bg-card py-24 lg:py-32">
+    <section className="border-b border-border bg-card py-20 lg:py-24">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
         {/* Section Header */}
         <div className="max-w-2xl">
@@ -144,7 +144,7 @@ export default function TradeDisciplineShowcase() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="mt-12 grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16"
+            className="mt-12 grid grid-cols-1 items-stretch gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16"
           >
             {/* Left Content */}
             <div className="space-y-6">
@@ -171,18 +171,20 @@ export default function TradeDisciplineShowcase() {
                 </span>
               </div>
 
-              {/* Clean Bullet Deliverables */}
-              <div className="space-y-3 pt-2">
-                <p className="text-xs font-bold uppercase tracking-wider text-foreground">
-                  Verified Deliverables:
+              {/* Hairline-divided list, matching the deliverable lists used on
+                  the homepage. Was a bulleted list with a tinted circle icon
+                  per row. */}
+              <div className="pt-2">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  Verified deliverables
                 </p>
-                <ul className="space-y-2.5 text-sm text-muted-foreground">
-                  {active.deliverables.map((deliv, idx) => (
-                    <li key={idx} className="flex items-start gap-3">
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent mt-0.5">
-                        <Check size={12} strokeWidth={3} />
-                      </span>
-                      <span className="leading-snug text-foreground/90">{deliv}</span>
+                <ul className="mt-3">
+                  {active.deliverables.map((deliv) => (
+                    <li
+                      key={deliv}
+                      className="border-t border-border py-3.5 text-sm leading-[1.7] text-foreground"
+                    >
+                      {deliv}
                     </li>
                   ))}
                 </ul>
@@ -199,13 +201,14 @@ export default function TradeDisciplineShowcase() {
               </div>
             </div>
 
-            {/* Right Large Clean Photography */}
-            <div className="overflow-hidden rounded-xl border border-border shadow-sm">
+            {/* Flat photograph, no radius, border or shadow, filling the column
+                height rather than sitting in a framed card. */}
+            <div className="relative min-h-[22rem] overflow-hidden">
               <ResponsiveImage
                 src={active.image}
                 alt={active.imageAlt}
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="aspect-[4/3] w-full object-cover"
+                className="absolute inset-0 h-full w-full object-cover"
                 loading="eager"
               />
             </div>

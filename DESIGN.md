@@ -64,18 +64,24 @@ Derived from the enterprise logistics palette:
 
 - Powered by `motion/react` with spring/cubic-bezier curves (`[0.16, 1, 0.3, 1]`).
 - Duration: 150ms–300ms for interface feedback; 600ms–800ms for viewport entry reveals.
-- Respects `prefers-reduced-motion`. Because the motion here comes from three
-  independent systems, the preference has to be honoured in three places:
+- Respects `prefers-reduced-motion`. Because the motion here comes from four
+  independent systems, the preference has to be honoured in four places:
   - `motion/react` scroll reveals and hero entrances: gated by `useReducedMotion()`
     in each page component. `MotionConfig` is not mounted, so the library's own
     default (`reducedMotion: "never"`) applies and every animation must opt in
     explicitly.
-  - anime.js timelines (`AnimeCounter`, `AnimeCorridor`) and `BorderBeam`'s
-    `strokeDashoffset`: gated by `src/lib/use-reduced-motion.ts`. Neither is a
-    transform or layout property, so nothing else covers them.
+  - anime.js timelines (`AnimeCounter`): gated by
+    `src/lib/use-reduced-motion.ts`. A timeline isn't a transform or layout
+    property, so nothing else covers it. `BorderBeam` uses the same hook but is no
+    longer rendered on any page.
   - CSS loops (carrier marquee, hero shimmer, pulsing dot, smooth scrolling):
     gated by the `@media (prefers-reduced-motion: reduce)` block in `globals.css`.
-- One signature motion moment per viewport (e.g. Route corridor visualizer, precision counter increments) rather than noisy repeated animations.
+  - The trade-network WebGL scene (`src/components/trade-network`): starts
+    from `prefersReducedMotionNow()` and follows `usePrefersReducedMotion()`
+    afterwards. Under reduced motion it draws one still frame and never starts
+    its render loop. The loop also stops whenever the drawing is off screen or
+    the tab is hidden.
+- One signature motion moment per viewport (e.g. the trade-network route drawing, precision counter increments) rather than noisy repeated animations.
 
 ---
 
@@ -102,7 +108,7 @@ previous revision of this list asserted four things that turned out to be false.
       so the sweep reports a range rather than a number. The `#0A1628` overlay
       runs at 88–95% opacity where the text sits, giving ≥5.5:1 even against a
       white pixel in the underlying image.
-- [x] `prefers-reduced-motion` honoured by all six animation sources listed in
+- [x] `prefers-reduced-motion` honoured by every animation source listed in
       §5. The CSS block is verified present in the built stylesheet and the JS
       guards in the built bundle; emulating the OS setting end-to-end was not
       possible in the browser surface used, so that last step is unverified.

@@ -7,7 +7,7 @@ const QUERY = '(prefers-reduced-motion: reduce)';
  * outside `motion/react`.
  *
  * `motion/react` ships `useReducedMotion`, but it only governs motion the
- * library itself drives. The anime.js counters and the route corridor run
+ * library itself drives. The anime.js counters and the trade-network scene run
  * their own timelines, so they need this hook to see the preference at all.
  *
  * Returns `false` during SSR and on the first client render, then corrects on

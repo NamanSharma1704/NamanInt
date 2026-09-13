@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Check, Sparkles } from 'lucide-react';
-import { BorderBeam } from '@/components/ui/border-beam';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 
 interface CategoryOption {
@@ -202,8 +201,11 @@ export default function TradeScopeEstimator() {
           </div>
 
           {/* Live Summary Card */}
-          <div className="relative sticky top-28 rounded-2xl border border-border bg-background p-8 shadow-sm overflow-hidden">
-            <BorderBeam size={220} duration={12} colorFrom="#8B4513" colorTo="#2a4365" borderWidth={1.5} />
+          {/* The BorderBeam that used to trace this panel ran #8B4513 to
+              #2a4365 — a saddle brown and a navy, neither of which is in the
+              palette. Removed rather than recoloured: the redesign drops the
+              beam-and-glass vocabulary everywhere else too. */}
+          <div className="relative sticky top-28 overflow-hidden rounded-2xl border border-border bg-background p-8 shadow-sm">
             <div className="flex items-center gap-2 border-b border-border pb-5">
               <Sparkles size={18} className="text-accent" />
               <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent">
@@ -238,14 +240,18 @@ export default function TradeScopeEstimator() {
               </div>
             </div>
 
-            {/* Included Deliverables */}
-            <div className="mt-6 rounded-xl border border-border/80 bg-muted/30 p-4">
-              <p className="text-xs font-bold text-foreground">Included in this program:</p>
-              <ul className="mt-2 space-y-1.5 text-xs text-muted-foreground">
-                {selectedScope.includes.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
+            {/* Included deliverables. Flat block under a rule — this was a
+                bordered, tinted card sitting inside the panel above, which is
+                the cards-in-cards nesting DESIGN.md rules out. */}
+            <div className="mt-6 border-t border-border pt-5">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                Included in this program
+              </p>
+              <ul className="mt-3 space-y-2 text-xs text-muted-foreground">
+                {selectedScope.includes.map((item) => (
+                  <li key={item} className="flex items-start gap-2">
                     <Check size={14} className="mt-0.5 shrink-0 text-accent" />
-                    <span>{item}</span>
+                    <span className="leading-[1.7]">{item}</span>
                   </li>
                 ))}
               </ul>

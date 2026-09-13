@@ -80,13 +80,16 @@ export default function TradeServicesPage() {
 
           <div className="relative mx-auto flex min-h-[72vh] max-w-[1440px] flex-col justify-center px-5 sm:px-8 lg:px-10">
             <motion.div {...reveal(reducedMotion)} className="max-w-3xl">
-              <div className="inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 backdrop-blur-sm">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-dark">
-                  Trade Coordination & Sourcing Oversight
+              {/* Rule + caps, matching the hero eyebrow on the homepage. The
+                  translucent pill this replaces was the only badge of its kind
+                  in the site. */}
+              <div className="inline-flex items-center gap-2">
+                <div className="h-px w-8 bg-accent" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                  Trade Coordination &amp; Sourcing Oversight
                 </span>
               </div>
-              <h1 className="mt-7 font-heading text-4xl leading-[1.06] text-white sm:text-5xl lg:text-6xl">
+              <h1 className="mt-7 font-heading text-4xl leading-[1.06] text-balance text-white sm:text-5xl lg:text-6xl">
                 Forensic oversight from factory floor to port delivery.
               </h1>
               <p className="mt-6 max-w-xl text-base leading-[1.75] text-white/70 sm:text-lg">
@@ -106,9 +109,12 @@ export default function TradeServicesPage() {
                 </Link001>
               </div>
             </motion.div>
-            <div className="absolute bottom-0 left-5 sm:left-8 lg:left-10 bg-accent/85 px-6 py-3 backdrop-blur-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-white/90">
-                Shenzhen & Hong Kong Operational Centers · Est. 2008
+            {/* Same rule-and-caps footnote the homepage hero carries bottom
+                right, in place of a solid teal slab pinned to the corner. */}
+            <div className="absolute bottom-6 right-5 flex items-center gap-3 sm:right-8 lg:right-10">
+              <div className="h-px w-8 bg-accent/50" />
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/70">
+                Shenzhen &amp; Hong Kong Operational Centers · Est. 2008
               </p>
             </div>
           </div>
@@ -147,37 +153,48 @@ export default function TradeServicesPage() {
         {/* 5. Interactive Trade Scope & Inquiry Configurator */}
         <TradeScopeEstimator />
 
-        {/* 6. Clean Closing Consultation Banner */}
-        <section className="mx-auto max-w-[1440px] px-5 py-24 sm:px-8 lg:px-10 lg:py-32">
-          <motion.div
-            {...reveal(reducedMotion)}
-            className="relative overflow-hidden grid grid-cols-1 gap-10 bg-primary px-8 py-14 sm:px-12 lg:grid-cols-[1.25fr_0.75fr] lg:px-16 lg:py-20 rounded-2xl shadow-xl"
-          >
-            <div className="pointer-events-none absolute top-0 left-0 h-px w-full bg-gradient-to-r from-accent/60 via-accent/20 to-transparent" />
-            <div>
-              <p className="section-label text-white/70 before:bg-accent">
-                Direct Procurement Partnership
-              </p>
-              <h2 className="mt-5 max-w-2xl font-heading text-3xl leading-[1.08] text-white sm:text-4xl lg:text-5xl">
-                Ready to establish institutional oversight across your overseas manufacturing?
-              </h2>
-              <p className="mt-5 max-w-xl text-base leading-[1.75] text-white/65">
-                Connect directly with our international trade directors in Hong Kong, Shenzhen, or California to discuss order volume, factory vetting, or specialized quality audit protocols.
-              </p>
-            </div>
-            <div className="flex flex-col justify-end gap-4 lg:items-end">
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-3 rounded-lg bg-accent px-8 py-4 text-sm font-semibold tracking-wide text-white shadow-teal-lg transition-all duration-200 hover:bg-accent/90"
-              >
-                <span>Initiate Trade Program</span>
-                <MoveUpRight size={16} />
-              </Link>
-              <p className="text-xs text-white/70">
-                Direct response within 1 business day across US and Asia business hours.
-              </p>
-            </div>
-          </motion.div>
+        {/* 6. Closing CTA. Short, full-bleed and flat — the same closing band
+               the homepage uses. Was a rounded, shadowed card floating inside a
+               717px section, which is the boxed vocabulary this redesign drops. */}
+        <section className="relative overflow-hidden bg-[#050E1A] py-20 lg:py-24">
+          <div className="pointer-events-none absolute bottom-0 left-1/4 h-[400px] w-[600px] bg-[radial-gradient(ellipse,hsl(179_80%_27%/0.18)_0%,transparent_70%)] blur-[60px]" />
+
+          <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+            <motion.div
+              {...reveal(reducedMotion)}
+              className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between"
+            >
+              <div className="max-w-2xl">
+                <div className="mb-5 flex items-center gap-2">
+                  <div className="h-px w-6 bg-accent" />
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                    Direct Procurement Partnership
+                  </span>
+                </div>
+                <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-white">
+                  Ready to establish institutional oversight across your overseas manufacturing?
+                </h2>
+                <p className="mt-5 max-w-lg text-base leading-[1.8] text-white/70">
+                  Connect directly with our international trade directors in Hong Kong,
+                  Shenzhen, or California to discuss order volume, factory vetting, or
+                  specialized quality audit protocols.
+                </p>
+              </div>
+
+              <div className="flex shrink-0 flex-col gap-3 lg:items-end">
+                <Link
+                  to="/contact"
+                  className="group inline-flex w-fit items-center gap-3 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-white transition-all duration-300 hover:bg-accent/90 hover:shadow-[0_0_40px_hsl(179_80%_27%/0.35)]"
+                >
+                  <span>Initiate Trade Program</span>
+                  <MoveUpRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                </Link>
+                <p className="max-w-xs text-xs leading-[1.7] text-white/70 lg:text-right">
+                  Direct response within 1 business day across US and Asia business hours.
+                </p>
+              </div>
+            </motion.div>
+          </div>
         </section>
       </main>
     </>

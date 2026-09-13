@@ -1,12 +1,10 @@
 import { Helmet } from '@dr.pogodin/react-helmet';
 import { useJsonLdSiteUrl } from '@/lib/json-ld-site-url-context';
-import { ShieldCheck, Clock, FileCheck2, Globe2, Phone, Mail, MapPin } from 'lucide-react';
+import { Phone, Mail, MapPin } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router';
 import { contact, site } from 'virtual:content';
-import { BorderBeam } from '@/components/ui/border-beam';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
-import { Link001 } from '@/components/ui/skiper-ui/skiper40';
 
 const title = 'Direct Trade Desk & Inquiries | NAMAN INTERNATIONAL LTD';
 const description =
@@ -19,6 +17,48 @@ const inquiryTypes = [
   { id: 'retail', label: 'Retail Sourcing Program' },
   { id: 'wholesale', label: 'Wholesale Volume & FCL' },
   { id: 'quality', label: 'Factory Audit & Quality Inspection' },
+];
+
+const commitments = [
+  { label: '1 Business Day', sub: 'Principal Technical Assessment' },
+  { label: 'Confidentiality Guarantee', sub: 'Standard NDA Protection' },
+  { label: 'Direct Tier-1 Pricing', sub: 'Zero Intermediary Broker Fees' },
+  { label: 'Bilingual Engineering', sub: 'Hong Kong & Shenzhen Desks' },
+];
+
+interface Office {
+  label: string;
+  role: string;
+  addressEnglish: string;
+  addressChinese?: string;
+  phone?: string;
+}
+
+const offices: Office[] = [
+  {
+    label: contact.offices.shenzhen.label,
+    role: 'Factory Operations',
+    addressEnglish: contact.offices.shenzhen.addressEnglish,
+    addressChinese: contact.offices.shenzhen.addressChinese,
+    phone: contact.offices.shenzhen.phone,
+  },
+  {
+    label: contact.offices.hongKong.label,
+    role: 'Global HQ & Finance',
+    addressEnglish: contact.offices.hongKong.addressEnglish,
+    addressChinese: contact.offices.hongKong.addressChinese,
+    phone: contact.offices.hongKong.phone,
+  },
+  {
+    label: contact.offices.usa.label,
+    role: 'Pacific Gateway',
+    addressEnglish: contact.offices.usa.addressEnglish,
+  },
+  {
+    label: contact.offices.manchester.label,
+    role: 'UK / European Desk',
+    addressEnglish: contact.offices.manchester.addressEnglish,
+  },
 ];
 
 export default function ContactPage() {
@@ -108,88 +148,100 @@ export default function ContactPage() {
       </Helmet>
 
       <main className="overflow-hidden">
-        {/* 1. Contact Hero — Dark Banner */}
+        {/* ═══════════════════════════════════════════════════════
+            1 — HERO. Text-only dark banner.
+        ═══════════════════════════════════════════════════════ */}
         <section className="relative overflow-hidden bg-primary py-16 sm:py-20 lg:py-24">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,hsl(179_80%_27%/0.12)_0%,transparent_60%)]" />
-          <div className="pointer-events-none absolute top-0 left-0 h-px w-full bg-gradient-to-r from-accent/50 via-accent/15 to-transparent" />
-          <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+          <div className="pointer-events-none absolute left-0 top-0 h-px w-full bg-gradient-to-r from-accent/50 via-accent/15 to-transparent" />
+          <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-dark">
+              <div className="inline-flex items-center gap-2">
+                <div className="h-px w-8 bg-accent" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
                   Direct Regional Trade Desks
                 </span>
               </div>
-              <h1 className="mt-6 font-heading text-4xl leading-[1.06] text-white sm:text-5xl lg:text-6xl">
+              <h1 className="mt-6 font-heading text-4xl leading-[1.06] text-balance text-white sm:text-5xl lg:text-6xl">
                 {contact.hero.title}
               </h1>
-              <p className="mt-5 text-base leading-[1.75] text-white/65 sm:text-lg">
-                {contact.hero.text} Every commercial inquiry is reviewed directly by our bilingual operations principals in Hong Kong and Shenzhen. We respond with formal technical feasibility assessments, landed cost parameters, and milestone schedules within 1 business day.
+              <p className="mt-5 text-base leading-[1.8] text-white/70 sm:text-lg">
+                {contact.hero.text} Every commercial inquiry is reviewed directly by our bilingual
+                operations principals in Hong Kong and Shenzhen. We respond with formal technical
+                feasibility assessments, landed cost parameters, and milestone schedules within 1
+                business day.
               </p>
             </div>
           </div>
         </section>
 
-        {/* 2. Institutional SLA & Security Strip */}
-        <section className="border-b border-border bg-card py-6 sm:py-8">
+        {/* ═══════════════════════════════════════════════════════
+            2 — COMMITMENTS. The hairline-divided band used on every
+            route, in place of a row with a tinted icon tile per item.
+        ═══════════════════════════════════════════════════════ */}
+        <section className="border-b border-border bg-card">
           <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
-            <div className="grid grid-cols-2 gap-5 sm:grid-cols-4 lg:gap-8">
-              {[
-                { icon: Clock, label: '1 Business Day', sub: 'Principal Technical Assessment' },
-                { icon: ShieldCheck, label: 'Confidentiality Guarantee', sub: 'Standard NDA Protection' },
-                { icon: FileCheck2, label: 'Direct Tier-1 Pricing', sub: 'Zero Intermediary Broker Fees' },
-                { icon: Globe2, label: 'Bilingual Engineering', sub: 'Hong Kong & Shenzhen Desks' },
-              ].map(({ icon: Icon, label, sub }) => (
-                <div key={label} className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent/10">
-                    <Icon size={16} className="text-accent" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">{label}</p>
-                    <p className="text-xs text-muted-foreground">{sub}</p>
-                  </div>
+            <dl className="grid grid-cols-2 divide-x divide-border sm:grid-cols-4">
+              {commitments.map((c) => (
+                <div key={c.label} className="px-6 py-7 lg:px-10">
+                  <dt className="text-sm font-semibold text-foreground">{c.label}</dt>
+                  <dd className="mt-1 text-xs leading-[1.6] text-muted-foreground">{c.sub}</dd>
                 </div>
               ))}
-            </div>
+            </dl>
           </div>
         </section>
 
-        {/* 3. Inquiry Form & Regional Directory */}
-        <section className="mx-auto grid max-w-[1440px] grid-cols-1 gap-14 px-5 py-20 sm:px-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start lg:gap-16 lg:px-10 lg:py-28">
-          <div>
-            {/* Intent Filter Tabs */}
-            <div className="border-b border-border pb-6">
-              <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent">
-                Select Consultation Intent
+        {/* ═══════════════════════════════════════════════════════
+            3 — INQUIRY. A brief that stays in view on the left — the
+            heading, intro and the choice of intent — against the form
+            fields on the right. The submit handler, payload, field
+            names and prefill logic above are unchanged; only the
+            arrangement around them moved.
+        ═══════════════════════════════════════════════════════ */}
+        <section className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-24">
+          <div className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+            <div className="lg:sticky lg:top-28 lg:self-start">
+              <div className="mb-5 flex items-center gap-2">
+                <div className="h-px w-8 bg-accent" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-tint">
+                  {contact.hero.eyebrow}
+                </span>
+              </div>
+              <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] leading-[1.08] tracking-[-0.025em] text-balance text-foreground">
+                {contact.form.title}
+              </h2>
+              <p className="mt-5 text-base leading-[1.8] text-muted-foreground">{contact.form.text}</p>
+
+              {/* Intent as a vertical option list with a teal marker, in
+                  place of a row of filled pill buttons. type="button" keeps
+                  these from ever submitting the form. */}
+              <p className="mt-10 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                Select consultation intent
               </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {inquiryTypes.map((t) => (
-                  <button
-                    key={t.id}
-                    type="button"
-                    onClick={() => setActiveIntent(t.id)}
-                    className={`rounded-lg px-4 py-2 text-xs font-semibold transition-all duration-200 ${
-                      activeIntent === t.id
-                        ? 'bg-accent text-white shadow-teal'
-                        : 'border border-border bg-card text-muted-foreground hover:border-accent/60 hover:text-foreground'
-                    }`}
-                  >
-                    {t.label}
-                  </button>
-                ))}
+              <div className="mt-3 border-t border-border">
+                {inquiryTypes.map((t) => {
+                  const isActive = activeIntent === t.id;
+                  return (
+                    <button
+                      key={t.id}
+                      type="button"
+                      onClick={() => setActiveIntent(t.id)}
+                      aria-pressed={isActive}
+                      className={`flex w-full items-center border-b border-l-2 border-b-border py-3.5 pl-4 text-left text-sm font-semibold transition-colors ${
+                        isActive
+                          ? 'border-l-accent text-foreground'
+                          : 'border-l-transparent text-muted-foreground hover:text-foreground'
+                      }`}
+                    >
+                      {t.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            <div className="mt-8">
-              <h2 className="font-heading text-2xl sm:text-3xl font-semibold text-foreground">
-                {contact.form.title}
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {contact.form.text}
-              </p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="mt-8 space-y-6" noValidate>
+            <form onSubmit={handleSubmit} className="space-y-6" noValidate>
               <input
                 type="text"
                 name="_gotcha"
@@ -301,117 +353,71 @@ export default function ContactPage() {
               </div>
             </form>
           </div>
+        </section>
 
-          {/* Regional Desk Directory */}
-          <aside className="space-y-6">
-            <h3 className="font-heading text-2xl font-bold text-foreground">
-              Regional Operating Desks
-            </h3>
-            <p className="text-sm leading-relaxed text-muted-foreground">
-              Direct coordinates for physical inspection appointments, trade documentation, and regional logistics support.
-            </p>
-
-            <div className="space-y-4">
-              {/* Shenzhen */}
-              <div className="relative rounded-2xl border border-border bg-card p-6 shadow-xs overflow-hidden">
-                <BorderBeam size={220} duration={12} colorFrom="#8B4513" colorTo="#2a4365" borderWidth={1.5} />
-                <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-foreground">{contact.offices.shenzhen.label}</h4>
-                  <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-on-tint">
-                    Factory Operations
-                  </span>
-                </div>
-                <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
-                  <MapPin size={14} className="text-accent shrink-0 mt-0.5" />
-                  <div>
-                    <p>{contact.offices.shenzhen.addressEnglish}</p>
-                    <p className="mt-1 text-muted-foreground">{contact.offices.shenzhen.addressChinese}</p>
-                  </div>
-                </div>
-                <div className="mt-4 flex flex-wrap items-center gap-4 border-t border-border pt-3 text-xs">
-                  <div className="flex items-center gap-1.5 font-medium text-foreground">
-                    <Phone size={13} className="text-accent" />
-                    <Link001 href={`tel:${contact.offices.shenzhen.phone}`} className="text-foreground hover:text-accent">
-                      {contact.offices.shenzhen.phone}
-                    </Link001>
-                  </div>
-                  <div className="flex items-center gap-1.5 font-medium text-foreground">
-                    <Mail size={13} className="text-accent" />
-                    <Link001 href={`mailto:${site.contact.email}`} className="text-foreground hover:text-accent">
-                      {site.contact.email}
-                    </Link001>
-                  </div>
-                </div>
+        {/* ═══════════════════════════════════════════════════════
+            4 — OFFICES. A four-column hairline grid on dark, moved out
+            of a sidebar of bordered cards (one carrying an off-palette
+            brown BorderBeam). Phone and email are plain tel:/mailto:
+            links throughout; Shenzhen previously used the in-site
+            navigation link component while the others used <a>.
+        ═══════════════════════════════════════════════════════ */}
+        <section className="bg-[#070F1C] py-20 lg:py-24">
+          <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+            <div className="max-w-2xl">
+              <div className="mb-5 flex items-center gap-2">
+                <div className="h-px w-8 bg-accent" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                  {contact.offices.title}
+                </span>
               </div>
-
-              {/* Hong Kong */}
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
-                <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-foreground">{contact.offices.hongKong.label}</h4>
-                  <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-on-tint">
-                    Global HQ & Finance
-                  </span>
-                </div>
-                <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
-                  <MapPin size={14} className="text-accent shrink-0 mt-0.5" />
-                  <div>
-                    <p>{contact.offices.hongKong.addressEnglish}</p>
-                    <p className="mt-1 text-muted-foreground">{contact.offices.hongKong.addressChinese}</p>
-                  </div>
-                </div>
-                <div className="mt-4 flex flex-wrap items-center gap-4 border-t border-border pt-3 text-xs">
-                  <a href={`tel:${contact.offices.hongKong.phone}`} className="flex items-center gap-1.5 font-medium text-foreground hover:text-accent">
-                    <Phone size={13} className="text-accent" />
-                    <span>{contact.offices.hongKong.phone}</span>
-                  </a>
-                  <a href={`mailto:${site.contact.email}`} className="flex items-center gap-1.5 font-medium text-foreground hover:text-accent">
-                    <Mail size={13} className="text-accent" />
-                    <span>{site.contact.email}</span>
-                  </a>
-                </div>
-              </div>
-
-              {/* USA */}
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
-                <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-foreground">{contact.offices.usa.label}</h4>
-                  <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-on-tint">
-                    Pacific Gateway
-                  </span>
-                </div>
-                <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
-                  <MapPin size={14} className="text-accent shrink-0 mt-0.5" />
-                  <p>{contact.offices.usa.addressEnglish}</p>
-                </div>
-                <div className="mt-4 border-t border-border pt-3 text-xs">
-                  <a href={`mailto:${site.contact.email}`} className="flex items-center gap-1.5 font-medium text-foreground hover:text-accent">
-                    <Mail size={13} className="text-accent" />
-                    <span>{site.contact.email}</span>
-                  </a>
-                </div>
-              </div>
-
-              {/* Manchester */}
-              <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
-                <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-foreground">{contact.offices.manchester.label}</h4>
-                  <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-on-tint">
-                    UK / European Desk
-                  </span>
-                </div>
-                <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
-                  <MapPin size={14} className="text-accent shrink-0 mt-0.5" />
-                  <p>{contact.offices.manchester.addressEnglish}</p>
-                </div>
-                <div className="mt-4 border-t border-border pt-3 text-xs">
-                  <a href={`mailto:${site.contact.email}`} className="flex items-center gap-1.5 font-medium text-foreground hover:text-accent">
-                    <Mail size={13} className="text-accent" />
-                    <span>{site.contact.email}</span>
-                  </a>
-                </div>
-              </div>
+              <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] leading-[1.08] tracking-[-0.025em] text-balance text-white">
+                Regional Operating Desks
+              </h2>
+              <p className="mt-5 text-base leading-[1.8] text-white/70">
+                Direct coordinates for physical inspection appointments, trade documentation, and
+                regional logistics support.
+              </p>
             </div>
-          </aside>
+
+            <ul className="mt-12 grid gap-px border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+              {offices.map((office) => (
+                <li key={office.label} className="flex flex-col bg-[#070F1C] px-7 py-8">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-dark">
+                    {office.role}
+                  </p>
+                  <h3 className="mt-3 font-heading text-xl text-white">{office.label}</h3>
+
+                  <div className="mt-5 flex items-start gap-2 text-sm leading-[1.7] text-white/70">
+                    <MapPin size={15} className="mt-1 shrink-0 text-accent-on-dark" />
+                    <div>
+                      <p>{office.addressEnglish}</p>
+                      {office.addressChinese && <p className="mt-1">{office.addressChinese}</p>}
+                    </div>
+                  </div>
+
+                  <div className="mt-auto space-y-2 border-t border-white/10 pt-5 text-sm">
+                    {office.phone && (
+                      <a
+                        href={`tel:${office.phone}`}
+                        className="flex items-center gap-2 font-medium text-white transition-colors hover:text-accent-on-dark"
+                      >
+                        <Phone size={14} className="shrink-0 text-accent-on-dark" />
+                        <span>{office.phone}</span>
+                      </a>
+                    )}
+                    <a
+                      href={`mailto:${site.contact.email}`}
+                      className="flex items-center gap-2 font-medium text-white transition-colors hover:text-accent-on-dark"
+                    >
+                      <Mail size={14} className="shrink-0 text-accent-on-dark" />
+                      <span>{site.contact.email}</span>
+                    </a>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
       </main>
     </>

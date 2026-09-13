@@ -1,191 +1,116 @@
 import { Link } from 'react-router';
 import { site } from 'virtual:content';
 import BrandLogo from '@/components/BrandLogo';
-import { Link001 } from '@/components/ui/skiper-ui/skiper40';
 import { MapPin, Mail, Phone, Globe } from 'lucide-react';
 
+interface FooterOffice {
+  label: string;
+  address: string;
+  phone?: string;
+}
+
+const offices: FooterOffice[] = [
+  { label: 'Shenzhen Office', address: site.contact.addressEnglish, phone: site.contact.phone },
+  {
+    label: 'Hong Kong Office',
+    address: site.contact.hongKongOffice.addressEnglish,
+    phone: site.contact.hongKongOffice.phone,
+  },
+  { label: 'U.S.A. Office', address: site.contact.usaOffice.addressEnglish },
+  { label: 'Manchester Office', address: site.contact.manchesterOffice.addressEnglish },
+];
+
+const navLinks = [
+  { to: '/', label: 'Overview' },
+  { to: '/trade-services', label: 'Trade Services' },
+  { to: '/categories', label: 'Product Categories' },
+  { to: '/company', label: 'Company Profile' },
+  { to: '/contact', label: 'Contact & Trade Desk' },
+];
+
+/**
+ * Site footer.
+ *
+ * Every route now closes on its own call to action, so the footer carries
+ * none. It previously opened with a flat teal "Begin your trade conversation"
+ * slab and held a second "Start an inquiry" button in a Partnership column,
+ * which stacked three consecutive CTAs at the bottom of most pages — and on
+ * /contact pointed back at the page the visitor was already on.
+ *
+ * The surface matches the closing band of the pages (#050E1A) with a hairline
+ * between them, rather than a different navy meeting it at a visible seam.
+ */
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const companyEmail = 'sales@namanint.com';
 
   return (
-    <footer className="mt-auto">
-      {/* Top CTA Strip */}
-      <div className="bg-accent">
-        <div className="mx-auto max-w-[1440px] px-5 py-8 lg:px-10">
-          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white">
-                Ready to source smarter?
-              </p>
-              <p className="mt-1 text-lg font-semibold text-white">
-                Begin your trade conversation today.
-              </p>
+    <footer className="mt-auto border-t border-white/10 bg-[#050E1A] text-white">
+      <div className="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+        <div className="grid gap-12 border-b border-white/10 pb-14 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-4">
+            <BrandLogo variant="dark" />
+            <p className="mt-6 max-w-sm text-sm leading-7 text-white/70">{site.footer.summary}</p>
+            <p className="mt-6 flex items-center gap-2 text-xs text-white/70">
+              <Globe size={12} className="shrink-0" />
+              <span>Shenzhen · Hong Kong · California · Manchester</span>
+            </p>
+          </div>
+
+          <div className="lg:col-span-2">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/60">Explore</p>
+            <nav aria-label="Footer navigation" className="mt-5 flex flex-col gap-3">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="w-fit text-sm text-white/70 transition-colors duration-200 hover:text-accent-on-dark"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          {/* Offices as a compact 2x2 directory. Phone and email are plain
+              tel:/mailto: links; the email previously came from a hardcoded
+              string in one place and site.contact.email in others. */}
+          <div className="lg:col-span-6">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/60">Offices</p>
+            <div className="mt-5 grid gap-x-10 gap-y-8 sm:grid-cols-2">
+              {offices.map((office) => (
+                <address key={office.label} className="border-t border-white/10 pt-4 not-italic">
+                  <p className="text-sm font-semibold text-white">{office.label}</p>
+                  <p className="mt-2 flex items-start gap-2 text-xs leading-6 text-white/70">
+                    <MapPin size={12} className="mt-1 shrink-0 text-accent-on-dark" />
+                    <span>{office.address}</span>
+                  </p>
+                  <div className="mt-2 space-y-1.5">
+                    {office.phone && (
+                      <a
+                        href={`tel:${office.phone}`}
+                        className="flex w-fit items-center gap-2 text-xs text-white/70 transition-colors hover:text-accent-on-dark"
+                      >
+                        <Phone size={12} className="shrink-0 text-accent-on-dark" />
+                        <span>{office.phone}</span>
+                      </a>
+                    )}
+                    <a
+                      href={`mailto:${site.contact.email}`}
+                      className="flex w-fit items-center gap-2 text-xs text-white/70 transition-colors hover:text-accent-on-dark"
+                    >
+                      <Mail size={12} className="shrink-0 text-accent-on-dark" />
+                      <span>{site.contact.email}</span>
+                    </a>
+                  </div>
+                </address>
+              ))}
             </div>
-            <Link
-              to="/contact"
-              className="shrink-0 rounded-lg border border-white/30 bg-black/10 px-6 py-3 text-sm font-semibold tracking-wide text-white backdrop-blur-sm transition-colors duration-200 hover:bg-black/20 hover:border-white/50"
-            >
-              Start an inquiry →
-            </Link>
           </div>
         </div>
-      </div>
 
-      {/* Main Footer Body */}
-      <div className="bg-primary text-primary-foreground">
-        <div className="mx-auto max-w-[1440px] px-5 py-16 lg:px-10 lg:py-20">
-          <div className="grid grid-cols-1 gap-12 border-b border-primary-foreground/10 pb-14 md:grid-cols-2 xl:grid-cols-6">
-
-            {/* Brand Column */}
-            <div className="xl:col-span-2">
-              <BrandLogo variant="dark" />
-              <p className="mt-6 max-w-sm text-sm leading-7 text-primary-foreground/60">
-                {site.footer.summary}
-              </p>
-              <div className="mt-6 flex items-center gap-2 text-xs text-primary-foreground/70">
-                <Globe size={12} />
-                <span>Shenzhen · Hong Kong · California · Manchester</span>
-              </div>
-            </div>
-
-            {/* Navigation */}
-            <div>
-              <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/70">
-                Explore
-              </p>
-              <nav aria-label="Footer navigation" className="mt-5 flex flex-col gap-3">
-                {[
-                  { to: '/', label: 'Overview' },
-                  { to: '/trade-services', label: 'Trade Services' },
-                  { to: '/categories', label: 'Product Categories' },
-                  { to: '/company', label: 'Company Profile' },
-                  { to: '/contact', label: 'Contact & Trade Desk' },
-                ].map((link) => (
-                  <Link
-                    key={link.to}
-                    to={link.to}
-                    className="text-sm text-primary-foreground/70 transition-colors duration-200 hover:text-accent"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-
-            {/* Shenzhen + HK Offices */}
-            <div className="space-y-8">
-              <div>
-                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/70">
-                  Shenzhen Office
-                </p>
-                <address className="mt-4 not-italic">
-                  <p className="flex items-start gap-2 text-xs leading-6 text-primary-foreground/65">
-                    <MapPin size={12} className="mt-1 shrink-0 text-accent" />
-                    {site.contact.addressEnglish}
-                  </p>
-                  <a
-                    href={`tel:${site.contact.phone}`}
-                    className="mt-3 flex items-center gap-2 text-xs text-primary-foreground/65 transition-colors hover:text-accent"
-                  >
-                    <Phone size={12} className="text-accent" />
-                    {site.contact.phone}
-                  </a>
-                  <Link001
-                    href={`mailto:${companyEmail}`}
-                    className="mt-2 flex items-center gap-2 text-xs text-primary-foreground/65 hover:text-accent"
-                  >
-                    <Mail size={12} className="text-accent" />
-                    {companyEmail}
-                  </Link001>
-                </address>
-              </div>
-
-              <div>
-                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/70">
-                  Hong Kong Office
-                </p>
-                <address className="mt-4 not-italic">
-                  <p className="flex items-start gap-2 text-xs leading-6 text-primary-foreground/65">
-                    <MapPin size={12} className="mt-1 shrink-0 text-accent" />
-                    {site.contact.hongKongOffice.addressEnglish}
-                  </p>
-                  <a
-                    href={`tel:${site.contact.hongKongOffice.phone}`}
-                    className="mt-3 flex items-center gap-2 text-xs text-primary-foreground/65 transition-colors hover:text-accent"
-                  >
-                    <Phone size={12} className="text-accent" />
-                    {site.contact.hongKongOffice.phone}
-                  </a>
-                </address>
-              </div>
-            </div>
-
-            {/* USA + Manchester Offices */}
-            <div className="space-y-8">
-              <div>
-                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/70">
-                  U.S.A. Office
-                </p>
-                <address className="mt-4 not-italic">
-                  <p className="flex items-start gap-2 text-xs leading-6 text-primary-foreground/65">
-                    <MapPin size={12} className="mt-1 shrink-0 text-accent" />
-                    {site.contact.usaOffice.addressEnglish}
-                  </p>
-                  <Link001
-                    href={`mailto:${site.contact.email}`}
-                    className="mt-3 flex items-center gap-2 text-xs text-primary-foreground/65 hover:text-accent"
-                  >
-                    <Mail size={12} className="text-accent" />
-                    {site.contact.email}
-                  </Link001>
-                </address>
-              </div>
-
-              <div>
-                <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/70">
-                  Manchester Office
-                </p>
-                <address className="mt-4 not-italic">
-                  <p className="flex items-start gap-2 text-xs leading-6 text-primary-foreground/65">
-                    <MapPin size={12} className="mt-1 shrink-0 text-accent" />
-                    {site.contact.manchesterOffice.addressEnglish}
-                  </p>
-                  <Link001
-                    href={`mailto:${site.contact.email}`}
-                    className="mt-3 flex items-center gap-2 text-xs text-primary-foreground/65 hover:text-accent"
-                  >
-                    <Mail size={12} className="text-accent" />
-                    {site.contact.email}
-                  </Link001>
-                </address>
-              </div>
-            </div>
-
-            {/* Partnership Column */}
-            <div>
-              <p className="text-[10px] font-bold tracking-[0.18em] uppercase text-primary-foreground/70">
-                Partnership
-              </p>
-              <p className="mt-5 text-sm leading-7 text-primary-foreground/60">
-                For new supply conversations and trade enquiries, begin with a direct introduction.
-              </p>
-              <div className="mt-6">
-                <Link001
-                  href="/contact"
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-5 py-2.5 text-xs font-semibold tracking-wide text-white transition-all duration-200 hover:bg-accent/90"
-                >
-                  Start an inquiry →
-                </Link001>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Bar */}
-          <div className="flex flex-col gap-3 pt-8 text-xs text-primary-foreground/70 md:flex-row md:items-center md:justify-between">
-            <p>© {currentYear} NAMAN INTERNATIONAL LTD. All rights reserved.</p>
-            <p className="text-primary-foreground/60">{site.footer.tagline}</p>
-          </div>
+        <div className="flex flex-col gap-3 pt-8 text-xs text-white/60 md:flex-row md:items-center md:justify-between">
+          <p>© {currentYear} NAMAN INTERNATIONAL LTD. All rights reserved.</p>
+          <p>{site.footer.tagline}</p>
         </div>
       </div>
     </footer>

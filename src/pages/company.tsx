@@ -1,10 +1,9 @@
 import { Helmet } from '@dr.pogodin/react-helmet';
 import { useJsonLdSiteUrl } from '@/lib/json-ld-site-url-context';
-import { Building2, MapPin, Award, Clock } from 'lucide-react';
+import { Building2, MapPin, Award, Clock, ArrowRight } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Link } from 'react-router';
 import { company } from 'virtual:content';
-import { BorderBeam } from '@/components/ui/border-beam';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import { Link001 } from '@/components/ui/skiper-ui/skiper40';
 import { AnimeCounter } from '@/components/ui/anime-counter';
@@ -94,6 +93,13 @@ const governancePillars = [
   },
 ];
 
+const stats = [
+  { val: <AnimeCounter value={2008} duration={1400} />, label: 'Incorporated in Hong Kong' },
+  { val: <AnimeCounter value={4} suffix=" Hubs" duration={1200} />, label: 'Global Strategic Offices' },
+  { val: <AnimeCounter value={180} suffix="+" duration={1600} />, label: 'Audited Tier-1 Foundries' },
+  { val: <AnimeCounter value={0.5} prefix="<" suffix="%" decimals={1} duration={1400} />, label: 'Landed Defect Ceiling' },
+];
+
 const reveal = (reduced: boolean | null) => ({
   initial: { opacity: 0, y: reduced ? 0 : 20 },
   whileInView: { opacity: 1, y: 0 },
@@ -124,203 +130,243 @@ export default function CompanyPage() {
       </Helmet>
 
       <main className="overflow-hidden">
-        {/* 1. Company Hero — Dark Banner */}
+        {/* ═══════════════════════════════════════════════════════
+            1 — HERO. Text-only dark banner.
+        ═══════════════════════════════════════════════════════ */}
         <section className="relative overflow-hidden bg-primary py-20 sm:py-28 lg:py-32">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_80%,hsl(179_80%_27%/0.12)_0%,transparent_65%)]" />
-          <div className="pointer-events-none absolute top-0 left-0 h-px w-full bg-gradient-to-r from-accent/50 via-accent/15 to-transparent" />
-          <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+          <div className="pointer-events-none absolute left-0 top-0 h-px w-full bg-gradient-to-r from-accent/50 via-accent/15 to-transparent" />
+          <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <motion.div {...reveal(reducedMotion)} className="max-w-3xl">
-              <div className="inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-dark">
+              <div className="inline-flex items-center gap-2">
+                <div className="h-px w-8 bg-accent" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
                   {company.hero.eyebrow}
                 </span>
               </div>
-              <h1 className="mt-7 font-heading text-4xl leading-[1.06] text-white sm:text-5xl lg:text-6xl">
+              <h1 className="mt-7 font-heading text-4xl leading-[1.06] text-balance text-white sm:text-5xl lg:text-6xl">
                 {company.hero.title}
               </h1>
-              <p className="mt-6 text-base leading-[1.75] text-white/65 sm:text-lg">
-                {company.hero.text} Since 2008, NAMAN INTERNATIONAL LTD has served as the on-the-ground operational partner for North American retail brands and wholesale distributors, combining local Chinese manufacturing fluency with Western institutional governance.
+              <p className="mt-6 text-base leading-[1.8] text-white/70 sm:text-lg">
+                {company.hero.text} Since 2008, NAMAN INTERNATIONAL LTD has served as the
+                on-the-ground operational partner for North American retail brands and wholesale
+                distributors, combining local Chinese manufacturing fluency with Western
+                institutional governance.
               </p>
-              <div className="mt-10 flex flex-wrap items-center gap-4">
+              <div className="mt-10 flex flex-wrap items-center gap-6">
                 <Link to="/contact">
-                  <InteractiveHoverButton className="border-accent/60 bg-accent text-white hover:bg-accent/90 text-sm tracking-wide shadow-teal-lg">
+                  <InteractiveHoverButton className="border-accent bg-accent text-sm tracking-wide text-white hover:bg-accent/90">
                     {company.hero.cta}
                   </InteractiveHoverButton>
                 </Link>
                 <Link001
                   href="/trade-services"
-                  className="text-sm font-semibold text-white/70 hover:text-accent transition-colors"
+                  className="flex items-center gap-2 text-sm font-semibold text-white/70 transition-colors hover:text-white"
                 >
-                  <span>Inspect trade services →</span>
+                  <span>Inspect trade services</span>
+                  <ArrowRight size={14} />
                 </Link001>
               </div>
             </motion.div>
           </div>
         </section>
 
-        {/* 2. Stat Strip */}
+        {/* ═══════════════════════════════════════════════════════
+            2 — STATS. The hairline-divided band used across the site.
+        ═══════════════════════════════════════════════════════ */}
         <section className="border-b border-border bg-card">
           <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
-            <div className="grid grid-cols-2 divide-x divide-border sm:grid-cols-4">
-              {[
-                { val: <AnimeCounter value={2008} duration={1400} />, label: 'Incorporated in Hong Kong' },
-                { val: <AnimeCounter value={4} suffix=" Hubs" duration={1200} />, label: 'Global Strategic Offices' },
-                { val: <AnimeCounter value={180} suffix="+" duration={1600} />, label: 'Audited Tier-1 Foundries' },
-                { val: <AnimeCounter value={0.5} prefix="<" suffix="%" decimals={1} duration={1400} />, label: 'Landed Defect Ceiling' },
-              ].map((s, i) => (
-                <div key={i} className="px-6 py-10 lg:px-10">
-                  <p className="font-heading text-2xl font-bold text-accent sm:text-3xl">{s.val}</p>
-                  <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{s.label}</p>
+            <dl className="grid grid-cols-2 divide-x divide-border sm:grid-cols-4">
+              {stats.map((s) => (
+                <div key={s.label} className="px-6 py-10 lg:px-10">
+                  <dd className="font-heading text-2xl text-accent sm:text-3xl">{s.val}</dd>
+                  <dt className="mt-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                    {s.label}
+                  </dt>
                 </div>
               ))}
-            </div>
+            </dl>
           </div>
         </section>
 
-        {/* 3. The 4 Global Strategic Hubs Matrix */}
-        <section className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
+        {/* ═══════════════════════════════════════════════════════
+            3 — HUBS. An office directory: one hairline-ruled row per
+            hub, reading across as place, role, address. Replaces four
+            rounded cards in a two-column grid — the same arrangement
+            the governance charter below also used — plus an
+            off-palette brown BorderBeam on the Hong Kong card.
+        ═══════════════════════════════════════════════════════ */}
+        <section className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-24">
           <motion.div {...reveal(reducedMotion)} className="max-w-2xl">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">
-              Global Operating Footprint
-            </p>
-            <h2 className="mt-2 font-heading text-3xl leading-[1.1] text-foreground sm:text-4xl">
+            <div className="mb-5 flex items-center gap-2">
+              <div className="h-px w-8 bg-accent" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-tint">
+                Global Operating Footprint
+              </span>
+            </div>
+            <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] leading-[1.08] tracking-[-0.025em] text-balance text-foreground">
               Strategic Hubs Across Four Regions
             </h2>
-            <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-              International trade cannot be managed from behind a desk three time zones away. We operate dedicated offices at every critical node of the Trans-Pacific supply chain.
+            <p className="mt-5 text-base leading-[1.8] text-muted-foreground">
+              International trade cannot be managed from behind a desk three time zones away. We
+              operate dedicated offices at every critical node of the Trans-Pacific supply chain.
             </p>
           </motion.div>
 
-          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
+          <ul className="mt-12 border-t border-border">
             {hubs.map((hub) => (
-              <motion.div
+              <li
                 key={hub.city}
-                {...reveal(reducedMotion)}
-                className="relative flex flex-col justify-between rounded-2xl border border-border bg-card p-8 shadow-xs sm:p-10 overflow-hidden"
+                className="grid gap-x-10 gap-y-4 border-b border-border py-9 lg:grid-cols-[16rem_1fr_17rem]"
               >
-                {hub.city === 'Hong Kong SAR Hub' && (
-                  <BorderBeam size={220} duration={14} colorFrom="#8B4513" colorTo="#2a4365" borderWidth={1.5} />
-                )}
                 <div>
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="rounded-md bg-accent/15 px-3 py-1 text-xs font-bold text-accent-on-tint">
-                      {hub.badge}
-                    </span>
-                    <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      {hub.tag}
-                    </span>
-                  </div>
-
-                  <h3 className="mt-6 font-heading text-2xl font-bold text-foreground">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-tint">
+                    {hub.tag}
+                  </p>
+                  <h3 className="mt-2 font-heading text-2xl leading-[1.15] text-foreground">
                     {hub.city}
                   </h3>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-accent mt-1">
+                  <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                     {hub.region}
                   </p>
-                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                    {hub.role}
+                </div>
+
+                <p className="max-w-xl text-base leading-[1.8] text-muted-foreground lg:pt-6">
+                  {hub.role}
+                </p>
+
+                <div className="lg:pt-6">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground">
+                    {hub.badge}
+                  </p>
+                  <p className="mt-2 flex items-start gap-2 text-sm leading-[1.7] text-muted-foreground">
+                    <MapPin size={15} className="mt-0.5 shrink-0 text-accent" />
+                    <span>{hub.address}</span>
                   </p>
                 </div>
-
-                <div className="mt-8 border-t border-border pt-4 text-xs text-muted-foreground">
-                  <div className="flex items-start gap-2">
-                    <MapPin size={15} className="text-accent shrink-0 mt-0.5" />
-                    <span>{hub.address}</span>
-                  </div>
-                </div>
-              </motion.div>
+              </li>
             ))}
-          </div>
+          </ul>
         </section>
 
-        {/* 4. Chronological Milestone Timeline (Inspired by Schneider) */}
-        <section className="border-y border-border bg-muted/30 py-20 sm:py-28">
+        {/* ═══════════════════════════════════════════════════════
+            4 — TIMELINE. A rail with year markers on dark, in place of
+            four floating cards. Milestone headings are h3 now; they
+            were h4 directly under the section h2.
+        ═══════════════════════════════════════════════════════ */}
+        <section className="bg-[#070F1C] py-20 lg:py-24">
           <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
-            <div className="max-w-2xl">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">
-                Sixteen-Year Trajectory
-              </p>
-              <h2 className="mt-2 font-heading text-3xl leading-[1.1] text-foreground sm:text-4xl">
+            <motion.div {...reveal(reducedMotion)} className="max-w-2xl">
+              <div className="mb-5 flex items-center gap-2">
+                <div className="h-px w-8 bg-accent" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                  Sixteen-Year Trajectory
+                </span>
+              </div>
+              <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] leading-[1.08] tracking-[-0.025em] text-balance text-white">
                 Evolution of Our Trade Infrastructure
               </h2>
-              <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-                From our origins as an independent Hong Kong trading firm to a comprehensive cross-border procurement and quality management network.
+              <p className="mt-5 text-base leading-[1.8] text-white/70">
+                From our origins as an independent Hong Kong trading firm to a comprehensive
+                cross-border procurement and quality management network.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="mt-14 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <ol className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
               {milestones.map((m, idx) => (
-                <div key={m.year} className="relative rounded-2xl border border-border bg-card p-6 shadow-xs">
-                  <div className="flex items-baseline gap-2">
-                    <span className="font-heading text-3xl font-bold text-accent">{m.year}</span>
-                    <span className="text-xs font-bold text-muted-foreground">/ 0{idx + 1}</span>
+                <li key={m.year} className="relative border-t border-white/15 pt-8">
+                  <span className="absolute left-0 top-0 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-accent" />
+                  <div className="flex items-baseline gap-3">
+                    <span className="font-heading text-3xl text-white">{m.year}</span>
+                    <span className="font-mono text-xs tracking-[0.18em] text-accent-on-dark">
+                      {String(idx + 1).padStart(2, '0')}
+                    </span>
                   </div>
-                  <h4 className="mt-4 text-base font-bold text-foreground">{m.title}</h4>
-                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{m.description}</p>
-                </div>
+                  <h3 className="mt-4 text-base font-semibold text-white">{m.title}</h3>
+                  <p className="mt-2 text-sm leading-[1.7] text-white/70">{m.description}</p>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
         </section>
 
-        {/* 5. Institutional Governance & Ethics Charter (Inspired by ConData) */}
-        <section className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
-          <motion.div {...reveal(reducedMotion)} className="max-w-2xl">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">
-              Operational Standards
-            </p>
-            <h2 className="mt-2 font-heading text-3xl leading-[1.1] text-foreground sm:text-4xl">
-              Our Governance & Trade Ethics Charter
-            </h2>
-            <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-              We eliminate the ambiguity and conflict of interest common among spot brokers and trading middlemen.
-            </p>
-          </motion.div>
-
-          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
-            {governancePillars.map((p) => {
-              const IconComp = p.icon;
-              return (
-                <div key={p.title} className="flex gap-5 rounded-2xl border border-border bg-card p-8 shadow-xs">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent">
-                    <IconComp size={22} />
-                  </div>
-                  <div>
-                    <h3 className="font-heading text-xl font-bold text-foreground">{p.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.description}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* 6. Closing Executive Dialogue CTA */}
-        <section className="mx-auto max-w-[1440px] px-5 pb-20 sm:px-8 lg:px-10 lg:pb-28">
-          <motion.div
-            {...reveal(reducedMotion)}
-            className="rounded-2xl bg-primary px-8 py-14 sm:px-12 lg:px-16 lg:py-20 shadow-md"
-          >
-            <div className="max-w-3xl">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent-on-dark">
-                Direct Corporate Dialogue
-              </p>
-              <h2 className="mt-4 font-heading text-3xl leading-[1.1] text-primary-foreground sm:text-4xl lg:text-5xl">
-                {company.cta.title}
-              </h2>
-              <p className="mt-6 text-base sm:text-lg leading-relaxed text-primary-foreground/80">
-                {company.cta.text} Connect directly with our principals in Hong Kong or Shenzhen. We begin every new commercial partnership with an open, technically disciplined conversation.
-              </p>
-              <div className="mt-8">
-                <Link to="/contact">
-                  <InteractiveHoverButton className="border-border/80 bg-accent text-accent-foreground hover:bg-secondary text-sm tracking-wide">
-                    {company.cta.button}
-                  </InteractiveHoverButton>
-                </Link>
+        {/* ═══════════════════════════════════════════════════════
+            5 — CHARTER. A 2x2 hairline grid on white. The icon tiles
+            and per-card borders are gone; icons sit inline.
+        ═══════════════════════════════════════════════════════ */}
+        <section className="border-b border-border bg-card py-20 lg:py-24">
+          <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+            <motion.div {...reveal(reducedMotion)} className="max-w-2xl">
+              <div className="mb-5 flex items-center gap-2">
+                <div className="h-px w-8 bg-accent" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-tint">
+                  Operational Standards
+                </span>
               </div>
+              <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] leading-[1.08] tracking-[-0.025em] text-balance text-foreground">
+                Our Governance &amp; Trade Ethics Charter
+              </h2>
+              <p className="mt-5 text-base leading-[1.8] text-muted-foreground">
+                We eliminate the ambiguity and conflict of interest common among spot brokers and
+                trading middlemen.
+              </p>
+            </motion.div>
+
+            <div className="mt-12 grid gap-px border border-border bg-border md:grid-cols-2">
+              {governancePillars.map((p) => {
+                const Icon = p.icon;
+                return (
+                  <div key={p.title} className="bg-card px-8 py-9">
+                    <Icon size={20} className="text-accent" />
+                    <h3 className="mt-5 font-heading text-xl leading-[1.2] text-foreground">{p.title}</h3>
+                    <p className="mt-3 max-w-lg text-sm leading-[1.7] text-muted-foreground">
+                      {p.description}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
-          </motion.div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════
+            6 — CLOSING CTA. The short flat dark band used on the other
+            routes. Was a rounded, shadowed card floating in its section.
+        ═══════════════════════════════════════════════════════ */}
+        <section className="relative overflow-hidden bg-[#050E1A] py-20 lg:py-24">
+          <div className="pointer-events-none absolute bottom-0 left-1/4 h-[400px] w-[600px] bg-[radial-gradient(ellipse,hsl(179_80%_27%/0.18)_0%,transparent_70%)] blur-[60px]" />
+
+          <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+            <motion.div
+              {...reveal(reducedMotion)}
+              className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between"
+            >
+              <div className="max-w-2xl">
+                <div className="mb-5 flex items-center gap-2">
+                  <div className="h-px w-6 bg-accent" />
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                    Direct Corporate Dialogue
+                  </span>
+                </div>
+                <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-white">
+                  {company.cta.title}
+                </h2>
+                <p className="mt-5 max-w-xl text-base leading-[1.8] text-white/70">
+                  {company.cta.text} Connect directly with our principals in Hong Kong or Shenzhen.
+                  We begin every new commercial partnership with an open, technically disciplined
+                  conversation.
+                </p>
+              </div>
+
+              <Link
+                to="/contact"
+                className="group inline-flex w-fit shrink-0 items-center gap-3 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-white transition-all duration-300 hover:bg-accent/90 hover:shadow-[0_0_40px_hsl(179_80%_27%/0.35)]"
+              >
+                <span>{company.cta.button}</span>
+                <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+            </motion.div>
+          </div>
         </section>
       </main>
     </>
