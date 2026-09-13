@@ -64,8 +64,8 @@ Derived from the enterprise logistics palette:
 
 - Powered by `motion/react` with spring/cubic-bezier curves (`[0.16, 1, 0.3, 1]`).
 - Duration: 150ms–300ms for interface feedback; 600ms–800ms for viewport entry reveals.
-- Respects `prefers-reduced-motion`. Because the motion here comes from four
-  independent systems, the preference has to be honoured in four places:
+- Respects `prefers-reduced-motion`. Because the motion here comes from five
+  independent systems, the preference has to be honoured in five places:
   - `motion/react` scroll reveals and hero entrances: gated by `useReducedMotion()`
     in each page component. `MotionConfig` is not mounted, so the library's own
     default (`reducedMotion: "never"`) applies and every animation must opt in
@@ -81,7 +81,12 @@ Derived from the enterprise logistics palette:
     afterwards. Under reduced motion it draws one still frame and never starts
     its render loop. The loop also stops whenever the drawing is off screen or
     the tab is hidden.
-- One signature motion moment per viewport (e.g. the trade-network route drawing, precision counter increments) rather than noisy repeated animations.
+  - The homepage services sequence (`src/components/ServicesSequence.tsx`):
+    the crossfade between services is a CSS transition switched off by
+    `motion-reduce:transition-none`, and jump-to-service scrolling uses
+    `behavior: 'auto'` under reduced motion. The pinning itself is scroll
+    position, not animation, so it stays.
+- One signature motion moment per viewport (e.g. the trade-network route drawing, the services crossfade, precision counter increments) rather than noisy repeated animations.
 
 ---
 

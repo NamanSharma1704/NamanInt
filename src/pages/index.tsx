@@ -6,7 +6,7 @@ import { motion, useReducedMotion } from 'motion/react';
 import { Link } from 'react-router';
 import { home } from 'virtual:content';
 import AudienceSegmenter from '../components/AudienceSegmenter';
-import ResponsiveImage from '@/components/ResponsiveImage';
+import ServicesSequence from '@/components/ServicesSequence';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import { LogoSlider } from '@/components/ui/logo-slider';
 import { Link001 } from '@/components/ui/skiper-ui/skiper40';
@@ -93,7 +93,10 @@ export default function HomePage() {
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      <main className="overflow-hidden">
+      {/* overflow-clip, not overflow-hidden: both clip, but hidden makes <main>
+          a scroll container, which stops position: sticky working inside it
+          (the services sequence pins beneath the header). */}
+      <main className="overflow-clip">
 
         {/* ═══════════════════════════════════════════════════════
             1 — HERO. Asymmetric: the text sits in a scrimmed well on
@@ -212,77 +215,28 @@ export default function HomePage() {
         </section>
 
         {/* ═══════════════════════════════════════════════════════
-            4 — SERVICES RAIL. A sticky brief on the left against a
-            numbered editorial sequence on the right. Replaces the 2x2
-            card grid, which was the fourth consecutive two-column
-            split on the page and ran to 1665px with no internal rhythm.
+            4 — SERVICES SEQUENCE. One service at a time: the section
+            pins beneath the header and scrolling advances through the
+            four services, with the brief and a numbered index holding
+            still beside the stage. Replaces a four-row list that showed
+            every service at once.
         ═══════════════════════════════════════════════════════ */}
-        <section className="bg-[#070F1C] py-24 lg:py-32">
-          <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-14">
-            <div className="grid gap-16 lg:grid-cols-[0.85fr_1.15fr] lg:gap-24">
-
-              <motion.div {...fade(reducedMotion)} className="lg:sticky lg:top-28 lg:self-start">
-                <div className="mb-5 flex items-center gap-2">
-                  <div className="h-px w-8 bg-accent" />
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
-                    {home.services.eyebrow}
-                  </span>
-                </div>
-                <h2 className="font-heading text-[clamp(2rem,4vw,3.25rem)] leading-[1.05] tracking-[-0.025em] text-balance text-white">
-                  {home.services.title}
-                </h2>
-                <p className="mt-6 max-w-md text-base leading-[1.8] text-white/70">
-                  End-to-end procurement and supply chain oversight for North American retail
-                  and wholesale buyers.
-                </p>
-                <Link001
-                  href="/trade-services"
-                  className="mt-8 flex w-fit items-center gap-2 text-sm font-semibold text-accent-on-dark transition-colors hover:text-white"
-                >
-                  <span>Explore trade services &amp; governance</span>
-                  <ArrowRight size={14} />
-                </Link001>
-              </motion.div>
-
-              <div className="border-t border-white/10">
-                {home.services.items.map((item, index) => {
-                  const photo = serviceImages[item.image] ?? serviceImages.none;
-                  return (
-                    <motion.article
-                      key={item.title}
-                      {...fade(reducedMotion, index * 0.06)}
-                      className="grid items-start gap-x-8 gap-y-5 border-b border-white/10 py-10 sm:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_15rem]"
-                    >
-                      <span className="font-mono text-xs tracking-[0.18em] text-accent-on-dark sm:pt-1">
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                      <div>
-                        <h3 className="font-heading text-2xl leading-[1.15] text-white sm:text-[1.75rem]">
-                          {item.title}
-                        </h3>
-                        <p className="mt-3 max-w-md text-base leading-[1.8] text-white/70">
-                          {item.text}
-                        </p>
-                      </div>
-                      <ResponsiveImage
-                        src={photo.src}
-                        alt={photo.alt}
-                        sizes="(min-width: 1024px) 240px, 100vw"
-                        loading="lazy"
-                        className="aspect-[4/3] w-full object-cover sm:col-start-2 lg:col-start-3 lg:aspect-[5/4]"
-                      />
-                    </motion.article>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </section>
+        <ServicesSequence
+          eyebrow={home.services.eyebrow}
+          title={home.services.title}
+          intro="End-to-end procurement and supply chain oversight for North American retail and wholesale buyers."
+          cta={{ href: '/trade-services', label: 'Explore trade services & governance' }}
+          steps={home.services.items.map((item) => ({
+            title: item.title,
+            text: item.text,
+            image: serviceImages[item.image] ?? serviceImages.none,
+          }))}
+        />
 
         {/* ═══════════════════════════════════════════════════════
-            5 — AUDIENCE SEGMENTER. Untouched this pass; it owns its own
-            section wrapper and is the one remaining band still using
-            the old card vocabulary.
+            5 — AUDIENCE SEGMENTER. Owns its own section wrapper: both
+            commercial profiles side by side, aligned to the page
+            container.
         ═══════════════════════════════════════════════════════ */}
         <AudienceSegmenter />
 

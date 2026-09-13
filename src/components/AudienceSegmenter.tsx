@@ -111,77 +111,81 @@ export default function AudienceSegmenter() {
         </motion.div>
       </div>
 
-      {/* Full-bleed two-up. One hairline across the top and one down the middle —
-          no cards, no gaps, no container gutter. */}
-      <div className="grid border-t border-border lg:grid-cols-2">
-        {audiences.map((audience, index) => {
-          const Icon = audience.icon;
-          const isSecond = index === 1;
-          return (
-            <motion.div
-              key={audience.id}
-              initial={{ opacity: 0, y: reducedMotion ? 0 : 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{
-                duration: reducedMotion ? 0 : 0.55,
-                ease: [0.16, 1, 0.3, 1],
-                delay: reducedMotion ? 0 : index * 0.08,
-              }}
-              className={
-                'flex flex-col px-5 py-12 sm:px-8 lg:px-14 lg:py-16' +
-                (isSecond ? ' border-t border-border lg:border-l lg:border-t-0' : '')
-              }
-            >
-              <div className="flex items-center gap-2.5">
-                <Icon size={16} className="text-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-tint">
-                  {audience.label}
-                </span>
-              </div>
-
-              <h3 className="mt-6 max-w-md font-heading text-2xl leading-[1.15] text-balance text-foreground sm:text-[1.875rem]">
-                {audience.title}
-              </h3>
-              <p className="mt-4 max-w-md text-base leading-[1.8] text-muted-foreground">
-                {audience.description}
-              </p>
-
-              {/* Benefits as a hairline-divided list rather than a stack of cards. */}
-              <dl className="mt-10 max-w-md">
-                {audience.benefits.map((item) => (
-                  <div key={item.title} className="border-t border-border py-5">
-                    <dt className="text-sm font-semibold text-foreground">{item.title}</dt>
-                    <dd className="mt-1.5 text-sm leading-[1.7] text-muted-foreground">
-                      {item.desc}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-
-              <div className="mt-auto max-w-md pt-10">
-                <div className="flex items-baseline gap-3 border-t-2 border-accent pt-5">
-                  {/* shrink-0 + nowrap: "15–22%" is wider than "<0.5%" and was
-                      breaking across two lines inside the flex row. */}
-                  <span className="shrink-0 whitespace-nowrap font-heading text-4xl text-foreground sm:text-5xl">
-                    {audience.metric.value}
-                  </span>
-                  <span className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                    {audience.metric.label}
+      {/* Two-up, split by hairlines: one full-bleed rule across the top and one
+          down the middle. The columns share the heading's 1440px container, so
+          on wide screens both panels line up with the heading instead of
+          drifting to the viewport edges with empty space inside each half. */}
+      <div className="border-t border-border">
+        <div className="mx-auto grid max-w-[1440px] lg:grid-cols-2">
+          {audiences.map((audience, index) => {
+            const Icon = audience.icon;
+            const isSecond = index === 1;
+            return (
+              <motion.div
+                key={audience.id}
+                initial={{ opacity: 0, y: reducedMotion ? 0 : 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{
+                  duration: reducedMotion ? 0 : 0.55,
+                  ease: [0.16, 1, 0.3, 1],
+                  delay: reducedMotion ? 0 : index * 0.08,
+                }}
+                className={
+                  'flex flex-col px-5 py-12 sm:px-8 lg:px-14 lg:py-16' +
+                  (isSecond ? ' border-t border-border lg:border-l lg:border-t-0' : '')
+                }
+              >
+                <div className="flex items-center gap-2.5">
+                  <Icon size={16} className="text-accent" />
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-tint">
+                    {audience.label}
                   </span>
                 </div>
 
-                <Link
-                  to={audience.ctaHref}
-                  className="group mt-8 inline-flex w-fit items-center gap-3 rounded-xl bg-accent px-7 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-accent/90"
-                >
-                  <span>{audience.ctaText}</span>
-                  <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
-              </div>
-            </motion.div>
-          );
-        })}
+                <h3 className="mt-6 max-w-xl font-heading text-2xl leading-[1.15] text-balance text-foreground sm:text-[1.875rem]">
+                  {audience.title}
+                </h3>
+                <p className="mt-4 max-w-xl text-base leading-[1.8] text-muted-foreground">
+                  {audience.description}
+                </p>
+
+                {/* Benefits as a hairline-divided list rather than a stack of cards. */}
+                <dl className="mt-10 max-w-xl">
+                  {audience.benefits.map((item) => (
+                    <div key={item.title} className="border-t border-border py-5">
+                      <dt className="text-sm font-semibold text-foreground">{item.title}</dt>
+                      <dd className="mt-1.5 text-sm leading-[1.7] text-muted-foreground">
+                        {item.desc}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+
+                <div className="mt-auto max-w-xl pt-10">
+                  <div className="flex items-baseline gap-3 border-t-2 border-accent pt-5">
+                    {/* shrink-0 + nowrap: "15–22%" is wider than "<0.5%" and was
+                        breaking across two lines inside the flex row. */}
+                    <span className="shrink-0 whitespace-nowrap font-heading text-4xl text-foreground sm:text-5xl">
+                      {audience.metric.value}
+                    </span>
+                    <span className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                      {audience.metric.label}
+                    </span>
+                  </div>
+
+                  <Link
+                    to={audience.ctaHref}
+                    className="group mt-8 inline-flex w-fit items-center gap-3 rounded-xl bg-accent px-7 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-accent/90"
+                  >
+                    <span>{audience.ctaText}</span>
+                    <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
+                  </Link>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
