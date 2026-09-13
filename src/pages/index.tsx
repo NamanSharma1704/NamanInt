@@ -49,7 +49,7 @@ const carrierLogos = [
 /** The four headline metrics. Declared once — they previously appeared both in
  *  the hero and again above the footer, which is duplication, not emphasis. */
 const metrics = [
-  { value: <AnimeCounter value={16} suffix="+" duration={1800} />, label: 'Years in Pacific trade' },
+  { value: <AnimeCounter value={18} suffix="+" duration={1800} />, label: 'Years in Pacific trade' },
   { value: <AnimeCounter value={0.5} prefix="<" suffix="%" decimals={1} duration={1600} />, label: 'Target defect rate' },
   { value: <AnimeCounter value={100} suffix="%" duration={2000} />, label: 'Pre-shipment SLA' },
   { value: <AnimeCounter value={4} duration={1400} />, label: 'Global operating hubs' },

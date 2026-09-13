@@ -4,7 +4,7 @@ import { useJsonLdSiteUrl } from '@/lib/json-ld-site-url-context';
 import { mediaUrl } from '@/lib/media';
 import ResponsiveImage from '@/components/ResponsiveImage';
 import { ArrowRight } from 'lucide-react';
-import { motion, useReducedMotion, AnimatePresence } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { Link } from 'react-router';
 import { categories } from 'virtual:content';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
@@ -158,8 +158,6 @@ export default function CategoriesPage() {
   const reducedMotion = useReducedMotion();
   const [selectedFilter, setSelectedFilter] = useState(categoryFilters[0].id);
 
-  const filteredCategories = portfolioCategories.filter((c) => c.id === selectedFilter);
-
   return (
     <>
       <Helmet>
@@ -270,8 +268,10 @@ export default function CategoriesPage() {
               return (
                 <button
                   key={tab.id}
+                  type="button"
                   onClick={() => setSelectedFilter(tab.id)}
                   aria-pressed={isSelected}
+                  aria-controls={`category-${tab.id}`}
                   className={`relative shrink-0 whitespace-nowrap pb-4 text-sm font-semibold transition-colors ${
                     isSelected ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
                   }`}
@@ -289,17 +289,21 @@ export default function CategoriesPage() {
             })}
           </div>
 
-          <div className="divide-y divide-border">
-            <AnimatePresence mode="popLayout">
-              {filteredCategories.map((item, index) => {
-                return (
-                  <motion.article
-                    key={item.id}
-                    layout={!reducedMotion}
-                    initial={{ opacity: 0, y: reducedMotion ? 0 : 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: reducedMotion ? 0 : 0.3 }}
+          {/* All five categories are rendered, so every one reaches the
+              server HTML and search engines; unselected ones carry the
+              hidden attribute. The article has no display utility of its
+              own because one (grid) would override [hidden]. Lazy images
+              in hidden panels don't load until their panel is shown. */}
+          <div>
+            {portfolioCategories.map((item) => {
+              const isSelected = item.id === selectedFilter;
+              const isDefault = item.id === categoryFilters[0].id;
+              return (
+                <article key={item.id} id={`category-${item.id}`} hidden={!isSelected}>
+                  <motion.div
+                    initial={false}
+                    animate={isSelected ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+                    transition={{ duration: reducedMotion ? 0 : 0.3, ease: 'easeOut' }}
                     className="grid items-center gap-10 py-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:py-14"
                   >
                     <figure className="relative aspect-[4/3] overflow-hidden bg-muted">
@@ -309,8 +313,8 @@ export default function CategoriesPage() {
                         width={1200}
                         height={900}
                         sizes="(min-width: 1024px) 38vw, 100vw"
-                        loading={index === 0 ? 'eager' : 'lazy'}
-                        fetchPriority={index === 0 ? 'high' : 'auto'}
+                        loading={isDefault ? 'eager' : 'lazy'}
+                        fetchPriority={isDefault ? 'high' : 'auto'}
                         className="absolute inset-0 h-full w-full object-cover"
                       />
                     </figure>
@@ -386,10 +390,10 @@ export default function CategoriesPage() {
                         <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
                       </Link>
                     </div>
-                  </motion.article>
-                );
-              })}
-            </AnimatePresence>
+                  </motion.div>
+                </article>
+              );
+            })}
           </div>
         </section>
 

@@ -12,7 +12,7 @@ interface MetricItem {
 const metrics: MetricItem[] = [
   {
     id: 'heritage',
-    metric: '16+ Years',
+    metric: '18+ Years',
     label: 'Continuous International Trade',
     subtext: 'Established in Hong Kong in 2008 with uninterrupted China–North America procurement operations.',
     icon: Award,
@@ -51,7 +51,7 @@ export default function PrecisionMetrics() {
           <div className="max-w-3xl">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">Quantitative Credibility</p>
             <h2 className="mt-3 font-heading text-3xl leading-[1.08] text-primary-foreground sm:text-4xl lg:text-5xl">
-              Precision metrics built on 16 years of discipline.
+              Precision metrics built on 18 years of discipline.
             </h2>
             <p className="mt-4 text-base sm:text-lg leading-relaxed text-primary-foreground/75">
               In international trade, reliability is measured in defect tolerances, on-time container clearances, and continuous accountability across the supply chain.

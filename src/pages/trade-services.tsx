@@ -125,7 +125,7 @@ export default function TradeServicesPage() {
           <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <div className="grid grid-cols-2 divide-x divide-border lg:grid-cols-4">
               {[
-                { counter: <AnimeCounter value={16} suffix="+" duration={1600} />, unit: 'Years', label: 'Trade Continuity', desc: 'Established Hong Kong 2008. Uninterrupted Pacific procurement.' },
+                { counter: <AnimeCounter value={18} suffix="+" duration={1600} />, unit: 'Years', label: 'Trade Continuity', desc: 'Established Hong Kong 2008. Uninterrupted Pacific procurement.' },
                 { counter: <AnimeCounter value={0.5} prefix="<" suffix="%" decimals={1} duration={1400} />, unit: null, label: 'Defect Ceiling', desc: 'ANSI/ASQ Z1.4 Level II pre-shipment AQL sampling.' },
                 { counter: <AnimeCounter value={100} suffix="%" duration={1800} />, unit: null, label: 'Pre-Shipment SLA', desc: 'Zero containers dispatched without verified sign-off.' },
                 { counter: <AnimeCounter value={4} duration={1200} />, unit: 'Hubs', label: 'Physical Presence', desc: 'Shenzhen · Hong Kong · California · Manchester' },

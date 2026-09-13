@@ -260,7 +260,7 @@ export default function CompanyPage() {
               <div className="mb-5 flex items-center gap-2">
                 <div className="h-px w-8 bg-accent" />
                 <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
-                  Sixteen-Year Trajectory
+                  Eighteen-Year Trajectory
                 </span>
               </div>
               <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] leading-[1.08] tracking-[-0.025em] text-balance text-white">

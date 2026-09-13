@@ -43,7 +43,7 @@ Direct engineering supervision across the Pearl River Delta paired with Western 
 
 ## Evidence on Hand
 
-- Operational track record: Established 2008 with 16+ years continuous trade coordination.
+- Operational track record: Established 2008 with 18+ years continuous trade coordination.
 - Quality benchmark: Target defect ceiling <0.5% on finished inspected goods.
 - Carrier credentials: IATA registered.
 
