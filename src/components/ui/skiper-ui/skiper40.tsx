@@ -56,18 +56,15 @@ const Link001 = ({
   href: string;
   className?: string;
 }) => {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      className={cn(
-        "group relative flex items-center",
-        "before:pointer-events-none before:absolute before:left-0 before:top-[1.5em] before:h-[0.05em] before:w-full before:bg-current before:content-['']",
-        "before:origin-right before:scale-x-0 before:transition-transform before:duration-300 before:ease-[cubic-bezier(0.4,0,0.2,1)]",
-        "hover:before:origin-left hover:before:scale-x-100",
-        className,
-      )}
-    >
+  const classes = cn(
+    "group relative flex items-center",
+    "before:pointer-events-none before:absolute before:left-0 before:top-[1.5em] before:h-[0.05em] before:w-full before:bg-current before:content-['']",
+    "before:origin-right before:scale-x-0 before:transition-transform before:duration-300 before:ease-[cubic-bezier(0.4,0,0.2,1)]",
+    "hover:before:origin-left hover:before:scale-x-100",
+    className,
+  );
+  const content = (
+    <>
       {children}
       <svg
         className="ml-[0.3em] mt-[0em] size-[0.55em] translate-y-1 opacity-0 transition-all duration-300 [motion-reduce:transition-none] group-hover:translate-y-0 group-hover:opacity-100 motion-reduce:transition-none"
@@ -84,6 +81,29 @@ const Link001 = ({
           strokeLinejoin="round"
         ></path>
       </svg>
+    </>
+  );
+
+  // Site paths go through the router and in-page anchors stay in the tab; only
+  // off-site links open a new tab. A plain <a target="_blank"> on a site path
+  // forced a full page load in a new tab, which 404s on static hosting.
+  if (href.startsWith("/") && !href.startsWith("//")) {
+    return (
+      <Link to={href} className={classes}>
+        {content}
+      </Link>
+    );
+  }
+  if (href.startsWith("#")) {
+    return (
+      <a href={href} className={classes}>
+        {content}
+      </a>
+    );
+  }
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
+      {content}
     </a>
   );
 };

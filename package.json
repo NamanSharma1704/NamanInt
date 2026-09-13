@@ -20,7 +20,8 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "clean": "rm -rf dist node_modules/.vite",
     "reset": "npm run clean && npm install",
-    "images:optimize": "node scripts/optimize-images.mjs"
+    "images:optimize": "node scripts/optimize-images.mjs",
+    "build:vercel": "npm run build && node scripts/prerender-vercel.mjs"
   },
   "dependencies": {
     "@dr.pogodin/react-helmet": "~3.1.1",
