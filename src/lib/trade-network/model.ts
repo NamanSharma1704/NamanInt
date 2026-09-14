@@ -414,7 +414,7 @@ export function unitStates(model: TradeNetworkModel, time: number): UnitGroup[] 
 
 // ─── design-token colours ───────────────────────────────────────────────────
 
-/** Reads the space-separated HSL triplets globals.css stores, e.g. "179 80% 27%". */
+/** Reads the space-separated HSL triplets globals.css stores, e.g. "38 68% 31%". */
 export function parseHslTriplet(value: string): Hsl | null {
   const match = value.trim().match(/^(-?\d*\.?\d+)\s+(\d*\.?\d+)%\s+(\d*\.?\d+)%$/);
   if (!match) return null;

@@ -96,8 +96,8 @@ export default function AudienceSegmenter() {
           className="max-w-2xl"
         >
           <div className="mb-5 flex items-center gap-2">
-            <div className="h-px w-8 bg-accent" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-tint">
+            <div className="h-px w-8 bg-gold" />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
               Commercial Pathways
             </span>
           </div>
@@ -136,9 +136,11 @@ export default function AudienceSegmenter() {
                   (isSecond ? ' border-t border-border lg:border-l lg:border-t-0' : '')
                 }
               >
-                <div className="flex items-center gap-2.5">
-                  <Icon size={16} className="text-accent" />
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-tint">
+                <div className="flex items-center gap-3">
+                  <span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent/10 ring-1 ring-inset ring-accent/15">
+                    <Icon size={17} className="text-accent-on-tint" />
+                  </span>
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gold">
                     {audience.label}
                   </span>
                 </div>
@@ -163,10 +165,10 @@ export default function AudienceSegmenter() {
                 </dl>
 
                 <div className="mt-auto max-w-xl pt-10">
-                  <div className="flex items-baseline gap-3 border-t-2 border-accent pt-5">
+                  <div className="flex items-baseline gap-3 border-t-2 border-accent-on-tint pt-5">
                     {/* shrink-0 + nowrap: "15–22%" is wider than "<0.5%" and was
                         breaking across two lines inside the flex row. */}
-                    <span className="shrink-0 whitespace-nowrap font-heading text-4xl text-foreground sm:text-5xl">
+                    <span className="shrink-0 whitespace-nowrap font-heading text-4xl text-accent-on-tint sm:text-5xl">
                       {audience.metric.value}
                     </span>
                     <span className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
@@ -176,7 +178,7 @@ export default function AudienceSegmenter() {
 
                   <Link
                     to={audience.ctaHref}
-                    className="group mt-8 inline-flex w-fit items-center gap-3 rounded-xl bg-accent px-7 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-accent/90"
+                    className="group mt-8 inline-flex w-fit items-center gap-3 rounded-xl bg-accent px-7 py-3.5 text-sm font-semibold text-accent-foreground shadow-teal transition-[background-color,box-shadow] duration-300 hover:bg-accent-hover hover:shadow-teal-lg"
                   >
                     <span>{audience.ctaText}</span>
                     <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />

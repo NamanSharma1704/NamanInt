@@ -40,12 +40,16 @@ import {
 export type Rgb = readonly [number, number, number];
 
 export interface ScenePalette {
-  /** Structure lines and goods — the --foreground token. */
+  /** Structure lines: the --foreground token. */
   readonly structure: Rgb;
-  /** Floor lane guides — the --muted-foreground token. */
+  /** Floor lane guides: the --muted-foreground token. */
   readonly guide: Rgb;
-  /** Information flow and highlight — the --accent token. */
+  /** The highlighted station: the --accent-on-tint token. */
   readonly accent: Rgb;
+  /** Goods in transit: the --accent bright gold. */
+  readonly goods: Rgb;
+  /** Orders and inspection sign-offs, lines and units: the --gold token. */
+  readonly signal: Rgb;
 }
 
 export interface TradeNetworkSceneOptions {
@@ -71,6 +75,8 @@ interface Colors {
   readonly structure: Color;
   readonly guide: Color;
   readonly accent: Color;
+  readonly goods: Color;
+  readonly signal: Color;
 }
 
 interface Graph {
@@ -122,20 +128,20 @@ function buildGraph(scene: Scene, layout: Layout, colors: Colors): Graph {
     add(new LineSegments(own(lineGeometry(station.segments)), material));
     return material;
   });
-  add(new LineSegments(own(lineGeometry(model.infoGuides)), lineMaterial(colors.accent, OPACITY.info)));
+  add(new LineSegments(own(lineGeometry(model.infoGuides)), lineMaterial(colors.signal, OPACITY.info)));
 
   const box = own(new BoxGeometry(1, 1, 1));
   const fills = {
     structure: own(
       new MeshBasicMaterial({
-        color: colors.structure.clone(),
+        color: colors.goods.clone(),
         transparent: true,
         opacity: OPACITY.goods,
         depthTest: false,
         depthWrite: false,
       }),
     ),
-    accent: own(new MeshBasicMaterial({ color: colors.accent.clone(), depthTest: false, depthWrite: false })),
+    accent: own(new MeshBasicMaterial({ color: colors.signal.clone(), depthTest: false, depthWrite: false })),
   };
   const meshes = unitStates(model, STATIC_TIME).map((group) => {
     const mesh = own(new InstancedMesh(box, fills[group.system.tone], group.instances.length));
@@ -175,6 +181,8 @@ export function createTradeNetworkScene(options: TradeNetworkSceneOptions): Trad
     structure: toColor(palette.structure),
     guide: toColor(palette.guide),
     accent: toColor(palette.accent),
+    goods: toColor(palette.goods),
+    signal: toColor(palette.signal),
   };
   const scene = new Scene();
   let graph = buildGraph(scene, options.layout, colors);

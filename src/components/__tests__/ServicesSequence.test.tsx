@@ -103,5 +103,7 @@ describe('ServicesSequence', () => {
     const link = screen.getByRole('link', { name: /Explore trade services/ })
     expect(link).toHaveAttribute('href', '/trade-services')
     expect(link).not.toHaveAttribute('target')
+    // Only the caller's → arrow: the off-site ↗ is not added to internal links.
+    expect(link.querySelectorAll('svg')).toHaveLength(1)
   })
 })

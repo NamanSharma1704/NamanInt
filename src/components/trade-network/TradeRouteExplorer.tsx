@@ -61,11 +61,11 @@ export default function TradeRouteExplorer({ steps, origin, destination }: Trade
                 onBlur={() => setPreviewStep(null)}
                 className={
                   'block h-full w-full px-7 py-8 text-left transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring ' +
-                  (emphasised ? 'bg-card shadow-[inset_0_2px_0_hsl(var(--accent))]' : 'hover:bg-card')
+                  (emphasised ? 'bg-card shadow-[inset_0_2px_0_hsl(var(--accent-on-tint))]' : 'hover:bg-card')
                 }
               >
                 <span className="flex items-center gap-3">
-                  <span className="font-mono text-xs text-accent-on-tint">{step.num}</span>
+                  <span className="font-mono text-xs text-gold">{step.num}</span>
                   <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                     {step.label}
                   </span>

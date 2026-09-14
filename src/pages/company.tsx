@@ -133,21 +133,21 @@ export default function CompanyPage() {
         {/* ═══════════════════════════════════════════════════════
             1 — HERO. Text-only dark banner.
         ═══════════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden bg-primary py-20 sm:py-28 lg:py-32">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_80%,hsl(179_80%_27%/0.12)_0%,transparent_65%)]" />
-          <div className="pointer-events-none absolute left-0 top-0 h-px w-full bg-gradient-to-r from-accent/50 via-accent/15 to-transparent" />
+        <section className="relative overflow-hidden bg-background py-20 sm:py-28 lg:py-32">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_80%,hsl(42_80%_55%/0.08)_0%,transparent_65%)]" />
+          <div className="pointer-events-none absolute left-0 top-0 h-px w-full bg-gradient-to-r from-accent-on-tint/50 via-accent/40 to-transparent" />
           <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <motion.div {...reveal(reducedMotion)} className="max-w-3xl">
               <div className="inline-flex items-center gap-2">
-                <div className="h-px w-8 bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                <div className="h-px w-8 bg-gold" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                   {company.hero.eyebrow}
                 </span>
               </div>
-              <h1 className="mt-7 font-heading text-4xl leading-[1.06] text-balance text-white sm:text-5xl lg:text-6xl">
+              <h1 className="mt-7 font-heading text-4xl leading-[1.06] text-balance text-foreground sm:text-5xl lg:text-6xl">
                 {company.hero.title}
               </h1>
-              <p className="mt-6 text-base leading-[1.8] text-white/70 sm:text-lg">
+              <p className="mt-6 text-base leading-[1.8] text-muted-foreground sm:text-lg">
                 {company.hero.text} Since 2008, NAMAN INTERNATIONAL LTD has served as the
                 on-the-ground operational partner for North American retail brands and wholesale
                 distributors, combining local Chinese manufacturing fluency with Western
@@ -155,13 +155,13 @@ export default function CompanyPage() {
               </p>
               <div className="mt-10 flex flex-wrap items-center gap-6">
                 <Link to="/contact">
-                  <InteractiveHoverButton className="border-accent bg-accent text-sm tracking-wide text-white hover:bg-accent/90">
+                  <InteractiveHoverButton className="border-accent bg-accent text-sm tracking-wide text-accent-foreground hover:bg-accent-hover shadow-teal">
                     {company.hero.cta}
                   </InteractiveHoverButton>
                 </Link>
                 <Link001
                   href="/trade-services"
-                  className="flex items-center gap-2 text-sm font-semibold text-white/70 transition-colors hover:text-white"
+                  className="flex items-center gap-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"
                 >
                   <span>Inspect trade services</span>
                   <ArrowRight size={14} />
@@ -179,7 +179,7 @@ export default function CompanyPage() {
             <dl className="grid grid-cols-2 divide-x divide-border sm:grid-cols-4">
               {stats.map((s) => (
                 <div key={s.label} className="px-6 py-10 lg:px-10">
-                  <dd className="font-heading text-2xl text-accent sm:text-3xl">{s.val}</dd>
+                  <dd className="font-heading text-2xl text-accent-on-tint sm:text-3xl">{s.val}</dd>
                   <dt className="mt-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                     {s.label}
                   </dt>
@@ -199,8 +199,8 @@ export default function CompanyPage() {
         <section className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-24">
           <motion.div {...reveal(reducedMotion)} className="max-w-2xl">
             <div className="mb-5 flex items-center gap-2">
-              <div className="h-px w-8 bg-accent" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-tint">
+              <div className="h-px w-8 bg-gold" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                 Global Operating Footprint
               </span>
             </div>
@@ -220,7 +220,7 @@ export default function CompanyPage() {
                 className="grid gap-x-10 gap-y-4 border-b border-border py-9 lg:grid-cols-[16rem_1fr_17rem]"
               >
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-tint">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gold">
                     {hub.tag}
                   </p>
                   <h3 className="mt-2 font-heading text-2xl leading-[1.15] text-foreground">
@@ -240,7 +240,7 @@ export default function CompanyPage() {
                     {hub.badge}
                   </p>
                   <p className="mt-2 flex items-start gap-2 text-sm leading-[1.7] text-muted-foreground">
-                    <MapPin size={15} className="mt-0.5 shrink-0 text-accent" />
+                    <MapPin size={15} className="mt-0.5 shrink-0 text-accent-on-tint" />
                     <span>{hub.address}</span>
                   </p>
                 </div>
@@ -254,19 +254,19 @@ export default function CompanyPage() {
             four floating cards. Milestone headings are h3 now; they
             were h4 directly under the section h2.
         ═══════════════════════════════════════════════════════ */}
-        <section className="bg-[#070F1C] py-20 lg:py-24">
+        <section className="bg-muted py-20 lg:py-24">
           <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <motion.div {...reveal(reducedMotion)} className="max-w-2xl">
               <div className="mb-5 flex items-center gap-2">
-                <div className="h-px w-8 bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                <div className="h-px w-8 bg-gold" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                   Eighteen-Year Trajectory
                 </span>
               </div>
-              <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] leading-[1.08] tracking-[-0.025em] text-balance text-white">
+              <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] leading-[1.08] tracking-[-0.025em] text-balance text-foreground">
                 Evolution of Our Trade Infrastructure
               </h2>
-              <p className="mt-5 text-base leading-[1.8] text-white/70">
+              <p className="mt-5 text-base leading-[1.8] text-muted-foreground">
                 From our origins as an independent Hong Kong trading firm to a comprehensive
                 cross-border procurement and quality management network.
               </p>
@@ -274,16 +274,16 @@ export default function CompanyPage() {
 
             <ol className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
               {milestones.map((m, idx) => (
-                <li key={m.year} className="relative border-t border-white/15 pt-8">
-                  <span className="absolute left-0 top-0 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-accent" />
+                <li key={m.year} className="relative border-t border-border pt-8">
+                  <span className="absolute left-0 top-0 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-accent-on-tint" />
                   <div className="flex items-baseline gap-3">
-                    <span className="font-heading text-3xl text-white">{m.year}</span>
-                    <span className="font-mono text-xs tracking-[0.18em] text-accent-on-dark">
+                    <span className="font-heading text-3xl text-foreground">{m.year}</span>
+                    <span className="font-mono text-xs tracking-[0.18em] text-gold">
                       {String(idx + 1).padStart(2, '0')}
                     </span>
                   </div>
-                  <h3 className="mt-4 text-base font-semibold text-white">{m.title}</h3>
-                  <p className="mt-2 text-sm leading-[1.7] text-white/70">{m.description}</p>
+                  <h3 className="mt-4 text-base font-semibold text-foreground">{m.title}</h3>
+                  <p className="mt-2 text-sm leading-[1.7] text-muted-foreground">{m.description}</p>
                 </li>
               ))}
             </ol>
@@ -298,8 +298,8 @@ export default function CompanyPage() {
           <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <motion.div {...reveal(reducedMotion)} className="max-w-2xl">
               <div className="mb-5 flex items-center gap-2">
-                <div className="h-px w-8 bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-tint">
+                <div className="h-px w-8 bg-gold" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                   Operational Standards
                 </span>
               </div>
@@ -317,7 +317,7 @@ export default function CompanyPage() {
                 const Icon = p.icon;
                 return (
                   <div key={p.title} className="bg-card px-8 py-9">
-                    <Icon size={20} className="text-accent" />
+                    <Icon size={20} className="text-accent-on-tint" />
                     <h3 className="mt-5 font-heading text-xl leading-[1.2] text-foreground">{p.title}</h3>
                     <p className="mt-3 max-w-lg text-sm leading-[1.7] text-muted-foreground">
                       {p.description}
@@ -333,8 +333,8 @@ export default function CompanyPage() {
             6 — CLOSING CTA. The short flat dark band used on the other
             routes. Was a rounded, shadowed card floating in its section.
         ═══════════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden bg-[#050E1A] py-20 lg:py-24">
-          <div className="pointer-events-none absolute bottom-0 left-1/4 h-[400px] w-[600px] bg-[radial-gradient(ellipse,hsl(179_80%_27%/0.18)_0%,transparent_70%)] blur-[60px]" />
+        <section className="relative overflow-hidden bg-card py-20 lg:py-24">
+          <div className="pointer-events-none absolute bottom-0 left-1/4 h-[400px] w-[600px] bg-[radial-gradient(ellipse,hsl(42_80%_55%/0.12)_0%,transparent_70%)] blur-[60px]" />
 
           <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <motion.div
@@ -343,15 +343,15 @@ export default function CompanyPage() {
             >
               <div className="max-w-2xl">
                 <div className="mb-5 flex items-center gap-2">
-                  <div className="h-px w-6 bg-accent" />
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                  <div className="h-px w-6 bg-gold" />
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                     Direct Corporate Dialogue
                   </span>
                 </div>
-                <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-white">
+                <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-foreground">
                   {company.cta.title}
                 </h2>
-                <p className="mt-5 max-w-xl text-base leading-[1.8] text-white/70">
+                <p className="mt-5 max-w-xl text-base leading-[1.8] text-muted-foreground">
                   {company.cta.text} Connect directly with our principals in Hong Kong or Shenzhen.
                   We begin every new commercial partnership with an open, technically disciplined
                   conversation.
@@ -360,7 +360,7 @@ export default function CompanyPage() {
 
               <Link
                 to="/contact"
-                className="group inline-flex w-fit shrink-0 items-center gap-3 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-white transition-all duration-300 hover:bg-accent/90 hover:shadow-[0_0_40px_hsl(179_80%_27%/0.35)]"
+                className="group inline-flex w-fit shrink-0 items-center gap-3 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground transition-all duration-300 hover:bg-accent-hover hover:shadow-teal-lg"
               >
                 <span>{company.cta.button}</span>
                 <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />

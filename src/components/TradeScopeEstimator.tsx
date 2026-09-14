@@ -77,7 +77,7 @@ export default function TradeScopeEstimator() {
     <section className="border-b border-border bg-card/40 py-20 lg:py-28">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
         <div className="max-w-3xl">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">Interactive Trade Configurator</p>
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-gold">Interactive Trade Configurator</p>
           <h2 className="mt-3 font-heading text-3xl leading-[1.08] text-foreground sm:text-4xl lg:text-5xl">
             Configure your trade scope.
           </h2>
@@ -109,11 +109,11 @@ export default function TradeScopeEstimator() {
                       onClick={() => setSelectedCategory(cat)}
                       className={`flex flex-col items-start rounded-xl border p-4 text-left transition-all ${
                         isSelected
-                          ? 'border-accent bg-background shadow-xs ring-1 ring-accent'
-                          : 'border-border bg-background/60 hover:border-accent/40'
+                          ? 'border-accent-on-tint bg-background shadow-xs ring-1 ring-accent-on-tint'
+                          : 'border-border bg-background/60 hover:border-accent-on-tint/40'
                       }`}
                     >
-                      <span className={`text-sm font-bold ${isSelected ? 'text-accent' : 'text-foreground'}`}>
+                      <span className={`text-sm font-bold ${isSelected ? 'text-accent-on-tint' : 'text-foreground'}`}>
                         {cat.label}
                       </span>
                       <span className="mt-1 text-xs text-muted-foreground">
@@ -145,11 +145,11 @@ export default function TradeScopeEstimator() {
                       onClick={() => setSelectedVolume(vol)}
                       className={`flex flex-col items-start rounded-xl border p-4 text-left transition-all ${
                         isSelected
-                          ? 'border-accent bg-background shadow-xs ring-1 ring-accent'
-                          : 'border-border bg-background/60 hover:border-accent/40'
+                          ? 'border-accent-on-tint bg-background shadow-xs ring-1 ring-accent-on-tint'
+                          : 'border-border bg-background/60 hover:border-accent-on-tint/40'
                       }`}
                     >
-                      <span className={`text-sm font-bold ${isSelected ? 'text-accent' : 'text-foreground'}`}>
+                      <span className={`text-sm font-bold ${isSelected ? 'text-accent-on-tint' : 'text-foreground'}`}>
                         {vol.label}
                       </span>
                       <span className="mt-1 text-xs text-muted-foreground">{vol.unitText}</span>
@@ -182,15 +182,15 @@ export default function TradeScopeEstimator() {
                       onClick={() => setSelectedScope(sc)}
                       className={`flex w-full flex-col items-start rounded-xl border p-5 text-left transition-all ${
                         isSelected
-                          ? 'border-accent bg-background shadow-xs ring-1 ring-accent'
-                          : 'border-border bg-background/60 hover:border-accent/40'
+                          ? 'border-accent-on-tint bg-background shadow-xs ring-1 ring-accent-on-tint'
+                          : 'border-border bg-background/60 hover:border-accent-on-tint/40'
                       }`}
                     >
                       <div className="flex w-full items-center justify-between">
-                        <span className={`text-base font-bold ${isSelected ? 'text-accent' : 'text-foreground'}`}>
+                        <span className={`text-base font-bold ${isSelected ? 'text-accent-on-tint' : 'text-foreground'}`}>
                           {sc.label}
                         </span>
-                        {isSelected && <Check size={18} className="text-accent" />}
+                        {isSelected && <Check size={18} className="text-accent-on-tint" />}
                       </div>
                       <p className="mt-1 text-xs sm:text-sm text-muted-foreground">{sc.description}</p>
                     </button>
@@ -207,8 +207,8 @@ export default function TradeScopeEstimator() {
               beam-and-glass vocabulary everywhere else too. */}
           <div className="relative sticky top-28 overflow-hidden rounded-2xl border border-border bg-background p-8 shadow-sm">
             <div className="flex items-center gap-2 border-b border-border pb-5">
-              <Sparkles size={18} className="text-accent" />
-              <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent">
+              <Sparkles size={18} className="text-accent-on-tint" />
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-gold">
                 Configured Trade Roadmap
               </p>
             </div>
@@ -250,7 +250,7 @@ export default function TradeScopeEstimator() {
               <ul className="mt-3 space-y-2 text-xs text-muted-foreground">
                 {selectedScope.includes.map((item) => (
                   <li key={item} className="flex items-start gap-2">
-                    <Check size={14} className="mt-0.5 shrink-0 text-accent" />
+                    <Check size={14} className="mt-0.5 shrink-0 text-accent-on-tint" />
                     <span className="leading-[1.7]">{item}</span>
                   </li>
                 ))}
@@ -260,7 +260,7 @@ export default function TradeScopeEstimator() {
             <div className="mt-8">
               <InteractiveHoverButton
                 onClick={handleStartInquiry}
-                className="w-full border-border/80 bg-primary text-primary-foreground hover:bg-accent text-sm tracking-wide"
+                className="w-full border-border/80 bg-primary text-primary-foreground hover:bg-primary/90 text-sm tracking-wide"
               >
                 Apply Scope & Inquire
               </InteractiveHoverButton>

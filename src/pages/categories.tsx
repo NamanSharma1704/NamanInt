@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, type FocusEvent } from 'react';
 import { Helmet } from '@dr.pogodin/react-helmet';
 import { useJsonLdSiteUrl } from '@/lib/json-ld-site-url-context';
 import { mediaUrl } from '@/lib/media';
 import ResponsiveImage from '@/components/ResponsiveImage';
+import HousingInspection from '@/components/housing-inspection/HousingInspection';
+import { useInspectionDrawingAvailable } from '@/lib/housing-inspection/capability';
+import { useInspectionView } from '@/lib/housing-inspection/use-inspection-view';
 import { ArrowRight } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Link } from 'react-router';
@@ -52,8 +55,8 @@ const portfolioCategories: CategoryItem[] = [
     title: 'Consumer Retail Packaging, Rigid Boxes & Displays',
     description:
       'Custom shelf-ready packaging, high-grade rigid gift boxes, corrugated master cartons, and point-of-sale displays engineered to meet stringent North American retail store manuals.',
-    image: mediaUrl('pages/categories/packaging-merchandising'),
-    imageAlt: 'Sustainable retail packaging and branded display boxes',
+    image: '/assets/images/category-consumer-retail-packaging.jpg',
+    imageAlt: 'Rigid gift boxes, folding cartons, counter displays and corrugated shipping cartons on a two-tier retail display table',
     materials: ['FSC-Certified SBS Paperboard', 'Recycled Greyboard', 'E/B Flute Corrugated', 'Molded Pulp'],
     standards: ['ISTA-3A Drop & transit testing', 'Edge Crush Test (ECT) verified', 'GS1 / UPC barcode readability scan'],
     leadTime: '20–30 Days',
@@ -152,11 +155,24 @@ const reveal = (reduced: boolean | null) => ({
   transition: { duration: reduced ? 0 : 0.45, ease: 'easeOut' as const },
 });
 
+/** Keyboard focus previews an inspection point; focus that follows a tap does not. */
+function isKeyboardFocus(event: FocusEvent<HTMLElement>): boolean {
+  try {
+    return event.currentTarget.matches(':focus-visible');
+  } catch {
+    return true;
+  }
+}
+
 export default function CategoriesPage() {
   const siteUrl = useJsonLdSiteUrl();
   const url = `${siteUrl}/categories`;
   const reducedMotion = useReducedMotion();
   const [selectedFilter, setSelectedFilter] = useState(categoryFilters[0].id);
+  // Precision Hardware's figure can switch from its photograph to an inspection drawing of the
+  // housing in it. The switch only appears once the browser has confirmed capable WebGL.
+  const inspectionAvailable = useInspectionDrawingAvailable();
+  const inspection = useInspectionView();
 
   return (
     <>
@@ -180,35 +196,35 @@ export default function CategoriesPage() {
             1 — HERO. A text-only dark banner, deliberately unlike the
             photographic heroes on home and trade services.
         ═══════════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden bg-primary py-20 sm:py-28 lg:py-32">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_60%_20%,hsl(179_80%_27%/0.10)_0%,transparent_60%)]" />
-          <div className="pointer-events-none absolute left-0 top-0 h-px w-full bg-gradient-to-r from-accent/50 via-accent/15 to-transparent" />
+        <section className="relative overflow-hidden bg-background py-20 sm:py-28 lg:py-32">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_60%_20%,hsl(42_80%_55%/0.07)_0%,transparent_60%)]" />
+          <div className="pointer-events-none absolute left-0 top-0 h-px w-full bg-gradient-to-r from-accent-on-tint/50 via-accent/40 to-transparent" />
           <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <motion.div {...reveal(reducedMotion)} className="max-w-3xl">
               {/* Rule + caps, replacing the translucent pill badge. */}
               <div className="inline-flex items-center gap-2">
-                <div className="h-px w-8 bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                <div className="h-px w-8 bg-gold" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                   {categories.hero.eyebrow}
                 </span>
               </div>
-              <h1 className="mt-7 font-heading text-4xl leading-[1.06] text-balance text-white sm:text-5xl lg:text-6xl">
+              <h1 className="mt-7 font-heading text-4xl leading-[1.06] text-balance text-foreground sm:text-5xl lg:text-6xl">
                 {categories.hero.title}
               </h1>
-              <p className="mt-6 text-base leading-[1.8] text-white/70 sm:text-lg">
+              <p className="mt-6 text-base leading-[1.8] text-muted-foreground sm:text-lg">
                 {categories.hero.text} We coordinate manufacturing across audited tier-1 partner
                 foundries and factories in Guangdong, Zhejiang, and Jiangsu, delivering direct
                 factory pricing with Western institutional governance.
               </p>
               <div className="mt-10 flex flex-wrap items-center gap-6">
                 <Link to="/contact">
-                  <InteractiveHoverButton className="border-accent bg-accent text-sm tracking-wide text-white hover:bg-accent/90">
+                  <InteractiveHoverButton className="border-accent bg-accent text-sm tracking-wide text-accent-foreground hover:bg-accent-hover shadow-teal">
                     {categories.hero.cta}
                   </InteractiveHoverButton>
                 </Link>
                 <Link001
                   href="/trade-services"
-                  className="flex items-center gap-2 text-sm font-semibold text-white/70 transition-colors hover:text-white"
+                  className="flex items-center gap-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"
                 >
                   <span>View quality protocols &amp; governance</span>
                   <ArrowRight size={14} />
@@ -227,7 +243,7 @@ export default function CategoriesPage() {
             <dl className="grid grid-cols-2 divide-x divide-border sm:grid-cols-4">
               {proofStats.map((s) => (
                 <div key={s.val} className="px-6 py-10 lg:px-10">
-                  <dd className="font-heading text-2xl text-accent sm:text-3xl">{s.val}</dd>
+                  <dd className="font-heading text-2xl text-accent-on-tint sm:text-3xl">{s.val}</dd>
                   <dt className="mt-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                     {s.label}
                   </dt>
@@ -249,8 +265,8 @@ export default function CategoriesPage() {
         <section className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-24">
           <div className="max-w-2xl">
             <div className="mb-5 flex items-center gap-2">
-              <div className="h-px w-8 bg-accent" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-tint">
+              <div className="h-px w-8 bg-gold" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                 {categories.intro.eyebrow}
               </span>
             </div>
@@ -269,7 +285,12 @@ export default function CategoriesPage() {
                 <button
                   key={tab.id}
                   type="button"
-                  onClick={() => setSelectedFilter(tab.id)}
+                  onClick={() => {
+                    // Leaving a category returns its figure to the photograph, which also
+                    // releases the drawing's WebGL context rather than keeping it in a hidden panel.
+                    if (tab.id !== selectedFilter) inspection.showPhotograph();
+                    setSelectedFilter(tab.id);
+                  }}
                   aria-pressed={isSelected}
                   aria-controls={`category-${tab.id}`}
                   className={`relative shrink-0 whitespace-nowrap pb-4 text-sm font-semibold transition-colors ${
@@ -280,7 +301,7 @@ export default function CategoriesPage() {
                   {isSelected && (
                     <motion.div
                       layoutId="category-filter-line"
-                      className="absolute inset-x-0 bottom-0 h-0.5 bg-accent"
+                      className="absolute inset-x-0 bottom-0 h-0.5 bg-accent-on-tint"
                       transition={{ duration: reducedMotion ? 0 : 0.25, ease: 'easeOut' }}
                     />
                   )}
@@ -298,6 +319,8 @@ export default function CategoriesPage() {
             {portfolioCategories.map((item) => {
               const isSelected = item.id === selectedFilter;
               const isDefault = item.id === categoryFilters[0].id;
+              const offersInspection = item.id === 'hardware' && inspectionAvailable;
+              const inspecting = offersInspection && inspection.on;
               return (
                 <article key={item.id} id={`category-${item.id}`} hidden={!isSelected}>
                   <motion.div
@@ -306,22 +329,61 @@ export default function CategoriesPage() {
                     transition={{ duration: reducedMotion ? 0 : 0.3, ease: 'easeOut' }}
                     className="grid items-center gap-10 py-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:py-14"
                   >
-                    <figure className="relative aspect-[4/3] overflow-hidden bg-muted">
-                      <ResponsiveImage
-                        src={item.image}
-                        alt={item.imageAlt}
-                        width={1200}
-                        height={900}
-                        sizes="(min-width: 1024px) 38vw, 100vw"
-                        loading={isDefault ? 'eager' : 'lazy'}
-                        fetchPriority={isDefault ? 'high' : 'auto'}
-                        className="absolute inset-0 h-full w-full object-cover"
-                      />
-                    </figure>
+                    <div>
+                      <figure className="relative aspect-[4/3] overflow-hidden bg-muted">
+                        <ResponsiveImage
+                          src={item.image}
+                          alt={item.imageAlt}
+                          width={1200}
+                          height={900}
+                          sizes="(min-width: 1024px) 38vw, 100vw"
+                          loading={isDefault ? 'eager' : 'lazy'}
+                          fetchPriority={isDefault ? 'high' : 'auto'}
+                          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out motion-reduce:transition-none ${
+                            inspecting && inspection.ready ? 'opacity-0' : 'opacity-100'
+                          }`}
+                        />
+                        {inspecting && (
+                          <HousingInspection
+                            protocols={item.standards}
+                            highlight={inspection.highlight}
+                            onReady={inspection.markReady}
+                            onFailed={inspection.showPhotograph}
+                          />
+                        )}
+                      </figure>
+
+                      {/* Underline switch, matching the category filter bar above. The
+                          photograph stays the default; the drawing loads on request. */}
+                      {offersInspection && (
+                        <div role="group" aria-label="Figure view" className="mt-4 flex gap-6 border-b border-border">
+                          {[
+                            { drawing: false, label: 'Photograph' },
+                            { drawing: true, label: 'Inspection drawing' },
+                          ].map((option) => {
+                            const selected = inspection.on === option.drawing;
+                            return (
+                              <button
+                                key={option.label}
+                                type="button"
+                                aria-pressed={selected}
+                                onClick={option.drawing ? inspection.showDrawing : inspection.showPhotograph}
+                                className={`relative pb-3 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                                  selected ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+                                }`}
+                              >
+                                {option.label}
+                                {selected && <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-0.5 bg-accent-on-tint" />}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
 
                     <div>
                       <div className="flex items-center gap-3">
-                        <span className="font-mono text-xs tracking-[0.18em] text-accent-on-tint">
+                        <span className="font-mono text-xs tracking-[0.18em] text-gold">
                           {item.number}
                         </span>
                         <div className="h-px w-6 bg-border" />
@@ -370,12 +432,38 @@ export default function CategoriesPage() {
                             Inspection protocols
                           </p>
                           <ul className="mt-1.5">
-                            {item.standards.map((std) => (
+                            {item.standards.map((std, index) => (
                               <li
                                 key={std}
                                 className="border-t border-border py-2 text-sm leading-[1.7] text-foreground first:border-t-0 first:pt-0"
                               >
-                                {std}
+                                {inspecting ? (
+                                  // In the inspection view each protocol controls its numbered
+                                  // point: mouse hover or keyboard focus previews it, a press pins it.
+                                  <button
+                                    type="button"
+                                    aria-pressed={inspection.pinned === index}
+                                    onClick={() => inspection.togglePin(index)}
+                                    onPointerEnter={(event) => {
+                                      if (event.pointerType === 'mouse') inspection.preview(index);
+                                    }}
+                                    onPointerLeave={(event) => {
+                                      if (event.pointerType === 'mouse') inspection.preview(null);
+                                    }}
+                                    onFocus={(event) => {
+                                      if (isKeyboardFocus(event)) inspection.preview(index);
+                                    }}
+                                    onBlur={() => inspection.preview(null)}
+                                    className={`flex w-full items-baseline gap-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                                      inspection.highlight === index ? 'text-accent-on-tint' : 'hover:text-accent-on-tint'
+                                    }`}
+                                  >
+                                    <span className="font-mono text-xs text-gold">{index + 1}</span>
+                                    <span>{std}</span>
+                                  </button>
+                                ) : (
+                                  std
+                                )}
                               </li>
                             ))}
                           </ul>
@@ -403,32 +491,32 @@ export default function CategoriesPage() {
             Dark here so the long light catalogue above is framed by a
             dark close rather than running straight into the CTA.
         ═══════════════════════════════════════════════════════ */}
-        <section className="bg-[#070F1C] py-20 lg:py-24">
+        <section className="bg-muted py-20 lg:py-24">
           <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <motion.div {...reveal(reducedMotion)} className="max-w-2xl">
               <div className="mb-5 flex items-center gap-2">
-                <div className="h-px w-8 bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                <div className="h-px w-8 bg-gold" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                   {categories.note.label}
                 </span>
               </div>
-              <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] leading-[1.08] tracking-[-0.025em] text-balance text-white">
+              <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] leading-[1.08] tracking-[-0.025em] text-balance text-foreground">
                 4-Stage Category Manufacturing Governance
               </h2>
-              <p className="mt-5 text-base leading-[1.8] text-white/70">
+              <p className="mt-5 text-base leading-[1.8] text-muted-foreground">
                 Every manufacturing run is governed by four synchronized operational checkpoints
                 before container seal sign-off.
               </p>
             </motion.div>
 
-            <ol className="mt-12 grid gap-px border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+            <ol className="mt-12 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
               {governanceStages.map((stage) => (
-                <li key={stage.num} className="bg-[#070F1C] px-7 py-8">
-                  <span className="font-mono text-xs tracking-[0.18em] text-accent-on-dark">
+                <li key={stage.num} className="bg-muted px-7 py-8">
+                  <span className="font-mono text-xs tracking-[0.18em] text-gold">
                     {stage.num}
                   </span>
-                  <h3 className="mt-4 text-base font-semibold text-white">{stage.title}</h3>
-                  <p className="mt-2 text-sm leading-[1.7] text-white/70">{stage.text}</p>
+                  <h3 className="mt-4 text-base font-semibold text-foreground">{stage.title}</h3>
+                  <p className="mt-2 text-sm leading-[1.7] text-muted-foreground">{stage.text}</p>
                 </li>
               ))}
             </ol>
@@ -441,8 +529,8 @@ export default function CategoriesPage() {
             hairline. Was a rounded, shadowed card floating in a 723px
             section.
         ═══════════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden border-t border-white/10 bg-[#050E1A] py-20 lg:py-24">
-          <div className="pointer-events-none absolute bottom-0 left-1/4 h-[400px] w-[600px] bg-[radial-gradient(ellipse,hsl(179_80%_27%/0.18)_0%,transparent_70%)] blur-[60px]" />
+        <section className="relative overflow-hidden border-t border-border bg-card py-20 lg:py-24">
+          <div className="pointer-events-none absolute bottom-0 left-1/4 h-[400px] w-[600px] bg-[radial-gradient(ellipse,hsl(42_80%_55%/0.12)_0%,transparent_70%)] blur-[60px]" />
 
           <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <motion.div
@@ -451,15 +539,15 @@ export default function CategoriesPage() {
             >
               <div className="max-w-2xl">
                 <div className="mb-5 flex items-center gap-2">
-                  <div className="h-px w-6 bg-accent" />
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                  <div className="h-px w-6 bg-gold" />
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                     Direct Engineering Appraisal
                   </span>
                 </div>
-                <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-white">
+                <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-foreground">
                   {categories.cta.title}
                 </h2>
-                <p className="mt-5 max-w-xl text-base leading-[1.8] text-white/70">
+                <p className="mt-5 max-w-xl text-base leading-[1.8] text-muted-foreground">
                   {categories.cta.text} Send us your engineering drawings, material specifications,
                   or seasonal merchandising briefs. Our Shenzhen and Hong Kong technical desks will
                   deliver a formal feasibility assessment within 1 business day.
@@ -468,7 +556,7 @@ export default function CategoriesPage() {
 
               <Link
                 to="/contact"
-                className="group inline-flex w-fit shrink-0 items-center gap-3 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-white transition-all duration-300 hover:bg-accent/90 hover:shadow-[0_0_40px_hsl(179_80%_27%/0.35)]"
+                className="group inline-flex w-fit shrink-0 items-center gap-3 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground transition-all duration-300 hover:bg-accent-hover hover:shadow-teal-lg"
               >
                 <span>{categories.cta.button}</span>
                 <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />

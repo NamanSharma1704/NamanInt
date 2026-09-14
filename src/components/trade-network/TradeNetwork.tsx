@@ -42,20 +42,24 @@ const STROKE = {
   guide: 'stroke-muted-foreground/45',
   station: 'stroke-foreground/60',
   stationDim: 'stroke-foreground/20',
-  highlight: 'stroke-accent',
-  info: 'stroke-accent/75',
+  highlight: 'stroke-accent-on-tint',
+  info: 'stroke-gold/80',
 } as const;
 
 /** Moving units are filled silhouettes, as they are in the WebGL scene. */
 const FILL = {
-  goods: 'fill-foreground/90',
-  signals: 'fill-accent',
+  goods: 'fill-accent/90',
+  signals: 'fill-gold',
 } as const;
 
-const TOKEN_FALLBACKS: Record<'--foreground' | '--muted-foreground' | '--accent', Hsl> = {
-  '--foreground': { h: 213, s: 0.3, l: 0.1 },
-  '--muted-foreground': { h: 213, s: 0.12, l: 0.44 },
-  '--accent': { h: 179, s: 0.8, l: 0.27 },
+// Goods in transit are the bright gold (--accent). The orders and sign-offs that travel back above them, and the
+// highlighted station, take the deeper gold ink (--gold, --accent-on-tint), which holds up as a hairline.
+const TOKEN_FALLBACKS: Record<'--foreground' | '--muted-foreground' | '--accent-on-tint' | '--accent' | '--gold', Hsl> = {
+  '--foreground': { h: 220, s: 0.45, l: 0.11 },
+  '--muted-foreground': { h: 218, s: 0.15, l: 0.4 },
+  '--accent-on-tint': { h: 38, s: 0.68, l: 0.31 },
+  '--accent': { h: 40, s: 0.62, l: 0.53 },
+  '--gold': { h: 38, s: 0.68, l: 0.31 },
 };
 
 /** Colours come from the design tokens at runtime, not from copies in code. */
@@ -63,7 +67,13 @@ function readPalette(): ScenePalette {
   const style = getComputedStyle(document.documentElement);
   const token = (name: keyof typeof TOKEN_FALLBACKS) =>
     hslToRgb(parseHslTriplet(style.getPropertyValue(name)) ?? TOKEN_FALLBACKS[name]);
-  return { structure: token('--foreground'), guide: token('--muted-foreground'), accent: token('--accent') };
+  return {
+    structure: token('--foreground'),
+    guide: token('--muted-foreground'),
+    accent: token('--accent-on-tint'),
+    goods: token('--accent'),
+    signal: token('--gold'),
+  };
 }
 
 /**
@@ -295,11 +305,11 @@ export default function TradeNetwork({ highlightStep, origin, destination, class
         </span>
         <span aria-hidden="true" className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground">
           <span className="flex items-center gap-2">
-            <span className="h-2 w-3 bg-foreground/80" />
+            <span className="h-2 w-3 bg-accent/90" />
             Goods in transit
           </span>
           <span className="flex items-center gap-2">
-            <span className="h-px w-4 bg-accent" />
+            <span className="h-px w-4 bg-gold" />
             Orders and inspection sign-off
           </span>
         </span>

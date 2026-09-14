@@ -1,4 +1,33 @@
 {
+  "category-consumer-retail-packaging": {
+    "widths": [
+      {
+        "w": 480,
+        "avif": 8550,
+        "webp": 12246,
+        "fallback": 21094,
+        "ext": "jpg"
+      },
+      {
+        "w": 768,
+        "avif": 17168,
+        "webp": 24394,
+        "fallback": 43457,
+        "ext": "jpg"
+      },
+      {
+        "w": 1200,
+        "avif": 31948,
+        "webp": 46332,
+        "fallback": 85206,
+        "ext": "jpg"
+      }
+    ],
+    "intrinsic": {
+      "w": 1714,
+      "h": 1288
+    }
+  },
   "category-precision-hardware": {
     "widths": [
       {

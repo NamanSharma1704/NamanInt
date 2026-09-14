@@ -16,20 +16,31 @@ NAMAN INTERNATIONAL LTD coordinates high-volume overseas procurement, container 
 
 ## 2. Color System & Tokens
 
-Derived from the enterprise logistics palette:
+White and gold (2026-09-14). The owner first moved the site off teal to light colours. A champagne accent read as
+dull, and a cobalt accent did not sit well with the logo, so the site settled on white surfaces with a bright but
+restrained gold: close to the logo's own gold, with more life in it. Gold is too light to carry white text or to read as
+text on white, so buttons take the logo navy for their labels, and a deeper gold ink carries links, eyebrows, icons,
+figures and thin lines. There are no navy or grey bands: sections alternate between white and a warm ivory.
 
 | Role | Token / HSL | Hex Equivalent | Description |
 | :--- | :--- | :--- | :--- |
-| **Primary** | `hsl(213 35% 13%)` | `#0D1D2E` | Deep oceanic navy; anchors titles, headers, and dark surfaces. |
-| **Accent** | `hsl(179 80% 27%)` | `#0E7B7A` | Deep maritime teal. **Fill colour only**: buttons, rules, badge backgrounds, icons. |
-| **Accent on dark** | `hsl(179 65% 45%)` | `#28BDBB` | Teal *text* on the navy surfaces. `--accent` measures 3.6–3.9:1 there and fails AA. |
-| **Accent on tint** | `hsl(179 80% 23%)` | `#0C6A68` | Teal *text* on `accent/10`–`accent/15` light tints, where `--accent` measures 4.1–4.3:1. |
-| **Accent Glow / Tint** | `hsl(179 80% 27% / 0.18)` | Renders as subtle teal | Selection highlight (`::selection`) and badge backgrounds. |
-| **Background (Light)**| `hsl(210 20% 97%)` | `#F3F5F7` | Cool crisp grey surface for editorial clarity and high contrast. |
-| **Dark Surface** | `#050E1A` / `#070F1C` | Deep obsidian navy | Authoritative banner and capability sections. |
-| **Text Foreground** | `hsl(213 30% 10%)` | `#0D1B2A` | WCAG AAA contrast against light backgrounds. |
-| **Muted Text** | `hsl(213 12% 44%)` | `#606A75` | Supporting descriptions and technical metadata (≥ 4.5:1). |
-| **Border** | `hsl(210 15% 87%)` | `#D8DDE4` | Crisp, architectural delineation (no harsh black hairlines). |
+| **Primary** | `hsl(216 70% 16%)` | `#0C2549` | The logo navy. Navy buttons, button labels on gold, and the fill a hover button grows into. |
+| **Accent** | `hsl(40 62% 53%)` | `#D1A03D` | Bright gold. Primary buttons, active fills, the scroll thumb, goods in the route drawing. Navy text on it (`--accent-foreground`) is 6.6:1; white measures only 2.4:1, so never white. |
+| **Accent hover** | `hsl(39 60% 47%)` | `#C08D30` | Hover and pressed gold; navy text 5.3:1. |
+| **Accent on tint** | `hsl(38 68% 31%)` | `#855D19` | Gold ink for text and thin lines: links, icons, stat figures, rules, rails, selected borders, focus rings, drawing highlights. 5.9:1 on white, 5.6:1 on ivory, 5.2:1 on a 10% gold tint. |
+| **Gold** | `hsl(38 68% 31%)` | `#855D19` | The same ink under its own name, for eyebrow labels and their rules, mono index numbers, the network spine and the sign-off lines in the route drawing. |
+| **Gold soft** | `hsl(40 45% 76%)` | `#DDCBA6` | Kraft champagne: the cartons in the container drawing and the 404 badge wash (ink on a 15% wash, 5.5:1). Never text. |
+| **Accent on dark** | `hsl(42 75% 65%)` | `#E5BF63` | Kept for a navy surface should one return. |
+| **Accent tint** | `hsl(40 62% 53% / 0.06–0.28)` | Gold wash | Selection (28%), the NAMAN comparison column (6%), active mobile nav and icon chips (10%). |
+| **Background** | `hsl(0 0% 100%)` | `#FFFFFF` | White page, header, photo-hero overlays. |
+| **Card** | `hsl(0 0% 100%)` | `#FFFFFF` | White bands, the raised closing CTA panel. |
+| **Muted surface** | `hsl(42 50% 97%)` | `#FBF9F4` | Warm ivory alternating bands (governance, services, office and timeline sections) and the footer. |
+| **Text foreground** | `hsl(220 45% 11%)` | `#0F1829` | Ink navy; 16.9:1 on ivory. |
+| **Muted text** | `hsl(218 15% 40%)` | `#576275` | Slate supporting text. 6.2:1 on white, 5.9:1 on ivory, 5.6:1 on the NAMAN column. |
+| **Border** | `hsl(40 30% 88%)` | `#EAE3D7` | Warm hairlines. |
+
+Button depth comes from `shadow-teal` / `shadow-teal-lg` (the class names predate the palette): a tight warm contact
+shadow plus a soft downward gold bloom, never a glow. General shadows are tinted with the ink navy.
 
 ---
 
@@ -54,9 +65,10 @@ Derived from the enterprise logistics palette:
   - Hover states use stable color and opacity transitions (`transition-colors duration-200`). Never use layout-shifting scale transforms (`hover:scale-105` strictly banned).
 - **Iconography**: Exclusively crisp SVG icons from `lucide-react` with fixed sizing (`w-4 h-4`, `w-5 h-5`). Zero raw emojis used as UI icons.
 - **Themed Browser Surfaces**:
-  - `::selection`: Tinted with `--accent` at 18% opacity.
-  - Scrollbars: Thin themed thumb with smooth hover transitions.
-  - Caret: Custom colored to match `--accent`.
+  - `::selection`: Gold (`--accent`) at 28% under ink navy text.
+  - Scrollbars: the page has no track and no gutter. On mouse and trackpad screens (`pointer: fine`), globals.css hides the root scrollbar and `ScrollThumb` (mounted in `RootLayout`) floats a slim gold thumb over the right edge: 6px at 70%, widening to 8px and firming on hover, solid while dragged. It is sized from the visible share of the page, follows scroll, resize and late content growth, and can be dragged. It is `aria-hidden`, because wheel, keyboard and touch scrolling are untouched. Touch screens keep their native overlay scrollbars. Inner scroll areas keep a slim gold thumb on a clear track, and Firefox gets the standard properties, fenced off from Chrome, which ignores `::-webkit-scrollbar` styling when they are set. If JavaScript fails on a desktop, no scrollbar shows, but the page still scrolls.
+  - Caret: The gold ink, `--accent-on-tint`.
+- **Homepage depth**: the first page polished under the current palette. Glass assurance chips under the hero actions; a faint gold light behind the hero copy, desktop only, because below `lg` the copy crosses the photograph; gold-ink metric figures; a raised, rounded image stage in the services sequence; gold icon chips and figures on the audience panels; bright gold goods with gold-ink sign-off lines in the route drawing; and a raised closing CTA panel with a bright-to-deep gold rule along its top edge.
 
 ---
 
@@ -64,8 +76,8 @@ Derived from the enterprise logistics palette:
 
 - Powered by `motion/react` with spring/cubic-bezier curves (`[0.16, 1, 0.3, 1]`).
 - Duration: 150ms–300ms for interface feedback; 600ms–800ms for viewport entry reveals.
-- Respects `prefers-reduced-motion`. Because the motion here comes from five
-  independent systems, the preference has to be honoured in five places:
+- Respects `prefers-reduced-motion`. Because the motion here comes from seven
+  independent systems, the preference has to be honoured in seven places:
   - `motion/react` scroll reveals and hero entrances: gated by `useReducedMotion()`
     in each page component. `MotionConfig` is not mounted, so the library's own
     default (`reducedMotion: "never"`) applies and every animation must opt in
@@ -86,6 +98,26 @@ Derived from the enterprise logistics palette:
     `motion-reduce:transition-none`, and jump-to-service scrolling uses
     `behavior: 'auto'` under reduced motion. The pinning itself is scroll
     position, not animation, so it stays.
+  - The Precision Hardware inspection drawing on Categories
+    (`src/components/housing-inspection`): a hidden-line WebGL drawing of the
+    housing in the category photograph, reached through a "Photograph /
+    Inspection drawing" switch that only appears once WebGL 2 is confirmed. The
+    photograph stays the default and the fallback, and Three.js loads only when
+    the switch is pressed. Its slow sway follows the same rules as the
+    trade-network scene. The photograph-to-drawing crossfade uses
+    `motion-reduce:transition-none`. Each inspection protocol pins its numbered
+    point when pressed, and previews it on mouse hover or keyboard focus.
+  - The Trade Services container load sequence
+    (`src/components/container-load`): a pinned section where scrolling lowers
+    a 20ft container onto its landing marks, releases the rig, opens the doors
+    and stuffs 225 cartons to plan, then closes the doors on the load. The
+    near wall and roof stay faded to lines so the load remains visible. The
+    drawing moves only with the scroll: it
+    has no clock and no loop. Under reduced motion each of the four steps settles
+    on one frame (`reducedMotionProgress`) instead of moving continuously, and the
+    caption crossfade uses `motion-reduce:transition-none`. The server renders a
+    line drawing of the landed container, and WebGL replaces it only where
+    WebGL 2 runs well.
 - One signature motion moment per viewport (e.g. the trade-network route drawing, the services crossfade, precision counter increments) rather than noisy repeated animations.
 
 ---
@@ -107,12 +139,29 @@ previous revision of this list asserted four things that turned out to be false.
 - [x] WCAG AA contrast ≥ 4.5:1 for body and controls, on every solid background.
       Verified by compositing each element's ancestor backgrounds, positioned
       overlays, gradient stops and element opacity, with scroll reveals settled.
-      Was 83 failing elements (worst 2.02:1); now 0.
-- [x] Text over the `/trade-services` hero photograph: verified by inspection,
-      not by the automated sweep. Contrast over a photograph varies per pixel,
-      so the sweep reports a range rather than a number. The `#0A1628` overlay
-      runs at 88–95% opacity where the text sits, giving ≥5.5:1 even against a
-      white pixel in the underlying image.
+      Was 83 failing elements (worst 2.02:1); now 0. Re-measured after the
+      gold palette and the homepage polish (2026-09-14): 0 failures across
+      607 text elements on six pages, including the 404. That run caught the
+      404 badge, gold on a 30% kraft wash at 4.44:1; the wash is now 15%.
+- [x] Text over the photo heroes on `/` and `/trade-services`, at 1440px and
+      390px: measured from pixels, because the solid sweep cannot score a
+      photograph. Each hero is captured with its text made transparent, then
+      every text element is scored against the darkest and the lightest pixel
+      behind its box. Below `lg` both heroes use a flat 95% background wash,
+      since the text runs across the whole photograph there, and the homepage's
+      gold light behind the copy is desktop only for the same reason. The
+      Trade Services hero also turns solid along its bottom 10%, where the
+      footnote sits over the dark corner of the image. Before those changes, 8
+      elements failed, the worst at 1.07:1; re-measured after the gold
+      palette and the new assurance chips, none fail.
+- [x] Hover labels on `InteractiveHoverButton`: white on the logo-navy fill
+      that grows on hover, 15.3:1 computed from the tokens. At rest the white
+      copy is transparent, so a resting-state scan misreads it as white on the
+      button colour.
+- [x] No scrollbar gutter on desktop: at 1440px `innerWidth - clientWidth` is
+      0, the floating thumb tracks the scroll (4px from the top of the window
+      at the top of the page, 398px at mid-page), and a 390px touch emulation
+      renders no thumb.
 - [x] `prefers-reduced-motion` honoured by every animation source listed in
       §5. The CSS block is verified present in the built stylesheet and the JS
       guards in the built bundle; emulating the OS setting end-to-end was not

@@ -1,7 +1,7 @@
 import { Helmet } from '@dr.pogodin/react-helmet';
 import { useJsonLdSiteUrl } from '@/lib/json-ld-site-url-context';
 import { mediaUrl } from '@/lib/media';
-import { ArrowRight, Anchor, Plane, Ship } from 'lucide-react';
+import { ArrowRight, Anchor, Clock, Factory, Globe, Plane, ShieldCheck, Ship, Users } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Link } from 'react-router';
 import { home } from 'virtual:content';
@@ -38,12 +38,12 @@ const fade = (reduced: boolean | null, delay = 0) => ({
 });
 
 const carrierLogos = [
-  <div key="maersk" className="flex items-center gap-2 px-5 py-2 text-[11px] font-bold tracking-widest text-muted-foreground uppercase"><Ship size={13} className="text-accent" /><span>Maersk Line</span></div>,
-  <div key="hapag" className="flex items-center gap-2 px-5 py-2 text-[11px] font-bold tracking-widest text-muted-foreground uppercase"><Anchor size={13} className="text-accent" /><span>Hapag-Lloyd</span></div>,
-  <div key="msc" className="flex items-center gap-2 px-5 py-2 text-[11px] font-bold tracking-widest text-muted-foreground uppercase"><Ship size={13} className="text-accent" /><span>MSC Mediterranean</span></div>,
-  <div key="cosco" className="flex items-center gap-2 px-5 py-2 text-[11px] font-bold tracking-widest text-muted-foreground uppercase"><Ship size={13} className="text-accent" /><span>COSCO Shipping</span></div>,
-  <div key="cma" className="flex items-center gap-2 px-5 py-2 text-[11px] font-bold tracking-widest text-muted-foreground uppercase"><Anchor size={13} className="text-accent" /><span>CMA CGM Group</span></div>,
-  <div key="iata" className="flex items-center gap-2 px-5 py-2 text-[11px] font-bold tracking-widest text-muted-foreground uppercase"><Plane size={13} className="text-accent" /><span>IATA Cargo Reg</span></div>,
+  <div key="maersk" className="flex items-center gap-2 px-5 py-2 text-[11px] font-bold tracking-widest text-muted-foreground uppercase"><Ship size={13} className="text-accent-on-tint" /><span>Maersk Line</span></div>,
+  <div key="hapag" className="flex items-center gap-2 px-5 py-2 text-[11px] font-bold tracking-widest text-muted-foreground uppercase"><Anchor size={13} className="text-accent-on-tint" /><span>Hapag-Lloyd</span></div>,
+  <div key="msc" className="flex items-center gap-2 px-5 py-2 text-[11px] font-bold tracking-widest text-muted-foreground uppercase"><Ship size={13} className="text-accent-on-tint" /><span>MSC Mediterranean</span></div>,
+  <div key="cosco" className="flex items-center gap-2 px-5 py-2 text-[11px] font-bold tracking-widest text-muted-foreground uppercase"><Ship size={13} className="text-accent-on-tint" /><span>COSCO Shipping</span></div>,
+  <div key="cma" className="flex items-center gap-2 px-5 py-2 text-[11px] font-bold tracking-widest text-muted-foreground uppercase"><Anchor size={13} className="text-accent-on-tint" /><span>CMA CGM Group</span></div>,
+  <div key="iata" className="flex items-center gap-2 px-5 py-2 text-[11px] font-bold tracking-widest text-muted-foreground uppercase"><Plane size={13} className="text-accent-on-tint" /><span>IATA Cargo Reg</span></div>,
 ];
 
 /** The four headline metrics. Declared once — they previously appeared both in
@@ -53,6 +53,13 @@ const metrics = [
   { value: <AnimeCounter value={0.5} prefix="<" suffix="%" decimals={1} duration={1600} />, label: 'Target defect rate' },
   { value: <AnimeCounter value={100} suffix="%" duration={2000} />, label: 'Pre-shipment SLA' },
   { value: <AnimeCounter value={4} duration={1400} />, label: 'Global operating hubs' },
+];
+
+/** Three facts a buyer checks first, set under the hero actions. Each is stated elsewhere on the site. */
+const heroAssurances = [
+  { icon: ShieldCheck, label: 'ANSI/ASQ Z1.4 inspections' },
+  { icon: Factory, label: '180+ audited factories' },
+  { icon: Globe, label: 'Desks on three continents' },
 ];
 
 /** Photograph per service row, keyed by the content file's `image` token. */
@@ -104,7 +111,7 @@ export default function HomePage() {
             previous treatment washed the image to 30% across its whole
             width, which read as grey noise rather than a port.
         ═══════════════════════════════════════════════════════ */}
-        <section className="relative flex min-h-screen flex-col overflow-hidden bg-[#050E1A]">
+        <section className="relative flex min-h-screen flex-col overflow-hidden bg-background">
 
           <motion.div
             initial={{ scale: reducedMotion ? 1 : 1.06, opacity: 0 }}
@@ -123,54 +130,70 @@ export default function HomePage() {
                 the right so the photograph stays readable. Only opens up from
                 `lg`: below that the headline spans the full width, so the scrim
                 has to stay heavy the whole way across to hold contrast. */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#050E1A] via-[#050E1A]/95 to-[#050E1A]/85 lg:via-[#050E1A]/92 lg:to-[#050E1A]/10" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050E1A] via-transparent to-[#050E1A]/70" />
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/95 lg:via-background/92 lg:to-background/10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/70" />
           </motion.div>
+
+          {/* A faint gold light behind the copy, desktop only: below lg the copy crosses the photograph, where any
+              tint would cost contrast. */}
+          <div aria-hidden="true" className="pointer-events-none absolute -left-48 top-[18%] hidden h-[560px] w-[760px] rounded-full bg-[radial-gradient(closest-side,hsl(42_80%_55%/0.09),transparent)] lg:block" />
 
           <div className="relative flex flex-1 flex-col justify-center px-5 pt-28 pb-16 sm:px-8 lg:px-14">
             <div className="mx-auto w-full max-w-[1440px]">
               <div className="max-w-[46rem]">
 
                 <motion.div {...heroAnim(reducedMotion, 0.05)} className="mb-8 inline-flex items-center gap-2">
-                  <div className="h-px w-8 bg-accent" />
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                  <div className="h-px w-8 bg-gold" />
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                     {home.hero.eyebrow}
                   </span>
                 </motion.div>
 
                 <motion.h1
                   {...heroAnim(reducedMotion, 0.15)}
-                  className="font-heading text-[clamp(2.8rem,6vw,5.5rem)] leading-[0.98] tracking-[-0.03em] text-balance text-white"
+                  className="font-heading text-[clamp(2.8rem,6vw,5.5rem)] leading-[0.98] tracking-[-0.03em] text-balance text-foreground"
                 >
                   {home.hero.title}
                 </motion.h1>
 
                 <motion.p
                   {...heroAnim(reducedMotion, 0.25)}
-                  className="mt-8 max-w-xl text-base leading-[1.8] text-white/80 lg:text-lg"
+                  className="mt-8 max-w-xl text-base leading-[1.8] text-muted-foreground lg:text-lg"
                 >
                   {home.hero.description}
                 </motion.p>
 
                 <motion.div {...heroAnim(reducedMotion, 0.35)} className="mt-10 flex flex-wrap items-center gap-6">
                   <Link to="/contact">
-                    <InteractiveHoverButton className="border-accent bg-accent text-white hover:bg-accent/90 text-sm tracking-wide">
+                    <InteractiveHoverButton className="border-accent bg-accent text-accent-foreground hover:bg-accent-hover text-sm tracking-wide shadow-teal">
                       {home.hero.primaryCta}
                     </InteractiveHoverButton>
                   </Link>
-                  <Link001 href="/trade-services" className="flex items-center gap-2 text-sm font-semibold text-white/70 transition-colors hover:text-white">
+                  <Link001 href="/trade-services" className="flex items-center gap-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">
                     <span>{home.hero.secondaryCta}</span>
                     <ArrowRight size={14} />
                   </Link001>
                 </motion.div>
+
+                <motion.ul {...heroAnim(reducedMotion, 0.45)} aria-label="Assurances" className="mt-10 flex flex-wrap gap-2.5">
+                  {heroAssurances.map(({ icon: Icon, label }) => (
+                    <li
+                      key={label}
+                      className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-3.5 py-1.5 text-xs font-medium text-foreground shadow-sm backdrop-blur-md"
+                    >
+                      <Icon size={14} aria-hidden="true" className="text-accent-on-tint" />
+                      {label}
+                    </li>
+                  ))}
+                </motion.ul>
               </div>
             </div>
           </div>
 
           <div className="relative flex items-center justify-end px-5 pb-8 sm:px-8 lg:px-14">
             <div className="flex items-center gap-3">
-              <div className="h-px w-8 bg-accent/50" />
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/70">
+              <div className="h-px w-8 bg-gold/50" />
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 {home.hero.reachLabel}
               </p>
             </div>
@@ -187,7 +210,7 @@ export default function HomePage() {
             <dl className="grid grid-cols-2 divide-x divide-y divide-border border-x border-border sm:divide-y-0 lg:grid-cols-4">
               {metrics.map(({ value, label }) => (
                 <div key={label} className="px-6 py-8 lg:px-8 lg:py-10">
-                  <dd className="font-heading text-3xl text-foreground sm:text-4xl">{value}</dd>
+                  <dd className="font-heading text-3xl text-accent-on-tint sm:text-4xl">{value}</dd>
                   <dt className="mt-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                     {label}
                   </dt>
@@ -241,17 +264,17 @@ export default function HomePage() {
         <AudienceSegmenter />
 
         {/* ═══════════════════════════════════════════════════════
-            6 — NETWORK. Narrow editorial measure against a teal spine,
+            6 — NETWORK. Narrow editorial measure against a gold spine,
             then the route drawn as a WebGL schematic (server-rendered as
             SVG until it loads) above the three stages that control it.
         ═══════════════════════════════════════════════════════ */}
         <section className="relative overflow-hidden bg-background py-24 lg:py-32">
-          <div className="pointer-events-none absolute right-0 top-1/2 h-[600px] w-[500px] -translate-y-1/2 bg-[radial-gradient(ellipse,hsl(179_80%_27%/0.06)_0%,transparent_70%)]" />
+          <div className="pointer-events-none absolute right-0 top-1/2 h-[600px] w-[500px] -translate-y-1/2 bg-[radial-gradient(ellipse,hsl(42_80%_55%/0.05)_0%,transparent_70%)]" />
 
           <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-14">
-            <motion.div {...fade(reducedMotion)} className="max-w-[42rem] border-l-2 border-accent pl-8 sm:pl-10">
+            <motion.div {...fade(reducedMotion)} className="max-w-[42rem] border-l-2 border-gold/70 pl-8 sm:pl-10">
               <div className="mb-5 flex items-center gap-2">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-tint">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                   {home.network.eyebrow}
                 </span>
               </div>
@@ -285,39 +308,55 @@ export default function HomePage() {
         </section>
 
         {/* ═══════════════════════════════════════════════════════
-            7 — CLOSING CTA. Short on purpose. The duplicate metric
-            strip that used to sit here now lives in band 2.
+            7 — CLOSING CTA. One raised panel on the page ground, with a
+            bright-to-deep gold rule along its top edge and the two facts a
+            buyer wants before writing in.
         ═══════════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden bg-[#050E1A] py-20 lg:py-24">
-          <div className="pointer-events-none absolute bottom-0 left-1/4 h-[400px] w-[600px] bg-[radial-gradient(ellipse,hsl(179_80%_27%/0.18)_0%,transparent_70%)] blur-[60px]" />
-
-          <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-14">
+        <section className="bg-background py-20 lg:py-28">
+          <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-14">
             <motion.div
               {...fade(reducedMotion)}
-              className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between"
+              className="relative overflow-hidden rounded-3xl border border-border bg-card px-6 py-12 shadow-[0_40px_80px_-44px_hsl(220_45%_15%/0.28)] sm:px-10 lg:px-16 lg:py-16"
             >
-              <div className="max-w-2xl">
-                <div className="mb-5 flex items-center gap-2">
-                  <div className="h-px w-6 bg-accent" />
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
-                    {home.cta.eyebrow}
-                  </span>
-                </div>
-                <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-white">
-                  {home.cta.title}
-                </h2>
-                <p className="mt-5 max-w-lg text-base leading-[1.8] text-white/70">
-                  {home.cta.text}
-                </p>
-              </div>
+              <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-accent via-accent/70 to-gold/80" />
+              <div aria-hidden="true" className="pointer-events-none absolute -right-32 -top-40 h-[460px] w-[460px] rounded-full bg-[radial-gradient(closest-side,hsl(42_80%_55%/0.10),transparent)]" />
 
-              <Link
-                to="/contact"
-                className="group inline-flex w-fit shrink-0 items-center gap-3 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-white transition-all duration-300 hover:bg-accent/90 hover:shadow-[0_0_40px_hsl(179_80%_27%/0.35)]"
-              >
-                <span>{home.cta.button}</span>
-                <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
+              <div className="relative flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+                <div className="max-w-2xl">
+                  <div className="mb-5 flex items-center gap-2">
+                    <div className="h-px w-6 bg-gold" />
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
+                      {home.cta.eyebrow}
+                    </span>
+                  </div>
+                  <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-foreground">
+                    {home.cta.title}
+                  </h2>
+                  <p className="mt-5 max-w-lg text-base leading-[1.8] text-muted-foreground">
+                    {home.cta.text}
+                  </p>
+                </div>
+
+                <div className="flex shrink-0 flex-col items-start gap-6 lg:items-end">
+                  <Link
+                    to="/contact"
+                    className="group inline-flex w-fit items-center gap-3 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-teal transition-all duration-300 hover:bg-accent-hover hover:shadow-teal-lg"
+                  >
+                    <span>{home.cta.button}</span>
+                    <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
+                  </Link>
+                  <ul className="flex flex-col gap-2.5 text-sm text-muted-foreground lg:items-end">
+                    <li className="flex items-center gap-2">
+                      <Clock size={15} aria-hidden="true" className="shrink-0 text-accent-on-tint" />
+                      Reply within one business day
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Users size={15} aria-hidden="true" className="shrink-0 text-accent-on-tint" />
+                      Reviewed by principals in Hong Kong and Shenzhen
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </motion.div>
           </div>
         </section>

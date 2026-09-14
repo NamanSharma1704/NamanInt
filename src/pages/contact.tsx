@@ -151,21 +151,21 @@ export default function ContactPage() {
         {/* ═══════════════════════════════════════════════════════
             1 — HERO. Text-only dark banner.
         ═══════════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden bg-primary py-16 sm:py-20 lg:py-24">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,hsl(179_80%_27%/0.12)_0%,transparent_60%)]" />
-          <div className="pointer-events-none absolute left-0 top-0 h-px w-full bg-gradient-to-r from-accent/50 via-accent/15 to-transparent" />
+        <section className="relative overflow-hidden bg-background py-16 sm:py-20 lg:py-24">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,hsl(42_80%_55%/0.08)_0%,transparent_60%)]" />
+          <div className="pointer-events-none absolute left-0 top-0 h-px w-full bg-gradient-to-r from-accent-on-tint/50 via-accent/40 to-transparent" />
           <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2">
-                <div className="h-px w-8 bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                <div className="h-px w-8 bg-gold" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                   Direct Regional Trade Desks
                 </span>
               </div>
-              <h1 className="mt-6 font-heading text-4xl leading-[1.06] text-balance text-white sm:text-5xl lg:text-6xl">
+              <h1 className="mt-6 font-heading text-4xl leading-[1.06] text-balance text-foreground sm:text-5xl lg:text-6xl">
                 {contact.hero.title}
               </h1>
-              <p className="mt-5 text-base leading-[1.8] text-white/70 sm:text-lg">
+              <p className="mt-5 text-base leading-[1.8] text-muted-foreground sm:text-lg">
                 {contact.hero.text} Every commercial inquiry is reviewed directly by our bilingual
                 operations principals in Hong Kong and Shenzhen. We respond with formal technical
                 feasibility assessments, landed cost parameters, and milestone schedules within 1
@@ -203,8 +203,8 @@ export default function ContactPage() {
           <div className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
             <div className="lg:sticky lg:top-28 lg:self-start">
               <div className="mb-5 flex items-center gap-2">
-                <div className="h-px w-8 bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-tint">
+                <div className="h-px w-8 bg-gold" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                   {contact.hero.eyebrow}
                 </span>
               </div>
@@ -213,7 +213,7 @@ export default function ContactPage() {
               </h2>
               <p className="mt-5 text-base leading-[1.8] text-muted-foreground">{contact.form.text}</p>
 
-              {/* Intent as a vertical option list with a teal marker, in
+              {/* Intent as a vertical option list with a gold marker, in
                   place of a row of filled pill buttons. type="button" keeps
                   these from ever submitting the form. */}
               <p className="mt-10 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
@@ -230,7 +230,7 @@ export default function ContactPage() {
                       aria-pressed={isActive}
                       className={`flex w-full items-center border-b border-l-2 border-b-border py-3.5 pl-4 text-left text-sm font-semibold transition-colors ${
                         isActive
-                          ? 'border-l-accent text-foreground'
+                          ? 'border-l-accent-on-tint text-foreground'
                           : 'border-l-transparent text-muted-foreground hover:text-foreground'
                       }`}
                     >
@@ -258,7 +258,7 @@ export default function ContactPage() {
                     name="name"
                     required
                     placeholder="Full name"
-                    className="rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
+                    className="rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent-on-tint focus:ring-1 focus:ring-accent-on-tint"
                   />
                 </label>
 
@@ -269,7 +269,7 @@ export default function ContactPage() {
                     type="email"
                     required
                     placeholder="name@company.com"
-                    className="rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
+                    className="rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent-on-tint focus:ring-1 focus:ring-accent-on-tint"
                   />
                 </label>
               </div>
@@ -281,7 +281,7 @@ export default function ContactPage() {
                     name="company"
                     required
                     placeholder="Company or Brand entity"
-                    className="rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
+                    className="rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent-on-tint focus:ring-1 focus:ring-accent-on-tint"
                   />
                 </label>
 
@@ -291,7 +291,7 @@ export default function ContactPage() {
                     name="market"
                     required
                     placeholder="e.g. USA, Canada, UK, Pan-North America"
-                    className="rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
+                    className="rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent-on-tint focus:ring-1 focus:ring-accent-on-tint"
                   />
                 </label>
               </div>
@@ -303,7 +303,7 @@ export default function ContactPage() {
                     name="category"
                     defaultValue={initialCategory}
                     placeholder="e.g. Precision Castings, Retail Packaging"
-                    className="rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
+                    className="rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent-on-tint focus:ring-1 focus:ring-accent-on-tint"
                   />
                 </label>
 
@@ -313,7 +313,7 @@ export default function ContactPage() {
                     name="volume"
                     defaultValue={initialVolume}
                     placeholder="e.g. 1–2 FCL Containers / Month"
-                    className="rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
+                    className="rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent-on-tint focus:ring-1 focus:ring-accent-on-tint"
                   />
                 </label>
               </div>
@@ -326,7 +326,7 @@ export default function ContactPage() {
                   defaultValue={defaultMsg}
                   required
                   placeholder="Outline your target product, material parameters, timeline constraints, or current sourcing bottlenecks..."
-                  className="rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent"
+                  className="rounded-md border border-border bg-card px-4 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent-on-tint focus:ring-1 focus:ring-accent-on-tint"
                 />
               </label>
 
@@ -337,7 +337,7 @@ export default function ContactPage() {
               )}
 
               {status === 'success' && (
-                <div role="status" aria-live="polite" className="rounded-md border border-accent bg-accent/10 p-5 text-sm font-semibold text-foreground">
+                <div role="status" aria-live="polite" className="rounded-md border border-accent-on-tint bg-accent/10 p-5 text-sm font-semibold text-foreground">
                   {contact.form.success}
                 </div>
               )}
@@ -346,7 +346,7 @@ export default function ContactPage() {
                 <InteractiveHoverButton
                   type="submit"
                   disabled={status === 'sending'}
-                  className="w-full sm:w-auto border-border/80 bg-primary text-primary-foreground hover:bg-accent text-sm tracking-wide"
+                  className="w-full sm:w-auto border-border/80 bg-primary text-primary-foreground hover:bg-primary/90 text-sm tracking-wide"
                 >
                   {status === 'sending' ? 'Transmitting inquiry...' : contact.form.submit}
                 </InteractiveHoverButton>
@@ -362,55 +362,55 @@ export default function ContactPage() {
             links throughout; Shenzhen previously used the in-site
             navigation link component while the others used <a>.
         ═══════════════════════════════════════════════════════ */}
-        <section className="bg-[#070F1C] py-20 lg:py-24">
+        <section className="bg-muted py-20 lg:py-24">
           <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <div className="max-w-2xl">
               <div className="mb-5 flex items-center gap-2">
-                <div className="h-px w-8 bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                <div className="h-px w-8 bg-gold" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                   {contact.offices.title}
                 </span>
               </div>
-              <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] leading-[1.08] tracking-[-0.025em] text-balance text-white">
+              <h2 className="font-heading text-[clamp(2rem,4vw,3rem)] leading-[1.08] tracking-[-0.025em] text-balance text-foreground">
                 Regional Operating Desks
               </h2>
-              <p className="mt-5 text-base leading-[1.8] text-white/70">
+              <p className="mt-5 text-base leading-[1.8] text-muted-foreground">
                 Direct coordinates for physical inspection appointments, trade documentation, and
                 regional logistics support.
               </p>
             </div>
 
-            <ul className="mt-12 grid gap-px border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+            <ul className="mt-12 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
               {offices.map((office) => (
-                <li key={office.label} className="flex flex-col bg-[#070F1C] px-7 py-8">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-on-dark">
+                <li key={office.label} className="flex flex-col bg-muted px-7 py-8">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gold">
                     {office.role}
                   </p>
-                  <h3 className="mt-3 font-heading text-xl text-white">{office.label}</h3>
+                  <h3 className="mt-3 font-heading text-xl text-foreground">{office.label}</h3>
 
-                  <div className="mt-5 flex items-start gap-2 text-sm leading-[1.7] text-white/70">
-                    <MapPin size={15} className="mt-1 shrink-0 text-accent-on-dark" />
+                  <div className="mt-5 flex items-start gap-2 text-sm leading-[1.7] text-muted-foreground">
+                    <MapPin size={15} className="mt-1 shrink-0 text-accent-on-tint" />
                     <div>
                       <p>{office.addressEnglish}</p>
                       {office.addressChinese && <p className="mt-1">{office.addressChinese}</p>}
                     </div>
                   </div>
 
-                  <div className="mt-auto space-y-2 border-t border-white/10 pt-5 text-sm">
+                  <div className="mt-auto space-y-2 border-t border-border pt-5 text-sm">
                     {office.phone && (
                       <a
                         href={`tel:${office.phone}`}
-                        className="flex items-center gap-2 font-medium text-white transition-colors hover:text-accent-on-dark"
+                        className="flex items-center gap-2 font-medium text-foreground transition-colors hover:text-accent-on-tint"
                       >
-                        <Phone size={14} className="shrink-0 text-accent-on-dark" />
+                        <Phone size={14} className="shrink-0 text-accent-on-tint" />
                         <span>{office.phone}</span>
                       </a>
                     )}
                     <a
                       href={`mailto:${site.contact.email}`}
-                      className="flex items-center gap-2 font-medium text-white transition-colors hover:text-accent-on-dark"
+                      className="flex items-center gap-2 font-medium text-foreground transition-colors hover:text-accent-on-tint"
                     >
-                      <Mail size={14} className="shrink-0 text-accent-on-dark" />
+                      <Mail size={14} className="shrink-0 text-accent-on-tint" />
                       <span>{site.contact.email}</span>
                     </a>
                   </div>

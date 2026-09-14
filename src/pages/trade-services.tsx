@@ -7,6 +7,8 @@ import { Link } from 'react-router';
 import TradeDisciplineShowcase from '../components/TradeDisciplineShowcase';
 import TradeGovernanceTable from '../components/TradeGovernanceTable';
 import TradeScopeEstimator from '../components/TradeScopeEstimator';
+import ContainerLoadSequence from '@/components/container-load/ContainerLoadSequence';
+import { LOAD_SUMMARY } from '@/lib/container-load/geometry';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import { Link001 } from '@/components/ui/skiper-ui/skiper40';
 import { AnimeCounter } from '@/components/ui/anime-counter';
@@ -61,8 +63,11 @@ export default function TradeServicesPage() {
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      <main className="overflow-hidden">
-        {/* 1. Dark Full-Bleed Hero */}
+      {/* overflow-clip, not overflow-hidden: hidden makes <main> a scroll container, which breaks position: sticky for
+          the pinned container sequence. */}
+      <main className="overflow-clip">
+        {/* 1. Full-bleed photo hero. Below lg the text runs across the whole photograph, so the wash stays at 95%; the solid
+            bottom band keeps the footnote legible over the dark corner of the image. */}
         <section className="relative min-h-[72vh] overflow-hidden">
           <figure className="absolute inset-0">
             <img
@@ -74,8 +79,8 @@ export default function TradeServicesPage() {
               fetchPriority="high"
               className="h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0A1628]/95 via-[#0A1628]/80 to-[#0A1628]/30" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/50 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/95 to-background/95 lg:via-background/90 lg:to-background/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background from-10% via-background/70 via-25% to-transparent to-55%" />
           </figure>
 
           <div className="relative mx-auto flex min-h-[72vh] max-w-[1440px] flex-col justify-center px-5 sm:px-8 lg:px-10">
@@ -84,36 +89,36 @@ export default function TradeServicesPage() {
                   translucent pill this replaces was the only badge of its kind
                   in the site. */}
               <div className="inline-flex items-center gap-2">
-                <div className="h-px w-8 bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                <div className="h-px w-8 bg-gold" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                   Trade Coordination &amp; Sourcing Oversight
                 </span>
               </div>
-              <h1 className="mt-7 font-heading text-4xl leading-[1.06] text-balance text-white sm:text-5xl lg:text-6xl">
+              <h1 className="mt-7 font-heading text-4xl leading-[1.06] text-balance text-foreground sm:text-5xl lg:text-6xl">
                 Forensic oversight from factory floor to port delivery.
               </h1>
-              <p className="mt-6 max-w-xl text-base leading-[1.75] text-white/70 sm:text-lg">
+              <p className="mt-6 max-w-xl text-base leading-[1.75] text-muted-foreground sm:text-lg">
                 We coordinate international buying programs for North American retail and wholesale importers, providing direct engineering supervision across the Pearl River Delta, 100% pre-shipment AQL audits, and uninterrupted chain of custody.
               </p>
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
                 <Link to="/contact">
-                  <InteractiveHoverButton className="border-accent/60 bg-accent text-white hover:bg-accent/90 text-sm tracking-wide shadow-teal-lg">
+                  <InteractiveHoverButton className="border-accent/60 bg-accent text-accent-foreground hover:bg-accent-hover text-sm tracking-wide shadow-teal-lg">
                     Initiate Trade Program
                   </InteractiveHoverButton>
                 </Link>
                 <Link001
                   href="#disciplines"
-                  className="text-sm font-semibold text-white/75 hover:text-accent transition-colors"
+                  className="text-sm font-semibold text-muted-foreground hover:text-accent-on-tint transition-colors"
                 >
                   <span>Explore Core Disciplines</span>
                 </Link001>
               </div>
             </motion.div>
             {/* Same rule-and-caps footnote the homepage hero carries bottom
-                right, in place of a solid teal slab pinned to the corner. */}
+                right, in place of a solid accent slab pinned to the corner. */}
             <div className="absolute bottom-6 right-5 flex items-center gap-3 sm:right-8 lg:right-10">
-              <div className="h-px w-8 bg-accent/50" />
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/70">
+              <div className="h-px w-8 bg-gold/50" />
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 Shenzhen &amp; Hong Kong Operational Centers · Est. 2008
               </p>
             </div>
@@ -131,7 +136,7 @@ export default function TradeServicesPage() {
                 { counter: <AnimeCounter value={4} duration={1200} />, unit: 'Hubs', label: 'Physical Presence', desc: 'Shenzhen · Hong Kong · California · Manchester' },
               ].map((s, i) => (
                 <div key={i} className="flex flex-col gap-1 px-6 py-10 lg:px-10">
-                  <p className="font-heading text-3xl font-bold text-accent sm:text-4xl">
+                  <p className="font-heading text-3xl font-bold text-accent-on-tint sm:text-4xl">
                     {s.counter}{s.unit && <span className="ml-1 text-xl text-muted-foreground">{s.unit}</span>}
                   </p>
                   <p className="mt-2 text-sm font-semibold text-foreground">{s.label}</p>
@@ -150,14 +155,39 @@ export default function TradeServicesPage() {
         {/* 4. Streamlined Governance Standard Table */}
         <TradeGovernanceTable />
 
-        {/* 5. Interactive Trade Scope & Inquiry Configurator */}
+        {/* 5. Container stuffing, driven by scrolling: set down, doors open, stuffed to plan, loaded. */}
+        <ContainerLoadSequence
+          eyebrow="Container Stuffing Supervision"
+          title="Every container loaded to plan and verified before sealing."
+          intro="On each Standard Container Run, our supervisors attend the load in person. Every stage below is signed off on site before the next one begins."
+          steps={[
+            {
+              title: 'Positioning and release',
+              text: 'The container is landed square on its marks. Lifting gear is released only once level and position are confirmed.',
+            },
+            {
+              title: 'Pre-loading inspection',
+              text: 'Doors are opened and the unit is checked for cleanliness, moisture, odor and structural damage before any cargo is accepted.',
+            },
+            {
+              title: 'Stowage to the load plan',
+              text: 'Cartons are stowed from the front wall toward the doors, tier by tier, following an approved plan that keeps weight low and makes full use of the cube.',
+            },
+            {
+              title: 'Final tally and sealing',
+              text: `Doors are closed on ${LOAD_SUMMARY.cartons} cartons occupying ${LOAD_SUMMARY.cubeUsedPercent}% of the internal cube. The count is reconciled against the packing list before the seal number and VGM are recorded.`,
+            },
+          ]}
+        />
+
+        {/* 6. Interactive Trade Scope & Inquiry Configurator */}
         <TradeScopeEstimator />
 
-        {/* 6. Closing CTA. Short, full-bleed and flat — the same closing band
+        {/* 7. Closing CTA. Short, full-bleed and flat — the same closing band
                the homepage uses. Was a rounded, shadowed card floating inside a
                717px section, which is the boxed vocabulary this redesign drops. */}
-        <section className="relative overflow-hidden bg-[#050E1A] py-20 lg:py-24">
-          <div className="pointer-events-none absolute bottom-0 left-1/4 h-[400px] w-[600px] bg-[radial-gradient(ellipse,hsl(179_80%_27%/0.18)_0%,transparent_70%)] blur-[60px]" />
+        <section className="relative overflow-hidden bg-card py-20 lg:py-24">
+          <div className="pointer-events-none absolute bottom-0 left-1/4 h-[400px] w-[600px] bg-[radial-gradient(ellipse,hsl(42_80%_55%/0.12)_0%,transparent_70%)] blur-[60px]" />
 
           <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <motion.div
@@ -166,15 +196,15 @@ export default function TradeServicesPage() {
             >
               <div className="max-w-2xl">
                 <div className="mb-5 flex items-center gap-2">
-                  <div className="h-px w-6 bg-accent" />
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                  <div className="h-px w-6 bg-gold" />
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                     Direct Procurement Partnership
                   </span>
                 </div>
-                <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-white">
+                <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-foreground">
                   Ready to establish institutional oversight across your overseas manufacturing?
                 </h2>
-                <p className="mt-5 max-w-lg text-base leading-[1.8] text-white/70">
+                <p className="mt-5 max-w-lg text-base leading-[1.8] text-muted-foreground">
                   Connect directly with our international trade directors in Hong Kong,
                   Shenzhen, or California to discuss order volume, factory vetting, or
                   specialized quality audit protocols.
@@ -184,12 +214,12 @@ export default function TradeServicesPage() {
               <div className="flex shrink-0 flex-col gap-3 lg:items-end">
                 <Link
                   to="/contact"
-                  className="group inline-flex w-fit items-center gap-3 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-white transition-all duration-300 hover:bg-accent/90 hover:shadow-[0_0_40px_hsl(179_80%_27%/0.35)]"
+                  className="group inline-flex w-fit items-center gap-3 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground transition-all duration-300 hover:bg-accent-hover hover:shadow-teal-lg"
                 >
                   <span>Initiate Trade Program</span>
                   <MoveUpRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5" />
                 </Link>
-                <p className="max-w-xs text-xs leading-[1.7] text-white/70 lg:text-right">
+                <p className="max-w-xs text-xs leading-[1.7] text-muted-foreground lg:text-right">
                   Direct response within 1 business day across US and Asia business hours.
                 </p>
               </div>

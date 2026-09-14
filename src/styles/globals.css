@@ -6,32 +6,37 @@
 
 @layer base {
   :root {
-    /* === NAMAN INTERNATIONAL LTD — Premium Trade Enterprise Palette ===
-       Deep Teal Accent (#0E7B7A) with cool grey base and deep navy primary.
-       Maritime / precision trade aesthetic.
+    /* === NAMAN INTERNATIONAL LTD, white and gold trade palette ===
+       White surfaces with warm ivory bands, ink navy text matching the logo,
+       and a bright but restrained gold for every interactive element. Gold is
+       too light to carry white text or to read as text on white, so buttons
+       take navy labels and a deeper gold ink carries links, eyebrows, icons,
+       figures and thin lines.
     */
 
     /* Core Colors */
-    --background: 210 20% 97%;          /* #F3F5F7 — cool light grey */
-    --foreground: 213 30% 10%;          /* #0D1B2A — deep navy */
-    --card: 0 0% 100%;                  /* pure white */
-    --card-foreground: 213 30% 10%;     /* deep navy */
+    --background: 0 0% 100%;            /* white page */
+    --foreground: 220 45% 11%;          /* #0F1829 ink navy */
+    --card: 0 0% 100%;                  /* white */
+    --card-foreground: 220 45% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 213 30% 10%;
-    --primary: 213 35% 13%;             /* #0D1D2E — very deep navy */
+    --popover-foreground: 220 45% 11%;
+    --primary: 216 70% 16%;             /* #0C2549 the logo navy */
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 14% 89%;           /* #E1E5EA — cool light */
-    --secondary-foreground: 213 20% 30%;
-    --muted: 210 15% 93%;               /* #ECF0F3 — section bg */
-    --muted-foreground: 213 12% 44%;    /* #606A75 — subdued text */
-    --accent: 179 80% 27%;              /* #0E7B7A — deep teal (fills, rules, badges) */
-    --accent-foreground: 0 0% 100%;
-    /* Text-only accent variants. --accent itself is a fill colour: as text it
-       measures 3.6–3.9:1 on the dark navy surfaces and 4.1–4.3:1 on its own
-       light tints, both under the 4.5:1 floor. These two carry accent-coloured
-       *text* so the fill colour never has to be compromised. */
-    --accent-on-dark: 179 65% 45%;      /* teal text on navy surfaces — ≥5.79:1 */
-    --accent-on-tint: 179 80% 23%;      /* teal text on accent/10–12 tints — ≥5.22:1 */
+    --secondary: 42 45% 94%;
+    --secondary-foreground: 220 35% 25%;
+    --muted: 42 50% 97%;                /* #FBF9F4 warm ivory section band */
+    --muted-foreground: 218 15% 40%;    /* #576275 slate supporting text */
+    --accent: 40 62% 53%;               /* #D1A03D bright gold: buttons and active fills */
+    --accent-foreground: 216 70% 16%;   /* logo navy on gold, 6.6:1; white measures only 2.4:1 */
+    --accent-hover: 39 60% 47%;         /* #C08D30 hover and pressed gold, navy 5.3:1 */
+    --accent-on-dark: 42 75% 65%;       /* light gold, kept for a navy surface */
+    --accent-on-tint: 38 68% 31%;       /* #855D19 gold ink: links, icons, figures, rules, rings */
+    /* The same gold ink for eyebrow labels and their rules and the mono index
+       numbers. --gold-soft is the kraft champagne the container drawing uses for
+       cartons. */
+    --gold: 38 68% 31%;                 /* #855D19 */
+    --gold-soft: 40 45% 76%;            /* #DDCBA6 */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --success: 160 84% 39%;
@@ -40,26 +45,26 @@
     --warning-foreground: 0 0% 100%;
     --info: 217 91% 60%;
     --info-foreground: 0 0% 100%;
-    --border: 210 15% 87%;              /* #D8DDE4 — cool grey border */
-    --input: 210 15% 87%;
-    --ring: 179 80% 27%;                /* teal focus ring */
+    --border: 40 30% 88%;               /* #EAE3D7 warm hairline */
+    --input: 40 30% 88%;
+    --ring: 38 68% 31%;                 /* gold ink focus ring */
 
     /* Extended Colors */
-    --chart-1: 179 80% 27%;
-    --chart-2: 213 35% 25%;
-    --chart-3: 213 35% 13%;
-    --chart-4: 213 35% 45%;
-    --chart-5: 179 60% 50%;
+    --chart-1: 38 68% 31%;
+    --chart-2: 216 70% 30%;
+    --chart-3: 216 70% 16%;
+    --chart-4: 40 62% 53%;
+    --chart-5: 40 45% 76%;
 
     /* Sidebar Colors */
-    --sidebar: 210 15% 93%;
-    --sidebar-foreground: 213 30% 10%;
-    --sidebar-primary: 213 35% 13%;
+    --sidebar: 42 50% 97%;
+    --sidebar-foreground: 220 45% 11%;
+    --sidebar-primary: 216 70% 16%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 179 80% 27%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 210 15% 87%;
-    --sidebar-ring: 179 80% 27%;
+    --sidebar-accent: 40 62% 53%;
+    --sidebar-accent-foreground: 216 70% 16%;
+    --sidebar-border: 40 30% 88%;
+    --sidebar-ring: 38 68% 31%;
 
     /* Typography */
     --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -71,19 +76,21 @@
     --radius: 0.5rem;
     --radius-button: calc(var(--radius) - 2px);
 
-    /* Shadows — more pronounced for enterprise feel */
-    --shadow-2xs: 0 1px 2px 0px hsl(213 30% 10% / 0.04);
-    --shadow-xs: 0 1px 3px 0px hsl(213 30% 10% / 0.06);
-    --shadow-sm: 0 1px 3px 0px hsl(213 30% 10% / 0.08), 0 1px 2px -1px hsl(213 30% 10% / 0.08);
-    --shadow: 0 2px 4px 0px hsl(213 30% 10% / 0.08), 0 1px 3px -1px hsl(213 30% 10% / 0.08);
-    --shadow-md: 0 4px 8px -2px hsl(213 30% 10% / 0.10), 0 2px 4px -2px hsl(213 30% 10% / 0.06);
-    --shadow-lg: 0 8px 16px -4px hsl(213 30% 10% / 0.12), 0 4px 8px -4px hsl(213 30% 10% / 0.06);
-    --shadow-xl: 0 16px 32px -8px hsl(213 30% 10% / 0.14), 0 8px 16px -8px hsl(213 30% 10% / 0.06);
-    --shadow-2xl: 0 24px 48px -12px hsl(213 30% 10% / 0.22);
+    /* Shadows, tinted with the ink navy rather than neutral black */
+    --shadow-2xs: 0 1px 2px 0px hsl(220 45% 15% / 0.04);
+    --shadow-xs: 0 1px 3px 0px hsl(220 45% 15% / 0.06);
+    --shadow-sm: 0 1px 3px 0px hsl(220 45% 15% / 0.07), 0 1px 2px -1px hsl(220 45% 15% / 0.07);
+    --shadow: 0 2px 4px 0px hsl(220 45% 15% / 0.07), 0 1px 3px -1px hsl(220 45% 15% / 0.07);
+    --shadow-md: 0 4px 10px -2px hsl(220 45% 15% / 0.09), 0 2px 4px -2px hsl(220 45% 15% / 0.05);
+    --shadow-lg: 0 12px 24px -8px hsl(220 45% 15% / 0.12), 0 4px 8px -4px hsl(220 45% 15% / 0.05);
+    --shadow-xl: 0 20px 40px -12px hsl(220 45% 15% / 0.14), 0 8px 16px -8px hsl(220 45% 15% / 0.05);
+    --shadow-2xl: 0 28px 56px -16px hsl(220 45% 15% / 0.20);
 
-    /* Teal Glow shadows */
-    --shadow-teal: 0 0 0 1px hsl(179 80% 27% / 0.15), 0 4px 12px hsl(179 80% 27% / 0.12);
-    --shadow-teal-lg: 0 0 0 1px hsl(179 80% 27% / 0.20), 0 8px 24px hsl(179 80% 27% / 0.18);
+    /* Accent shadows for gold buttons: a tight warm contact shadow plus a soft,
+       downward gold bloom. The class names keep "teal" so existing markup keeps
+       working. */
+    --shadow-teal: 0 1px 2px hsl(38 60% 25% / 0.18), 0 8px 18px -8px hsl(40 62% 42% / 0.50);
+    --shadow-teal-lg: 0 1px 2px hsl(38 60% 25% / 0.20), 0 14px 30px -10px hsl(40 62% 42% / 0.55);
   }
 
   * {
@@ -95,11 +102,11 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    caret-color: hsl(var(--accent));
+    caret-color: hsl(var(--accent-on-tint));
   }
 
   ::selection {
-    background-color: hsl(var(--accent) / 0.18);
+    background-color: hsl(var(--accent) / 0.28);
     color: hsl(var(--foreground));
   }
 
@@ -182,7 +189,7 @@
   }
   .rich-text p { margin-bottom: 1.25rem; }
   .rich-text a {
-    color: hsl(var(--accent));
+    color: hsl(var(--accent-on-tint));
     text-decoration: underline;
   }
   .rich-text ul,
@@ -242,21 +249,21 @@
 
   /* Dark Hero Sections */
   .hero-dark {
-    background: linear-gradient(135deg, hsl(213 35% 8%) 0%, hsl(213 35% 13%) 50%, hsl(179 50% 12%) 100%);
+    background: linear-gradient(135deg, hsl(213 35% 8%) 0%, hsl(213 35% 13%) 50%, hsl(40 30% 16%) 100%);
   }
 
-  /* Teal Accent Eyebrow Label */
+  /* Accent eyebrow label */
   .eyebrow {
-    @apply text-[11px] font-semibold uppercase tracking-[0.18em] text-accent;
+    @apply text-[11px] font-semibold uppercase tracking-[0.18em] text-gold;
   }
 
   /* Section Label with accent bar */
   .section-label {
-    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-accent;
+    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-gold;
   }
   .section-label::before {
     content: '';
-    @apply block h-[2px] w-6 bg-accent rounded-full;
+    @apply block h-[2px] w-6 bg-gold rounded-full;
   }
 
   /* Enterprise Card */
@@ -272,12 +279,12 @@
     @apply inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground tracking-wide transition-all duration-200;
   }
   .btn-enterprise:hover {
-    @apply bg-accent shadow-teal;
+    @apply bg-accent text-accent-foreground shadow-teal;
   }
 
-  /* Teal highlight badge */
+  /* Accent highlight badge */
   .teal-badge {
-    @apply inline-flex items-center rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent ring-1 ring-accent/20;
+    @apply inline-flex items-center rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent-on-tint ring-1 ring-accent-on-tint/20;
   }
 
   /* Dark Section Variant */
@@ -308,9 +315,9 @@
     to { opacity: 1; }
   }
 
-  /* Teal text glow */
+  /* Accent text glow */
   .text-glow-teal {
-    text-shadow: 0 0 20px hsl(179 80% 27% / 0.4);
+    text-shadow: 0 0 20px hsl(42 80% 55% / 0.35);
   }
 
   /* Shadow utilities */
@@ -341,43 +348,66 @@
   .text-white\/72 { color: rgb(255 255 255 / 0.72); }
   .text-white\/75 { color: rgb(255 255 255 / 0.75); }
   .text-white\/80 { color: rgb(255 255 255 / 0.80); }
-  .accent\/12 { color: hsl(179 80% 27% / 0.12); }
-  .bg-accent\/12 { background-color: hsl(179 80% 27% / 0.12); }
+  .accent\/12 { color: hsl(var(--accent) / 0.12); }
+  .bg-accent\/12 { background-color: hsl(var(--accent) / 0.12); }
 }
 
-/* Premium scrollbar */
+/* Scrollbars. The page itself has no track and no gutter: on mouse and
+   trackpad screens the root scrollbar is hidden and <ScrollThumb> floats a
+   gold thumb over the content. Inner scroll areas keep a slim gold thumb on a
+   clear track. */
 @layer base {
   html {
     scroll-behavior: smooth;
-    scrollbar-width: thin;
-    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
+  /* Chrome 121+ ignores the ::-webkit-scrollbar styling below whenever
+     scrollbar-color or scrollbar-width is set, so the standard properties are
+     limited to browsers without those pseudo-elements (Firefox), which accept
+     only colours and a width keyword. */
+  @supports not selector(::-webkit-scrollbar) {
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: hsl(var(--accent) / 0.75) transparent;
+    }
+  }
+
+  /* After the block above, so Firefox takes `none` too. Touch screens keep
+     their native overlay scrollbars, which already have no track. */
+  @media (pointer: fine) {
+    html {
+      scrollbar-width: none;
+    }
+
+    html::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 10px;
+    height: 10px;
   }
 
-  ::-webkit-scrollbar-track {
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
     background: transparent;
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--border));
+    background-color: hsl(var(--accent) / 0.7);
+    /* A transparent border clipped away keeps the thumb slim and off the edge. */
+    border: 2px solid transparent;
+    background-clip: padding-box;
     border-radius: 9999px;
-    transition: background-color 0.2s ease;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background-color: hsl(var(--accent) / 0.5);
+    background-color: hsl(var(--accent) / 0.9);
   }
 
   ::-webkit-scrollbar-thumb:active {
-    background-color: hsl(var(--accent) / 0.8);
-  }
-
-  ::-webkit-scrollbar-corner {
-    background: transparent;
+    background-color: hsl(var(--accent));
   }
 }
 
@@ -423,9 +453,9 @@
 .hero-shimmer {
   background: linear-gradient(
     90deg,
-    hsl(179 80% 27% / 0) 0%,
-    hsl(179 80% 27% / 0.15) 50%,
-    hsl(179 80% 27% / 0) 100%
+    hsl(42 80% 60% / 0) 0%,
+    hsl(42 80% 60% / 0.14) 50%,
+    hsl(42 80% 60% / 0) 100%
   );
   background-size: 200% auto;
   animation: shimmer 4s linear infinite;

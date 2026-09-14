@@ -42,8 +42,13 @@ export default {
   				DEFAULT: 'hsl(var(--accent))',
   				foreground: 'hsl(var(--accent-foreground))',
   				'on-dark': 'hsl(var(--accent-on-dark))',
-  				'on-tint': 'hsl(var(--accent-on-tint))'
+  				'on-tint': 'hsl(var(--accent-on-tint))',
+				hover: 'hsl(var(--accent-hover))'
   			},
+			gold: {
+				DEFAULT: 'hsl(var(--gold))',
+				soft: 'hsl(var(--gold-soft))'
+			},
   			popover: {
   				DEFAULT: 'hsl(var(--popover))',
   				foreground: 'hsl(var(--popover-foreground))'

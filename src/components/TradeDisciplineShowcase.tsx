@@ -97,7 +97,7 @@ export default function TradeDisciplineShowcase() {
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
         {/* Section Header */}
         <div className="max-w-2xl">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-accent">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-gold">
             Core Disciplines
           </p>
           <h2 className="mt-3 font-heading text-3xl leading-[1.1] text-foreground sm:text-4xl lg:text-5xl">
@@ -122,12 +122,12 @@ export default function TradeDisciplineShowcase() {
                     : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
-                <span className="mr-2 text-xs font-bold text-accent">{item.number}</span>
+                <span className="mr-2 text-xs font-bold text-gold">{item.number}</span>
                 <span>{item.title.split('&')[0]}</span>
                 {isSelected && (
                   <motion.div
                     layoutId="clean-tab-line"
-                    className="absolute inset-x-0 bottom-0 h-0.5 bg-accent"
+                    className="absolute inset-x-0 bottom-0 h-0.5 bg-accent-on-tint"
                     transition={{ duration: 0.25, ease: 'easeOut' }}
                   />
                 )}
@@ -149,7 +149,7 @@ export default function TradeDisciplineShowcase() {
             {/* Left Content */}
             <div className="space-y-6">
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-accent">
+                <p className="text-xs font-bold uppercase tracking-wider text-gold">
                   {active.subtitle}
                 </p>
                 <h3 className="mt-2 font-heading text-2xl sm:text-3xl lg:text-4xl text-foreground leading-[1.15]">
@@ -193,7 +193,7 @@ export default function TradeDisciplineShowcase() {
               <div className="pt-4">
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-accent-on-tint hover:underline"
                 >
                   <span>Inquire about this discipline</span>
                   <ArrowRight size={15} />

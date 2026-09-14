@@ -91,7 +91,7 @@ export default function ServicesSequence({ eyebrow, title, intro, cta, steps }: 
   };
 
   return (
-    <section className="bg-[#070F1C]">
+    <section className="bg-muted">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-14">
         <div className="grid lg:grid-cols-[0.85fr_1.15fr] lg:gap-24">
           {/* The brief scrolls normally on small screens and pins beside the
@@ -104,23 +104,23 @@ export default function ServicesSequence({ eyebrow, title, intro, cta, steps }: 
               transition={{ duration: reducedMotion ? 0 : 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="mb-5 flex items-center gap-2">
-                <div className="h-px w-8 bg-accent" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-on-dark">
+                <div className="h-px w-8 bg-gold" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
                   {eyebrow}
                 </span>
               </div>
-              <h2 className="font-heading text-[clamp(2rem,4vw,3.25rem)] leading-[1.05] tracking-[-0.025em] text-balance text-white">
+              <h2 className="font-heading text-[clamp(2rem,4vw,3.25rem)] leading-[1.05] tracking-[-0.025em] text-balance text-foreground">
                 {title}
               </h2>
-              <p className="mt-6 max-w-md text-base leading-[1.8] text-white/70">{intro}</p>
+              <p className="mt-6 max-w-md text-base leading-[1.8] text-muted-foreground">{intro}</p>
             </motion.div>
 
             <ol aria-label="Jump to a service" className="relative mt-10 hidden lg:block">
-              <span aria-hidden="true" className="absolute inset-y-0 left-0 w-px bg-white/10" />
+              <span aria-hidden="true" className="absolute inset-y-0 left-0 w-px bg-border" />
               <span
                 ref={railRef}
                 aria-hidden="true"
-                className="absolute inset-y-0 left-0 w-px origin-top scale-y-0 bg-accent-on-dark"
+                className="absolute inset-y-0 left-0 w-px origin-top scale-y-0 bg-accent-on-tint"
               />
               {steps.map((step, index) => {
                 const isActive = index === active;
@@ -131,10 +131,10 @@ export default function ServicesSequence({ eyebrow, title, intro, cta, steps }: 
                       onClick={() => goTo(index)}
                       aria-current={isActive ? 'step' : undefined}
                       className={`flex w-full items-baseline gap-4 py-2.5 pl-6 text-left text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring ${
-                        isActive ? 'text-white' : 'text-white/60 hover:text-white'
+                        isActive ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
                       }`}
                     >
-                      <span className="font-mono text-xs font-normal tracking-[0.18em] text-accent-on-dark">
+                      <span className="font-mono text-xs font-normal tracking-[0.18em] text-gold">
                         {pad(index + 1)}
                       </span>
                       {step.title}
@@ -146,7 +146,7 @@ export default function ServicesSequence({ eyebrow, title, intro, cta, steps }: 
 
             <Link001
               href={cta.href}
-              className="mt-10 flex w-fit items-center gap-2 text-sm font-semibold text-accent-on-dark transition-colors hover:text-white"
+              className="mt-10 flex w-fit items-center gap-2 text-sm font-semibold text-accent-on-tint transition-colors hover:text-foreground"
             >
               <span>{cta.label}</span>
               <ArrowRight size={14} />
@@ -175,7 +175,7 @@ export default function ServicesSequence({ eyebrow, title, intro, cta, steps }: 
                     >
                       <span
                         className={`h-0.5 w-full transition-colors duration-300 motion-reduce:transition-none ${
-                          index <= active ? 'bg-accent-on-dark' : 'bg-white/15'
+                          index <= active ? 'bg-accent-on-tint' : 'bg-border'
                         }`}
                       />
                     </button>
@@ -194,7 +194,7 @@ export default function ServicesSequence({ eyebrow, title, intro, cta, steps }: 
                           isActive ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-3 opacity-0'
                         }`}
                       >
-                        <div className="overflow-hidden bg-white/5">
+                        <div className="overflow-hidden rounded-2xl bg-card shadow-[0_32px_64px_-32px_hsl(220_45%_15%/0.35)] ring-1 ring-border/70">
                           <ResponsiveImage
                             src={step.image.src}
                             alt={step.image.alt}
@@ -204,14 +204,14 @@ export default function ServicesSequence({ eyebrow, title, intro, cta, steps }: 
                           />
                         </div>
                         <div className="mt-7 grid gap-x-6 sm:grid-cols-[auto_1fr]">
-                          <span className="font-mono text-xs tracking-[0.18em] text-accent-on-dark sm:pt-2">
+                          <span className="font-mono text-xs tracking-[0.18em] text-gold sm:pt-2">
                             {pad(index + 1)} / {pad(steps.length)}
                           </span>
                           <div>
-                            <h3 className="mt-3 font-heading text-2xl leading-[1.15] text-white sm:mt-0 sm:text-[1.75rem]">
+                            <h3 className="mt-3 font-heading text-2xl leading-[1.15] text-foreground sm:mt-0 sm:text-[1.75rem]">
                               {step.title}
                             </h3>
-                            <p className="mt-3 max-w-lg text-base leading-[1.8] text-white/70">{step.text}</p>
+                            <p className="mt-3 max-w-lg text-base leading-[1.8] text-muted-foreground">{step.text}</p>
                           </div>
                         </div>
                       </li>
