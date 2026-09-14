@@ -57,9 +57,9 @@ const FILL = {
 const TOKEN_FALLBACKS: Record<'--foreground' | '--muted-foreground' | '--accent-on-tint' | '--accent' | '--gold', Hsl> = {
   '--foreground': { h: 220, s: 0.45, l: 0.11 },
   '--muted-foreground': { h: 218, s: 0.15, l: 0.4 },
-  '--accent-on-tint': { h: 38, s: 0.68, l: 0.31 },
-  '--accent': { h: 40, s: 0.62, l: 0.53 },
-  '--gold': { h: 38, s: 0.68, l: 0.31 },
+  '--accent-on-tint': { h: 39, s: 0.72, l: 0.33 },
+  '--accent': { h: 42, s: 0.75, l: 0.57 },
+  '--gold': { h: 39, s: 0.72, l: 0.33 },
 };
 
 /** Colours come from the design tokens at runtime, not from copies in code. */

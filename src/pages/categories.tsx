@@ -6,7 +6,7 @@ import ResponsiveImage from '@/components/ResponsiveImage';
 import HousingInspection from '@/components/housing-inspection/HousingInspection';
 import { useInspectionDrawingAvailable } from '@/lib/housing-inspection/capability';
 import { useInspectionView } from '@/lib/housing-inspection/use-inspection-view';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Check, Clock, MapPin } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Link } from 'react-router';
 import { categories } from 'virtual:content';
@@ -155,6 +155,9 @@ const reveal = (reduced: boolean | null) => ({
   transition: { duration: reduced ? 0 : 0.45, ease: 'easeOut' as const },
 });
 
+/** "30–45 Days (Tooling + Production)" becomes "30–45 Days" for the hero index. */
+const shortLeadTime = (leadTime: string): string => leadTime.split(' (')[0];
+
 /** Keyboard focus previews an inspection point; focus that follows a tap does not. */
 function isKeyboardFocus(event: FocusEvent<HTMLElement>): boolean {
   try {
@@ -162,6 +165,17 @@ function isKeyboardFocus(event: FocusEvent<HTMLElement>): boolean {
   } catch {
     return true;
   }
+}
+
+function CheckChip() {
+  return (
+    <span
+      aria-hidden="true"
+      className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/15 ring-1 ring-inset ring-accent/30"
+    >
+      <Check size={12} strokeWidth={2.75} className="text-accent-on-tint" />
+    </span>
+  );
 }
 
 export default function CategoriesPage() {
@@ -173,6 +187,19 @@ export default function CategoriesPage() {
   // housing in it. The switch only appears once the browser has confirmed capable WebGL.
   const inspectionAvailable = useInspectionDrawingAvailable();
   const inspection = useInspectionView();
+
+  const selectCategory = (id: string): void => {
+    // Leaving a category returns its figure to the photograph, which also releases the drawing's WebGL context
+    // rather than keeping it in a hidden panel.
+    if (id !== selectedFilter) inspection.showPhotograph();
+    setSelectedFilter(id);
+  };
+
+  /** From the hero index: show the category, then bring the portfolio section into view. */
+  const openPortfolio = (id: string): void => {
+    selectCategory(id);
+    document.getElementById('portfolios')?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+  };
 
   return (
     <>
@@ -191,17 +218,19 @@ export default function CategoriesPage() {
         <meta name="twitter:image" content={`${siteUrl}/assets/images/category-precision-hardware.jpg`} />
       </Helmet>
 
-      <main className="overflow-hidden">
+      <main className="overflow-clip">
         {/* ═══════════════════════════════════════════════════════
-            1 — HERO. A text-only dark banner, deliberately unlike the
-            photographic heroes on home and trade services.
+            1 — HERO. Text-led rather than photographic, so it is not a
+            third copy of the home and trade services heroes. From lg the
+            copy sits beside a raised index of the five portfolios, and
+            each row opens its category in the section below.
         ═══════════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden bg-background py-20 sm:py-28 lg:py-32">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_60%_20%,hsl(42_80%_55%/0.07)_0%,transparent_60%)]" />
-          <div className="pointer-events-none absolute left-0 top-0 h-px w-full bg-gradient-to-r from-accent-on-tint/50 via-accent/40 to-transparent" />
-          <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+        <section className="relative overflow-hidden bg-background pb-28 pt-20 sm:pb-32 sm:pt-24 lg:pb-36 lg:pt-24">
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_60%_20%,hsl(42_80%_55%/0.07)_0%,transparent_60%)]" />
+          <div aria-hidden="true" className="pointer-events-none absolute left-0 top-0 h-px w-full bg-gradient-to-r from-accent-on-tint/50 via-accent/40 to-transparent" />
+
+          <div className="relative mx-auto grid max-w-[1440px] items-center gap-14 px-5 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-10">
             <motion.div {...reveal(reducedMotion)} className="max-w-3xl">
-              {/* Rule + caps, replacing the translucent pill badge. */}
               <div className="inline-flex items-center gap-2">
                 <div className="h-px w-8 bg-gold" />
                 <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
@@ -231,38 +260,64 @@ export default function CategoriesPage() {
                 </Link001>
               </div>
             </motion.div>
+
+            <motion.nav {...reveal(reducedMotion)} aria-label="Manufacturing portfolios" className="relative hidden lg:block">
+              <div aria-hidden="true" className="pointer-events-none absolute -right-12 -top-16 h-[400px] w-[400px] rounded-full bg-[radial-gradient(closest-side,hsl(42_80%_55%/0.14),transparent)]" />
+              <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-[0_40px_80px_-44px_hsl(220_45%_15%/0.3)]">
+                <div aria-hidden="true" className="h-[3px] bg-gradient-to-r from-accent via-accent/70 to-gold/80" />
+                <div className="flex items-baseline justify-between border-b border-border px-7 py-5">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gold">Manufacturing portfolios</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Lead time</p>
+                </div>
+                <ul className="divide-y divide-border">
+                  {portfolioCategories.map((item) => (
+                    <li key={item.id}>
+                      <button
+                        type="button"
+                        onClick={() => openPortfolio(item.id)}
+                        className="group flex w-full items-center gap-4 px-7 py-4 text-left transition-colors hover:bg-accent/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+                      >
+                        <span className="font-mono text-xs tracking-[0.14em] text-gold">{item.number}</span>
+                        <span className="flex-1 text-sm font-semibold text-foreground">{item.categoryTag}</span>
+                        <span className="text-xs text-muted-foreground">{shortLeadTime(item.leadTime)}</span>
+                        <ArrowRight
+                          size={15}
+                          aria-hidden="true"
+                          className="shrink-0 text-accent-on-tint transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
+                        />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.nav>
           </div>
         </section>
 
         {/* ═══════════════════════════════════════════════════════
-            2 — PROOF BAR. Already the hairline-divided band used across
-            the site; unchanged apart from sourcing its data from an array.
+            2 — PROOF FIGURES. A raised panel overlapping the hero's lower
+            edge, as on trade services. Each label precedes its figure in
+            the markup and is shown beneath it.
         ═══════════════════════════════════════════════════════ */}
-        <section className="border-b border-border bg-card">
-          <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
-            <dl className="grid grid-cols-2 divide-x divide-border sm:grid-cols-4">
-              {proofStats.map((s) => (
-                <div key={s.val} className="px-6 py-10 lg:px-10">
-                  <dd className="font-heading text-2xl text-accent-on-tint sm:text-3xl">{s.val}</dd>
-                  <dt className="mt-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                    {s.label}
-                  </dt>
-                </div>
-              ))}
-            </dl>
-          </div>
+        <section className="relative z-10 -mt-14 px-5 sm:px-8 lg:px-10">
+          <dl className="mx-auto grid max-w-[1360px] grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border shadow-[0_28px_60px_-32px_hsl(220_45%_15%/0.28)] sm:grid-cols-4">
+            {proofStats.map((s) => (
+              <div key={s.val} className="flex flex-col-reverse bg-card px-5 py-7 sm:px-6 lg:px-9 lg:py-9">
+                <dt className="mt-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  {s.label}
+                </dt>
+                <dd className="font-heading text-2xl text-accent-on-tint sm:text-3xl">{s.val}</dd>
+              </div>
+            ))}
+          </dl>
         </section>
 
         {/* ═══════════════════════════════════════════════════════
             3 — PORTFOLIO. One category at a time, chosen from the filter
-            bar: a flat spread with the photograph beside its specification.
-
-            This was five rounded, shadowed cards stacked in one 3,322px
-            section, with bordered material chips nested inside every
-            card — cards-in-cards, which DESIGN.md rules out — and an
-            off-palette brown BorderBeam on the first.
+            bar or the hero index: the photograph on a raised stage beside
+            its specification.
         ═══════════════════════════════════════════════════════ */}
-        <section className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 lg:px-10 lg:py-24">
+        <section id="portfolios" className="mx-auto max-w-[1440px] scroll-mt-20 px-5 pb-20 pt-24 sm:px-8 lg:px-10 lg:pb-24 lg:pt-28">
           <div className="max-w-2xl">
             <div className="mb-5 flex items-center gap-2">
               <div className="h-px w-8 bg-gold" />
@@ -285,15 +340,10 @@ export default function CategoriesPage() {
                 <button
                   key={tab.id}
                   type="button"
-                  onClick={() => {
-                    // Leaving a category returns its figure to the photograph, which also
-                    // releases the drawing's WebGL context rather than keeping it in a hidden panel.
-                    if (tab.id !== selectedFilter) inspection.showPhotograph();
-                    setSelectedFilter(tab.id);
-                  }}
+                  onClick={() => selectCategory(tab.id)}
                   aria-pressed={isSelected}
                   aria-controls={`category-${tab.id}`}
-                  className={`relative shrink-0 whitespace-nowrap pb-4 text-sm font-semibold transition-colors ${
+                  className={`relative shrink-0 whitespace-nowrap pb-4 pt-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                     isSelected ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
@@ -301,7 +351,7 @@ export default function CategoriesPage() {
                   {isSelected && (
                     <motion.div
                       layoutId="category-filter-line"
-                      className="absolute inset-x-0 bottom-0 h-0.5 bg-accent-on-tint"
+                      className="absolute inset-x-0 bottom-0 h-0.5 rounded-full bg-accent-on-tint"
                       transition={{ duration: reducedMotion ? 0 : 0.25, ease: 'easeOut' }}
                     />
                   )}
@@ -327,10 +377,10 @@ export default function CategoriesPage() {
                     initial={false}
                     animate={isSelected ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
                     transition={{ duration: reducedMotion ? 0 : 0.3, ease: 'easeOut' }}
-                    className="grid items-center gap-10 py-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:py-14"
+                    className="grid items-center gap-10 py-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 lg:py-14"
                   >
                     <div>
-                      <figure className="relative aspect-[4/3] overflow-hidden bg-muted">
+                      <figure className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-muted shadow-[0_32px_64px_-32px_hsl(220_45%_15%/0.35)] ring-1 ring-border/70">
                         <ResponsiveImage
                           src={item.image}
                           alt={item.imageAlt}
@@ -383,9 +433,7 @@ export default function CategoriesPage() {
 
                     <div>
                       <div className="flex items-center gap-3">
-                        <span className="font-mono text-xs tracking-[0.18em] text-gold">
-                          {item.number}
-                        </span>
+                        <span className="font-mono text-xs tracking-[0.18em] text-gold">{item.number}</span>
                         <div className="h-px w-6 bg-border" />
                         <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                           {item.categoryTag}
@@ -395,23 +443,17 @@ export default function CategoriesPage() {
                       <h3 className="mt-5 font-heading text-2xl leading-[1.15] text-balance text-foreground sm:text-3xl">
                         {item.title}
                       </h3>
-                      <p className="mt-4 max-w-2xl text-base leading-[1.8] text-muted-foreground">
-                        {item.description}
-                      </p>
+                      <p className="mt-4 max-w-2xl text-base leading-[1.8] text-muted-foreground">{item.description}</p>
 
-                      {/* Specification in two columns: grades and commercial
-                          terms on the left, inspection protocols on the right.
-                          Stacking all of it in one column had pushed this
-                          section from 3,322px to 4,191px. */}
-                      <div className="mt-8 grid gap-x-10 gap-y-6 border-t border-border pt-6 sm:grid-cols-2">
+                      {/* Specification in a soft ivory block: grades and commercial terms on the left, inspection
+                          protocols on the right. The page section is not a card, so this is the only box. */}
+                      <div className="mt-8 grid gap-x-10 gap-y-6 rounded-2xl border border-border bg-muted p-6 sm:grid-cols-2 sm:p-7">
                         <dl className="space-y-4">
                           <div>
                             <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                               Key material grades
                             </dt>
-                            <dd className="mt-1.5 text-sm leading-[1.7] text-foreground">
-                              {item.materials.join(' · ')}
-                            </dd>
+                            <dd className="mt-1.5 text-sm leading-[1.7] text-foreground">{item.materials.join(' · ')}</dd>
                           </div>
                           <div>
                             <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
@@ -435,7 +477,7 @@ export default function CategoriesPage() {
                             {item.standards.map((std, index) => (
                               <li
                                 key={std}
-                                className="border-t border-border py-2 text-sm leading-[1.7] text-foreground first:border-t-0 first:pt-0"
+                                className="border-t border-border py-2.5 text-sm leading-[1.7] text-foreground first:border-t-0 first:pt-1"
                               >
                                 {inspecting ? (
                                   // In the inspection view each protocol controls its numbered
@@ -462,7 +504,10 @@ export default function CategoriesPage() {
                                     <span>{std}</span>
                                   </button>
                                 ) : (
-                                  std
+                                  <span className="flex items-start gap-2.5">
+                                    <CheckChip />
+                                    <span>{std}</span>
+                                  </span>
                                 )}
                               </li>
                             ))}
@@ -486,12 +531,10 @@ export default function CategoriesPage() {
         </section>
 
         {/* ═══════════════════════════════════════════════════════
-            4 — GOVERNANCE. Four checkpoints as one hairline-divided
-            rail on dark, in place of four separate bordered cards.
-            Dark here so the long light catalogue above is framed by a
-            dark close rather than running straight into the CTA.
+            4 — GOVERNANCE. Four checkpoints as raised white cards on the
+            ivory band, each numbered on a gold badge.
         ═══════════════════════════════════════════════════════ */}
-        <section className="bg-muted py-20 lg:py-24">
+        <section className="border-y border-border bg-muted py-20 lg:py-28">
           <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <motion.div {...reveal(reducedMotion)} className="max-w-2xl">
               <div className="mb-5 flex items-center gap-2">
@@ -509,58 +552,76 @@ export default function CategoriesPage() {
               </p>
             </motion.div>
 
-            <ol className="mt-12 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+            <ol className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
               {governanceStages.map((stage) => (
-                <li key={stage.num} className="bg-muted px-7 py-8">
-                  <span className="font-mono text-xs tracking-[0.18em] text-gold">
+                <motion.li
+                  key={stage.num}
+                  {...reveal(reducedMotion)}
+                  className="flex flex-col rounded-2xl border border-border bg-card p-7 shadow-[0_24px_50px_-34px_hsl(220_45%_15%/0.3)]"
+                >
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent font-mono text-sm font-bold text-accent-foreground shadow-teal">
                     {stage.num}
                   </span>
-                  <h3 className="mt-4 text-base font-semibold text-foreground">{stage.title}</h3>
+                  <h3 className="mt-6 text-base font-semibold text-foreground">{stage.title}</h3>
                   <p className="mt-2 text-sm leading-[1.7] text-muted-foreground">{stage.text}</p>
-                </li>
+                </motion.li>
               ))}
             </ol>
           </div>
         </section>
 
         {/* ═══════════════════════════════════════════════════════
-            5 — CLOSING CTA. The short flat band used on home and trade
-            services, separated from the dark governance band above by a
-            hairline. Was a rounded, shadowed card floating in a 723px
-            section.
+            5 — CLOSING CTA. The raised panel home and trade services close
+            on, with a bright-to-deep gold rule along its top edge and the
+            appraisal facts beside the button.
         ═══════════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden border-t border-border bg-card py-20 lg:py-24">
-          <div className="pointer-events-none absolute bottom-0 left-1/4 h-[400px] w-[600px] bg-[radial-gradient(ellipse,hsl(42_80%_55%/0.12)_0%,transparent_70%)] blur-[60px]" />
-
-          <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+        <section className="bg-background py-20 lg:py-28">
+          <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <motion.div
               {...reveal(reducedMotion)}
-              className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between"
+              className="relative overflow-hidden rounded-3xl border border-border bg-card px-6 py-12 shadow-[0_40px_80px_-44px_hsl(220_45%_15%/0.28)] sm:px-10 lg:px-16 lg:py-16"
             >
-              <div className="max-w-2xl">
-                <div className="mb-5 flex items-center gap-2">
-                  <div className="h-px w-6 bg-gold" />
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
-                    Direct Engineering Appraisal
-                  </span>
-                </div>
-                <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-foreground">
-                  {categories.cta.title}
-                </h2>
-                <p className="mt-5 max-w-xl text-base leading-[1.8] text-muted-foreground">
-                  {categories.cta.text} Send us your engineering drawings, material specifications,
-                  or seasonal merchandising briefs. Our Shenzhen and Hong Kong technical desks will
-                  deliver a formal feasibility assessment within 1 business day.
-                </p>
-              </div>
+              <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-accent via-accent/70 to-gold/80" />
+              <div aria-hidden="true" className="pointer-events-none absolute -right-32 -top-40 h-[460px] w-[460px] rounded-full bg-[radial-gradient(closest-side,hsl(42_80%_55%/0.10),transparent)]" />
 
-              <Link
-                to="/contact"
-                className="group inline-flex w-fit shrink-0 items-center gap-3 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground transition-all duration-300 hover:bg-accent-hover hover:shadow-teal-lg"
-              >
-                <span>{categories.cta.button}</span>
-                <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
+              <div className="relative flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+                <div className="max-w-2xl">
+                  <div className="mb-5 flex items-center gap-2">
+                    <div className="h-px w-6 bg-gold" />
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
+                      Direct Engineering Appraisal
+                    </span>
+                  </div>
+                  <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-foreground">
+                    {categories.cta.title}
+                  </h2>
+                  <p className="mt-5 max-w-xl text-base leading-[1.8] text-muted-foreground">
+                    {categories.cta.text} Send us your engineering drawings, material specifications,
+                    or seasonal merchandising briefs. Our Shenzhen and Hong Kong technical desks will
+                    deliver a formal feasibility assessment within 1 business day.
+                  </p>
+                </div>
+
+                <div className="flex shrink-0 flex-col items-start gap-6 lg:items-end">
+                  <Link
+                    to="/contact"
+                    className="group inline-flex w-fit items-center gap-3 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-teal transition-all duration-300 hover:bg-accent-hover hover:shadow-teal-lg"
+                  >
+                    <span>{categories.cta.button}</span>
+                    <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
+                  </Link>
+                  <ul className="flex flex-col gap-2.5 text-sm text-muted-foreground lg:items-end">
+                    <li className="flex items-center gap-2">
+                      <Clock size={15} aria-hidden="true" className="shrink-0 text-accent-on-tint" />
+                      Feasibility assessment within one business day
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <MapPin size={15} aria-hidden="true" className="shrink-0 text-accent-on-tint" />
+                      Technical desks in Shenzhen and Hong Kong
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </motion.div>
           </div>
         </section>

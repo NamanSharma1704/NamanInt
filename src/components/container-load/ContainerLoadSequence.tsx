@@ -44,7 +44,7 @@ const TOKEN_FALLBACKS: Record<'--foreground' | '--background' | '--gold-soft' | 
   '--foreground': { h: 220, s: 0.45, l: 0.11 },
   '--background': { h: 0, s: 0, l: 1 },
   '--gold-soft': { h: 40, s: 0.45, l: 0.76 },
-  '--accent-on-tint': { h: 38, s: 0.68, l: 0.31 },
+  '--accent-on-tint': { h: 39, s: 0.72, l: 0.33 },
 };
 
 /** Colours come from the design tokens at runtime. The ground is the section's own painted background, so solids hide lines against exactly what sits behind them. */

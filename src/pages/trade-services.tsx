@@ -1,7 +1,7 @@
 import { Helmet } from '@dr.pogodin/react-helmet';
 import { useJsonLdSiteUrl } from '@/lib/json-ld-site-url-context';
 import { mediaUrl } from '@/lib/media';
-import { MoveUpRight } from 'lucide-react';
+import { Clock, MapPin, MoveUpRight } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Link } from 'react-router';
 import TradeDisciplineShowcase from '../components/TradeDisciplineShowcase';
@@ -32,6 +32,13 @@ const reveal = (reduced: boolean | null) => ({
   viewport: { once: true, amount: 0.15 },
   transition: { duration: reduced ? 0 : 0.5, ease: 'easeOut' as const },
 });
+
+const stats = [
+  { counter: <AnimeCounter value={18} suffix="+" duration={1600} />, unit: 'Years', label: 'Trade Continuity', desc: 'Established Hong Kong 2008. Uninterrupted Pacific procurement.' },
+  { counter: <AnimeCounter value={0.5} prefix="<" suffix="%" decimals={1} duration={1400} />, unit: null, label: 'Defect Ceiling', desc: 'ANSI/ASQ Z1.4 Level II pre-shipment AQL sampling.' },
+  { counter: <AnimeCounter value={100} suffix="%" duration={1800} />, unit: null, label: 'Pre-Shipment SLA', desc: 'Zero containers dispatched without verified sign-off.' },
+  { counter: <AnimeCounter value={4} duration={1200} />, unit: 'Hubs', label: 'Physical Presence', desc: 'Shenzhen · Hong Kong · California · Manchester' },
+];
 
 export default function TradeServicesPage() {
   const reducedMotion = useReducedMotion();
@@ -66,8 +73,9 @@ export default function TradeServicesPage() {
       {/* overflow-clip, not overflow-hidden: hidden makes <main> a scroll container, which breaks position: sticky for
           the pinned container sequence. */}
       <main className="overflow-clip">
-        {/* 1. Full-bleed photo hero. Below lg the text runs across the whole photograph, so the wash stays at 95%; the solid
-            bottom band keeps the footnote legible over the dark corner of the image. */}
+        {/* 1. Full-bleed photo hero. Below lg the text runs across the whole photograph, so the wash stays at 95%. The
+            bottom fifth is solid, which keeps the footnote legible over the dark corner of the image and gives the stat
+            panel a clean edge to overlap. */}
         <section className="relative min-h-[72vh] overflow-hidden">
           <figure className="absolute inset-0">
             <img
@@ -80,14 +88,19 @@ export default function TradeServicesPage() {
               className="h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/95 to-background/95 lg:via-background/90 lg:to-background/30" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background from-10% via-background/70 via-25% to-transparent to-55%" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background from-20% via-background/70 via-35% to-transparent to-60%" />
           </figure>
 
-          <div className="relative mx-auto flex min-h-[72vh] max-w-[1440px] flex-col justify-center px-5 sm:px-8 lg:px-10">
+          {/* A faint gold light behind the copy, desktop only: below lg the copy crosses the photograph, where any tint
+              would cost contrast. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -left-48 top-[10%] hidden h-[520px] w-[720px] rounded-full bg-[radial-gradient(closest-side,hsl(42_80%_55%/0.10),transparent)] lg:block"
+          />
+
+          <div className="relative mx-auto flex min-h-[72vh] max-w-[1440px] flex-col justify-center px-5 pb-28 pt-16 sm:px-8 lg:px-10">
             <motion.div {...reveal(reducedMotion)} className="max-w-3xl">
-              {/* Rule + caps, matching the hero eyebrow on the homepage. The
-                  translucent pill this replaces was the only badge of its kind
-                  in the site. */}
+              {/* Rule + caps, matching the hero eyebrow on the homepage. */}
               <div className="inline-flex items-center gap-2">
                 <div className="h-px w-8 bg-gold" />
                 <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
@@ -100,24 +113,25 @@ export default function TradeServicesPage() {
               <p className="mt-6 max-w-xl text-base leading-[1.75] text-muted-foreground sm:text-lg">
                 We coordinate international buying programs for North American retail and wholesale importers, providing direct engineering supervision across the Pearl River Delta, 100% pre-shipment AQL audits, and uninterrupted chain of custody.
               </p>
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-                <Link to="/contact">
+              <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+                <Link to="/contact" className="w-fit">
                   <InteractiveHoverButton className="border-accent/60 bg-accent text-accent-foreground hover:bg-accent-hover text-sm tracking-wide shadow-teal-lg">
                     Initiate Trade Program
                   </InteractiveHoverButton>
                 </Link>
                 <Link001
                   href="#disciplines"
-                  className="text-sm font-semibold text-muted-foreground hover:text-accent-on-tint transition-colors"
+                  className="w-fit text-sm font-semibold text-muted-foreground transition-colors hover:text-accent-on-tint"
                 >
                   <span>Explore Core Disciplines</span>
                 </Link001>
               </div>
             </motion.div>
-            {/* Same rule-and-caps footnote the homepage hero carries bottom
-                right, in place of a solid accent slab pinned to the corner. */}
-            <div className="absolute bottom-6 right-5 flex items-center gap-3 sm:right-8 lg:right-10">
-              <div className="h-px w-8 bg-gold/50" />
+
+            {/* Footnote. In the flow on phones, where the copy already reaches the bottom of the photograph and a pinned
+                label collided with the links; pinned bottom right, above the stat panel, from sm up. */}
+            <div className="mt-12 flex items-center gap-3 sm:absolute sm:bottom-24 sm:right-8 sm:mt-0 lg:right-10">
+              <div className="h-px w-8 shrink-0 bg-gold/50" />
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 Shenzhen &amp; Hong Kong Operational Centers · Est. 2008
               </p>
@@ -125,34 +139,30 @@ export default function TradeServicesPage() {
           </div>
         </section>
 
-        {/* 2. 4-Stat Strip with dividers */}
-        <section className="border-b border-border bg-card">
-          <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
-            <div className="grid grid-cols-2 divide-x divide-border lg:grid-cols-4">
-              {[
-                { counter: <AnimeCounter value={18} suffix="+" duration={1600} />, unit: 'Years', label: 'Trade Continuity', desc: 'Established Hong Kong 2008. Uninterrupted Pacific procurement.' },
-                { counter: <AnimeCounter value={0.5} prefix="<" suffix="%" decimals={1} duration={1400} />, unit: null, label: 'Defect Ceiling', desc: 'ANSI/ASQ Z1.4 Level II pre-shipment AQL sampling.' },
-                { counter: <AnimeCounter value={100} suffix="%" duration={1800} />, unit: null, label: 'Pre-Shipment SLA', desc: 'Zero containers dispatched without verified sign-off.' },
-                { counter: <AnimeCounter value={4} duration={1200} />, unit: 'Hubs', label: 'Physical Presence', desc: 'Shenzhen · Hong Kong · California · Manchester' },
-              ].map((s, i) => (
-                <div key={i} className="flex flex-col gap-1 px-6 py-10 lg:px-10">
-                  <p className="font-heading text-3xl font-bold text-accent-on-tint sm:text-4xl">
-                    {s.counter}{s.unit && <span className="ml-1 text-xl text-muted-foreground">{s.unit}</span>}
-                  </p>
-                  <p className="mt-2 text-sm font-semibold text-foreground">{s.label}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{s.desc}</p>
-                </div>
-              ))}
-            </div>
+        {/* 2. Headline figures on a raised panel overlapping the hero's lower edge. The hairlines are a 1px gap over the
+            border colour, so the grid needs no per-cell rules at either breakpoint. */}
+        <section className="relative z-10 -mt-16 px-5 sm:px-8 lg:px-10">
+          <div className="mx-auto grid max-w-[1360px] grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border shadow-[0_28px_60px_-32px_hsl(220_45%_15%/0.28)] lg:grid-cols-4">
+            {stats.map((s) => (
+              <div key={s.label} className="flex flex-col bg-card px-5 py-7 sm:px-6 lg:px-9 lg:py-9">
+                <p className="font-heading text-3xl font-bold text-accent-on-tint sm:text-4xl">
+                  {s.counter}
+                  {s.unit && <span className="ml-1 text-xl text-muted-foreground">{s.unit}</span>}
+                </p>
+                <p className="mt-2 text-sm font-semibold text-foreground">{s.label}</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{s.desc}</p>
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* 3. Clean Interactive Disciplines Showcase */}
-        <div id="disciplines">
+        {/* 3. Core disciplines */}
+        {/* tabIndex -1 so the "Explore Core Disciplines" link can move focus here as well as scroll. */}
+        <div id="disciplines" tabIndex={-1} className="scroll-mt-20 outline-none">
           <TradeDisciplineShowcase />
         </div>
 
-        {/* 4. Streamlined Governance Standard Table */}
+        {/* 4. Governance comparison */}
         <TradeGovernanceTable />
 
         {/* 5. Container stuffing, driven by scrolling: set down, doors open, stuffed to plan, loaded. */}
@@ -180,48 +190,57 @@ export default function TradeServicesPage() {
           ]}
         />
 
-        {/* 6. Interactive Trade Scope & Inquiry Configurator */}
+        {/* 6. Interactive trade scope configurator */}
         <TradeScopeEstimator />
 
-        {/* 7. Closing CTA. Short, full-bleed and flat — the same closing band
-               the homepage uses. Was a rounded, shadowed card floating inside a
-               717px section, which is the boxed vocabulary this redesign drops. */}
-        <section className="relative overflow-hidden bg-card py-20 lg:py-24">
-          <div className="pointer-events-none absolute bottom-0 left-1/4 h-[400px] w-[600px] bg-[radial-gradient(ellipse,hsl(42_80%_55%/0.12)_0%,transparent_70%)] blur-[60px]" />
-
-          <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
+        {/* 7. Closing CTA: the raised panel the homepage closes on, with a bright-to-deep gold rule along its top edge and
+            the reply facts beside the button. */}
+        <section className="bg-background py-20 lg:py-28">
+          <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
             <motion.div
               {...reveal(reducedMotion)}
-              className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between"
+              className="relative overflow-hidden rounded-3xl border border-border bg-card px-6 py-12 shadow-[0_40px_80px_-44px_hsl(220_45%_15%/0.28)] sm:px-10 lg:px-16 lg:py-16"
             >
-              <div className="max-w-2xl">
-                <div className="mb-5 flex items-center gap-2">
-                  <div className="h-px w-6 bg-gold" />
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
-                    Direct Procurement Partnership
-                  </span>
-                </div>
-                <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-foreground">
-                  Ready to establish institutional oversight across your overseas manufacturing?
-                </h2>
-                <p className="mt-5 max-w-lg text-base leading-[1.8] text-muted-foreground">
-                  Connect directly with our international trade directors in Hong Kong,
-                  Shenzhen, or California to discuss order volume, factory vetting, or
-                  specialized quality audit protocols.
-                </p>
-              </div>
+              <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-accent via-accent/70 to-gold/80" />
+              <div aria-hidden="true" className="pointer-events-none absolute -right-32 -top-40 h-[460px] w-[460px] rounded-full bg-[radial-gradient(closest-side,hsl(42_80%_55%/0.10),transparent)]" />
 
-              <div className="flex shrink-0 flex-col gap-3 lg:items-end">
-                <Link
-                  to="/contact"
-                  className="group inline-flex w-fit items-center gap-3 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground transition-all duration-300 hover:bg-accent-hover hover:shadow-teal-lg"
-                >
-                  <span>Initiate Trade Program</span>
-                  <MoveUpRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5" />
-                </Link>
-                <p className="max-w-xs text-xs leading-[1.7] text-muted-foreground lg:text-right">
-                  Direct response within 1 business day across US and Asia business hours.
-                </p>
+              <div className="relative flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+                <div className="max-w-2xl">
+                  <div className="mb-5 flex items-center gap-2">
+                    <div className="h-px w-6 bg-gold" />
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
+                      Direct Procurement Partnership
+                    </span>
+                  </div>
+                  <h2 className="font-heading text-[clamp(2rem,4vw,3.2rem)] leading-[1.06] tracking-[-0.025em] text-balance text-foreground">
+                    Ready to establish institutional oversight across your overseas manufacturing?
+                  </h2>
+                  <p className="mt-5 max-w-lg text-base leading-[1.8] text-muted-foreground">
+                    Connect directly with our international trade directors in Hong Kong,
+                    Shenzhen, or California to discuss order volume, factory vetting, or
+                    specialized quality audit protocols.
+                  </p>
+                </div>
+
+                <div className="flex shrink-0 flex-col items-start gap-6 lg:items-end">
+                  <Link
+                    to="/contact"
+                    className="group inline-flex w-fit items-center gap-3 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-accent-foreground shadow-teal transition-all duration-300 hover:bg-accent-hover hover:shadow-teal-lg"
+                  >
+                    <span>Initiate Trade Program</span>
+                    <MoveUpRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </Link>
+                  <ul className="flex flex-col gap-2.5 text-sm text-muted-foreground lg:items-end">
+                    <li className="flex items-center gap-2">
+                      <Clock size={15} aria-hidden="true" className="shrink-0 text-accent-on-tint" />
+                      Reply within one business day, US and Asia hours
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <MapPin size={15} aria-hidden="true" className="shrink-0 text-accent-on-tint" />
+                      Trade directors in Hong Kong, Shenzhen and California
+                    </li>
+                  </ul>
+                </div>
               </div>
             </motion.div>
           </div>

@@ -20,23 +20,23 @@ White and gold (2026-09-14). The owner first moved the site off teal to light co
 dull, and a cobalt accent did not sit well with the logo, so the site settled on white surfaces with a bright but
 restrained gold: close to the logo's own gold, with more life in it. Gold is too light to carry white text or to read as
 text on white, so buttons take the logo navy for their labels, and a deeper gold ink carries links, eyebrows, icons,
-figures and thin lines. There are no navy or grey bands: sections alternate between white and a warm ivory.
+figures and thin lines. There are no navy or grey bands: sections alternate between white and a warm ivory. Both golds were brightened a step later the same day, at the user request, when the first pair (#D1A03D fill, #855D19 ink) looked a little dark.
 
 | Role | Token / HSL | Hex Equivalent | Description |
 | :--- | :--- | :--- | :--- |
 | **Primary** | `hsl(216 70% 16%)` | `#0C2549` | The logo navy. Navy buttons, button labels on gold, and the fill a hover button grows into. |
-| **Accent** | `hsl(40 62% 53%)` | `#D1A03D` | Bright gold. Primary buttons, active fills, the scroll thumb, goods in the route drawing. Navy text on it (`--accent-foreground`) is 6.6:1; white measures only 2.4:1, so never white. |
-| **Accent hover** | `hsl(39 60% 47%)` | `#C08D30` | Hover and pressed gold; navy text 5.3:1. |
-| **Accent on tint** | `hsl(38 68% 31%)` | `#855D19` | Gold ink for text and thin lines: links, icons, stat figures, rules, rails, selected borders, focus rings, drawing highlights. 5.9:1 on white, 5.6:1 on ivory, 5.2:1 on a 10% gold tint. |
-| **Gold** | `hsl(38 68% 31%)` | `#855D19` | The same ink under its own name, for eyebrow labels and their rules, mono index numbers, the network spine and the sign-off lines in the route drawing. |
-| **Gold soft** | `hsl(40 45% 76%)` | `#DDCBA6` | Kraft champagne: the cartons in the container drawing and the 404 badge wash (ink on a 15% wash, 5.5:1). Never text. |
-| **Accent on dark** | `hsl(42 75% 65%)` | `#E5BF63` | Kept for a navy surface should one return. |
-| **Accent tint** | `hsl(40 62% 53% / 0.06–0.28)` | Gold wash | Selection (28%), the NAMAN comparison column (6%), active mobile nav and icon chips (10%). |
+| **Accent** | `hsl(42 75% 57%)` | `#E4B23F` | Bright gold. Primary buttons, active fills, goods in the route drawing. Navy text on it (`--accent-foreground`) is 8.0:1; white measures only 2.0:1, so never white. |
+| **Accent hover** | `hsl(41 66% 50%)` | `#D49E2B` | Hover and pressed gold; navy text 6.5:1. |
+| **Accent on tint** | `hsl(39 72% 33%)` | `#916618` | Gold ink for text and thin lines: links, icons, stat figures, rules, rails, selected borders, focus rings, drawing highlights. 5.1:1 on white, 4.8:1 on ivory, 4.6:1 on a 10 to 15% gold tint. This is the brightest ink that still holds 4.5:1 on those tints. |
+| **Gold** | `hsl(39 72% 33%)` | `#916618` | The same ink under its own name, for eyebrow labels and their rules, mono index numbers, the network spine and the sign-off lines in the route drawing. |
+| **Gold soft** | `hsl(40 45% 76%)` | `#DDCBA6` | Kraft champagne: the cartons in the container drawing and the 404 badge wash (ink on a 15% wash, 4.8:1). Never text. |
+| **Accent on dark** | `hsl(44 85% 68%)` | `#F3CE68` | Kept for a navy surface should one return. |
+| **Accent tint** | `hsl(42 75% 57% / 0.06–0.28)` | Gold wash | Selection (28%), the NAMAN comparison column (6%), active mobile nav and icon chips (10%). |
 | **Background** | `hsl(0 0% 100%)` | `#FFFFFF` | White page, header, photo-hero overlays. |
 | **Card** | `hsl(0 0% 100%)` | `#FFFFFF` | White bands, the raised closing CTA panel. |
 | **Muted surface** | `hsl(42 50% 97%)` | `#FBF9F4` | Warm ivory alternating bands (governance, services, office and timeline sections) and the footer. |
 | **Text foreground** | `hsl(220 45% 11%)` | `#0F1829` | Ink navy; 16.9:1 on ivory. |
-| **Muted text** | `hsl(218 15% 40%)` | `#576275` | Slate supporting text. 6.2:1 on white, 5.9:1 on ivory, 5.6:1 on the NAMAN column. |
+| **Muted text** | `hsl(218 15% 40%)` | `#576275` | Slate supporting text. 6.2:1 on white, 5.9:1 on ivory, 5.9:1 on the NAMAN column. |
 | **Border** | `hsl(40 30% 88%)` | `#EAE3D7` | Warm hairlines. |
 
 Button depth comes from `shadow-teal` / `shadow-teal-lg` (the class names predate the palette): a tight warm contact
@@ -66,9 +66,15 @@ shadow plus a soft downward gold bloom, never a glow. General shadows are tinted
 - **Iconography**: Exclusively crisp SVG icons from `lucide-react` with fixed sizing (`w-4 h-4`, `w-5 h-5`). Zero raw emojis used as UI icons.
 - **Themed Browser Surfaces**:
   - `::selection`: Gold (`--accent`) at 28% under ink navy text.
-  - Scrollbars: the page has no track and no gutter. On mouse and trackpad screens (`pointer: fine`), globals.css hides the root scrollbar and `ScrollThumb` (mounted in `RootLayout`) floats a slim gold thumb over the right edge: 6px at 70%, widening to 8px and firming on hover, solid while dragged. It is sized from the visible share of the page, follows scroll, resize and late content growth, and can be dragged. It is `aria-hidden`, because wheel, keyboard and touch scrolling are untouched. Touch screens keep their native overlay scrollbars. Inner scroll areas keep a slim gold thumb on a clear track, and Firefox gets the standard properties, fenced off from Chrome, which ignores `::-webkit-scrollbar` styling when they are set. If JavaScript fails on a desktop, no scrollbar shows, but the page still scrolls.
+  - Scrollbars: native scrollbars are hidden everywhere (`scrollbar-width: none` and `::-webkit-scrollbar { display: none }`), and `ScrollIndicator` (mounted in `RootLayout`) draws a slim gold thumb along the right edge in their place. It is hidden at rest and revealed by every scroll event, in either direction and from any source (wheel, trackpad, touch, keyboard, scripted), then fades out 850ms after the last one. The reveal slides in 6px and fades up over 200ms; the exit eases out more slowly over about 400 to 500ms. The thumb is 4px wide with round ends, in `--accent` with a hairline of gold ink so it holds an edge on white, ivory and photographs, and no glow. On mouse and trackpad screens, hovering the right edge reveals it, shows a faint track, widens the thumb to 6px and lets it be dragged; on touch screens it is display only. Position is a per-frame transform and height is measured only on resize, so it causes no layout work or shift. It is `aria-hidden`, renders nothing on the server, hides on pages that do not scroll, and drops the slide under reduced motion.
   - Caret: The gold ink, `--accent-on-tint`.
+  - Favicon: the favicon.io set in `public/assets/images/favicon_io` (multi-size ICO, 16px and 32px PNGs, a 180px Apple touch icon, and 192px and 512px icons in `site.webmanifest`), linked from `index.html` with a white `theme-color`. A copy of the ICO sits at `/favicon.ico` for clients that request that path directly; it replaced an SVG placeholder that only carried the .ico name.
 - **Homepage depth**: the first page polished under the current palette. Glass assurance chips under the hero actions; a faint gold light behind the hero copy, desktop only, because below `lg` the copy crosses the photograph; gold-ink metric figures; a raised, rounded image stage in the services sequence; gold icon chips and figures on the audience panels; bright gold goods with gold-ink sign-off lines in the route drawing; and a raised closing CTA panel with a bright-to-deep gold rule along its top edge.
+- **Trade Services depth**: the second page polished. The four headline figures sit on a raised panel that overlaps the hero's lower edge, and on phones the hero footnote joins the page flow, where it used to collide with the links. The discipline photograph is a raised stage with nothing laid over it (its number-and-name caption was removed, as on Categories, because the tab and heading already name the discipline), and each deliverable carries a gold check chip. The governance comparison is one raised panel: the NAMAN column has a bright gold header with navy text, a gold wash and gold check marks, and the alternatives get tinted red and amber marks. The configurator sits on the ivory band with white option cards; the selected card has a gold ring, a check and `aria-pressed`, and the summary is a raised panel with a gold primary button. The summary is deliberately not sticky, because it is nearly as tall as the options and could only travel about 70px. The page closes on the same raised CTA panel as the homepage.
+- **Categories depth**: the third page polished. The hero stays text-led, so it is not a third copy of the photographic heroes, and from `lg` it gains a raised index of the five manufacturing portfolios: each row shows the lead time and opens that category in the portfolio section, scrolling it into view. The proof figures sit on a raised panel overlapping the hero, with each label ahead of its figure in the markup. The portfolio photograph is a raised stage with nothing laid over it (a number-and-name caption was removed because it only repeated the selected tab and the label beside the photo); the specification sits in one ivory block, and inspection protocols carry gold check chips. The four governance checkpoints are raised white cards on the ivory band with gold numbered badges, and the page closes on the shared raised CTA panel. No photographs were added or moved, so the CDN-served category photographs appear only where they already did.
+- **Company depth**: the fourth page polished. The hero stays text-led and from `lg` gains a raised panel of the four regional desks, each showing its local time and linking to that office below. The clocks fill in after mount, so the server markup carries `--:--` and cannot mismatch; the panel states no office hours, since the site does not publish any. The figures sit on a raised panel overlapping the hero, and the office directory is one raised panel with index numbers and gold role badges. The timeline is a connected rail, vertical on phones and horizontal from `lg`, with gold markers and the latest milestone marked current. The charter is four raised cards with gold icon chips, and the page closes on the shared CTA panel.
+- **In-page links**: `#id` links scroll through `followInPageLink` in `src/lib/in-page-link.ts`, used by `Link001` and the Company desk links. A plain hash link updated the address but did not scroll, most likely because the router restores the scroll position on a hash change. The helper scrolls in code, moves focus to the target (give it `tabIndex={-1}` unless it is focusable), keeps the hash in the address, drops smooth scrolling under reduced motion, and leaves modified clicks to the browser. It also fixed Explore Core Disciplines on Trade Services, which had never scrolled.
+- **Contact depth**: the fifth and last page polished. The hero keeps its copy and adds the two ways in: a gold Start your inquiry button that jumps to the form, and from `lg` a raised Direct lines panel with email, the Shenzhen and Hong Kong phone line, a link to the regional desks and the NDA confidentiality note. The four commitments sit on a raised panel overlapping the hero, each with a gold icon chip. The inquiry section runs on the ivory band: intent options are selectable cards with a gold ring and check, a three-step What happens next list restates the reply the hero promises, and the form sits in a raised white panel with a gold primary submit button. Required asterisks are decorative, since each input carries `required`; a note appears when fields arrive prefilled from the configurator or a category link; and the error and success messages sit inside an always-present live region so they are announced. The submit handler, payload, field names and prefill logic are unchanged. The left column is no longer sticky: it never pinned under the old `overflow-hidden` main, and it is now taller than the form. Offices are four raised cards.
 
 ---
 
@@ -76,8 +82,8 @@ shadow plus a soft downward gold bloom, never a glow. General shadows are tinted
 
 - Powered by `motion/react` with spring/cubic-bezier curves (`[0.16, 1, 0.3, 1]`).
 - Duration: 150ms–300ms for interface feedback; 600ms–800ms for viewport entry reveals.
-- Respects `prefers-reduced-motion`. Because the motion here comes from seven
-  independent systems, the preference has to be honoured in seven places:
+- Respects `prefers-reduced-motion`. Because the motion here comes from eight
+  independent systems, the preference has to be honoured in eight places:
   - `motion/react` scroll reveals and hero entrances: gated by `useReducedMotion()`
     in each page component. `MotionConfig` is not mounted, so the library's own
     default (`reducedMotion: "never"`) applies and every animation must opt in
@@ -118,6 +124,10 @@ shadow plus a soft downward gold bloom, never a glow. General shadows are tinted
     caption crossfade uses `motion-reduce:transition-none`. The server renders a
     line drawing of the landed container, and WebGL replaces it only where
     WebGL 2 runs well.
+  - The scroll indicator (`src/components/ScrollIndicator.tsx`): its reveal
+    slides in and fades; `motion-reduce:translate-x-0` removes the slide, so
+    under reduced motion it only fades, and the thumb width change loses its
+    transition.
 - One signature motion moment per viewport (e.g. the trade-network route drawing, the services crossfade, precision counter increments) rather than noisy repeated animations.
 
 ---
@@ -158,10 +168,16 @@ previous revision of this list asserted four things that turned out to be false.
       that grows on hover, 15.3:1 computed from the tokens. At rest the white
       copy is transparent, so a resting-state scan misreads it as white on the
       button colour.
-- [x] No scrollbar gutter on desktop: at 1440px `innerWidth - clientWidth` is
-      0, the floating thumb tracks the scroll (4px from the top of the window
-      at the top of the page, 398px at mid-page), and a 390px touch emulation
-      renders no thumb.
+- [x] Scroll indicator (2026-09-14), measured in Chrome: hidden at rest, with no
+      gutter and no horizontal overflow. The thumb position matched scroll
+      progress to the pixel after wheel scrolling down and up, PageDown,
+      scripted scrolling, dragging and phone touch. Timed inside the page: 73%
+      visible at 100ms, fully visible by about 175ms, held until the 850ms
+      delay ran out, fading from about 925ms and gone by about 1,325ms.
+      Hovering the edge widened it to 6px and kept it up; dragging it 120px
+      scrolled the page 1,033px; on a phone it showed during a touch drag and
+      took no pointer input. With the native scrollbars hidden, the wheel,
+      PageDown, End, Space and touch all still scrolled the page.
 - [x] `prefers-reduced-motion` honoured by every animation source listed in
       §5. The CSS block is verified present in the built stylesheet and the JS
       guards in the built bundle; emulating the OS setting end-to-end was not

@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import React from "react";
 
 import { cn } from "@/lib/utils";
+import { followInPageLink } from "@/lib/in-page-link";
 
 const Skiper40 = () => {
   return (
@@ -73,9 +74,10 @@ const Link001 = ({
       </Link>
     );
   }
+  // In-page anchors scroll in code; see followInPageLink for why the browser's own jump does not stick.
   if (href.startsWith("#")) {
     return (
-      <a href={href} className={classes}>
+      <a href={href} onClick={followInPageLink} className={classes}>
         {children}
       </a>
     );

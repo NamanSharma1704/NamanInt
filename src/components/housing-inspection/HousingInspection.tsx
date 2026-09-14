@@ -9,7 +9,7 @@ import type { HousingScene, InspectionPalette, MarkerPosition, Rgb } from './sce
 const TOKEN_FALLBACKS: Record<'--foreground' | '--background' | '--accent-on-tint', Hsl> = {
   '--foreground': { h: 220, s: 0.45, l: 0.11 },
   '--background': { h: 0, s: 0, l: 1 },
-  '--accent-on-tint': { h: 38, s: 0.68, l: 0.31 },
+  '--accent-on-tint': { h: 39, s: 0.72, l: 0.33 },
 };
 
 function token(style: CSSStyleDeclaration, name: keyof typeof TOKEN_FALLBACKS): Rgb {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import { Link } from 'react-router';
 import ResponsiveImage from '@/components/ResponsiveImage';
 
@@ -88,46 +88,49 @@ const disciplines: Discipline[] = [
   },
 ];
 
+/** The part of a discipline title before the ampersand, used for the tab label. */
+const shortTitle = (title: string): string => title.split('&')[0].trim();
+
 export default function TradeDisciplineShowcase() {
   const [activeIndex, setActiveIndex] = useState(0);
   const active = disciplines[activeIndex];
 
   return (
-    <section className="border-b border-border bg-card py-20 lg:py-24">
+    <section className="border-b border-border bg-card pb-20 pt-24 lg:pb-28 lg:pt-28">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-10">
-        {/* Section Header */}
         <div className="max-w-2xl">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-gold">
-            Core Disciplines
-          </p>
-          <h2 className="mt-3 font-heading text-3xl leading-[1.1] text-foreground sm:text-4xl lg:text-5xl">
+          <div className="mb-5 flex items-center gap-2">
+            <div className="h-px w-8 bg-gold" />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">Core Disciplines</span>
+          </div>
+          <h2 className="font-heading text-[clamp(2rem,4vw,3.25rem)] leading-[1.06] tracking-[-0.025em] text-balance text-foreground">
             Considered oversight across the overseas supply chain.
           </h2>
-          <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+          <p className="mt-5 text-base leading-[1.8] text-muted-foreground">
             From industrial vetting in the Pearl River Delta to container receipt at North American distribution centers, our four operational disciplines guarantee complete quality and timeline control.
           </p>
         </div>
 
-        {/* Minimalist Underline Tab Bar */}
-        <div className="mt-12 flex flex-wrap gap-2 border-b border-border pb-px sm:gap-6">
+        {/* Underline tab bar */}
+        <div className="mt-12 flex flex-wrap gap-x-7 gap-y-1 border-b border-border">
           {disciplines.map((item, idx) => {
             const isSelected = activeIndex === idx;
             return (
               <button
                 key={item.id}
+                type="button"
+                aria-pressed={isSelected}
                 onClick={() => setActiveIndex(idx)}
-                className={`relative pb-4 text-sm font-semibold transition-colors ${
-                  isSelected
-                    ? 'text-foreground font-bold'
-                    : 'text-muted-foreground hover:text-foreground'
+                className={`relative pb-4 pt-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                  isSelected ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
-                <span className="mr-2 text-xs font-bold text-gold">{item.number}</span>
-                <span>{item.title.split('&')[0]}</span>
+                <span className="mr-2 font-mono text-xs font-normal tracking-[0.12em] text-gold">{item.number}</span>
+                <span>{shortTitle(item.title)}</span>
                 {isSelected && (
                   <motion.div
                     layoutId="clean-tab-line"
-                    className="absolute inset-x-0 bottom-0 h-0.5 bg-accent-on-tint"
+                    className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-accent-on-tint"
                     transition={{ duration: 0.25, ease: 'easeOut' }}
                   />
                 )}
@@ -136,7 +139,6 @@ export default function TradeDisciplineShowcase() {
           })}
         </div>
 
-        {/* Active Discipline Content Grid */}
         <AnimatePresence mode="wait">
           <motion.div
             key={active.id}
@@ -144,66 +146,53 @@ export default function TradeDisciplineShowcase() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="mt-12 grid grid-cols-1 items-stretch gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16"
+            className="mt-12 grid grid-cols-1 items-stretch gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16"
           >
-            {/* Left Content */}
-            <div className="space-y-6">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-gold">
-                  {active.subtitle}
-                </p>
-                <h3 className="mt-2 font-heading text-2xl sm:text-3xl lg:text-4xl text-foreground leading-[1.15]">
-                  {active.title}
-                </h3>
-              </div>
+            <div className="flex flex-col">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gold">{active.subtitle}</p>
+              <h3 className="mt-3 font-heading text-2xl leading-[1.15] text-foreground sm:text-3xl lg:text-4xl">
+                {active.title}
+              </h3>
+              <p className="mt-5 max-w-xl text-base leading-[1.8] text-muted-foreground">{active.description}</p>
 
-              <p className="text-base leading-relaxed text-muted-foreground max-w-xl">
-                {active.description}
-              </p>
-
-              {/* Clean Metric Callout */}
-              <div className="flex items-baseline gap-3 border-y border-border py-4">
-                <span className="font-heading text-3xl font-bold text-foreground sm:text-4xl">
+              <div className="mt-8 flex items-baseline gap-3 border-y border-border py-5">
+                <span className="shrink-0 whitespace-nowrap font-heading text-4xl text-accent-on-tint sm:text-5xl">
                   {active.metric}
                 </span>
-                <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                   {active.metricLabel}
                 </span>
               </div>
 
-              {/* Hairline-divided list, matching the deliverable lists used on
-                  the homepage. Was a bulleted list with a tinted circle icon
-                  per row. */}
-              <div className="pt-2">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                  Verified deliverables
-                </p>
-                <ul className="mt-3">
-                  {active.deliverables.map((deliv) => (
-                    <li
-                      key={deliv}
-                      className="border-t border-border py-3.5 text-sm leading-[1.7] text-foreground"
+              <p className="mt-8 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                Verified deliverables
+              </p>
+              <ul className="mt-4 space-y-3.5">
+                {active.deliverables.map((deliv) => (
+                  <li key={deliv} className="flex items-start gap-3 text-sm leading-[1.7] text-foreground">
+                    <span
+                      aria-hidden="true"
+                      className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/15 ring-1 ring-inset ring-accent/30"
                     >
-                      {deliv}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                      <Check size={12} strokeWidth={2.75} className="text-accent-on-tint" />
+                    </span>
+                    {deliv}
+                  </li>
+                ))}
+              </ul>
 
-              <div className="pt-4">
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-accent-on-tint hover:underline"
-                >
-                  <span>Inquire about this discipline</span>
-                  <ArrowRight size={15} />
-                </Link>
-              </div>
+              <Link
+                to="/contact"
+                className="group mt-10 inline-flex w-fit items-center gap-2 text-sm font-semibold text-accent-on-tint transition-colors hover:text-foreground"
+              >
+                <span>Inquire about this discipline</span>
+                <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
             </div>
 
-            {/* Flat photograph, no radius, border or shadow, filling the column
-                height rather than sitting in a framed card. */}
-            <div className="relative min-h-[22rem] overflow-hidden">
+            {/* Raised photograph, the stage treatment the homepage services sequence uses, with nothing laid over it:
+                the tab and the heading beside it already name the discipline. */}
+            <figure className="relative min-h-[22rem] overflow-hidden rounded-2xl bg-muted shadow-[0_32px_64px_-32px_hsl(220_45%_15%/0.35)] ring-1 ring-border/70">
               <ResponsiveImage
                 src={active.image}
                 alt={active.imageAlt}
@@ -211,7 +200,7 @@ export default function TradeDisciplineShowcase() {
                 className="absolute inset-0 h-full w-full object-cover"
                 loading="eager"
               />
-            </div>
+            </figure>
           </motion.div>
         </AnimatePresence>
       </div>

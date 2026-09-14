@@ -27,15 +27,15 @@
     --secondary-foreground: 220 35% 25%;
     --muted: 42 50% 97%;                /* #FBF9F4 warm ivory section band */
     --muted-foreground: 218 15% 40%;    /* #576275 slate supporting text */
-    --accent: 40 62% 53%;               /* #D1A03D bright gold: buttons and active fills */
-    --accent-foreground: 216 70% 16%;   /* logo navy on gold, 6.6:1; white measures only 2.4:1 */
-    --accent-hover: 39 60% 47%;         /* #C08D30 hover and pressed gold, navy 5.3:1 */
-    --accent-on-dark: 42 75% 65%;       /* light gold, kept for a navy surface */
-    --accent-on-tint: 38 68% 31%;       /* #855D19 gold ink: links, icons, figures, rules, rings */
+    --accent: 42 75% 57%;               /* #E4B23F bright gold: buttons and active fills */
+    --accent-foreground: 216 70% 16%;   /* logo navy on gold, 8.0:1; white measures only 2.0:1 */
+    --accent-hover: 41 66% 50%;         /* #D49E2B hover and pressed gold, navy 6.5:1 */
+    --accent-on-dark: 44 85% 68%;       /* light gold, kept for a navy surface */
+    --accent-on-tint: 39 72% 33%;       /* #916618 gold ink: links, icons, figures, rules, rings */
     /* The same gold ink for eyebrow labels and their rules and the mono index
        numbers. --gold-soft is the kraft champagne the container drawing uses for
        cartons. */
-    --gold: 38 68% 31%;                 /* #855D19 */
+    --gold: 39 72% 33%;                 /* #916618 */
     --gold-soft: 40 45% 76%;            /* #DDCBA6 */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
@@ -47,13 +47,13 @@
     --info-foreground: 0 0% 100%;
     --border: 40 30% 88%;               /* #EAE3D7 warm hairline */
     --input: 40 30% 88%;
-    --ring: 38 68% 31%;                 /* gold ink focus ring */
+    --ring: 39 72% 33%;                 /* gold ink focus ring */
 
     /* Extended Colors */
-    --chart-1: 38 68% 31%;
+    --chart-1: 39 72% 33%;
     --chart-2: 216 70% 30%;
     --chart-3: 216 70% 16%;
-    --chart-4: 40 62% 53%;
+    --chart-4: 42 75% 57%;
     --chart-5: 40 45% 76%;
 
     /* Sidebar Colors */
@@ -61,10 +61,10 @@
     --sidebar-foreground: 220 45% 11%;
     --sidebar-primary: 216 70% 16%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 40 62% 53%;
+    --sidebar-accent: 42 75% 57%;
     --sidebar-accent-foreground: 216 70% 16%;
     --sidebar-border: 40 30% 88%;
-    --sidebar-ring: 38 68% 31%;
+    --sidebar-ring: 39 72% 33%;
 
     /* Typography */
     --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -89,8 +89,8 @@
     /* Accent shadows for gold buttons: a tight warm contact shadow plus a soft,
        downward gold bloom. The class names keep "teal" so existing markup keeps
        working. */
-    --shadow-teal: 0 1px 2px hsl(38 60% 25% / 0.18), 0 8px 18px -8px hsl(40 62% 42% / 0.50);
-    --shadow-teal-lg: 0 1px 2px hsl(38 60% 25% / 0.20), 0 14px 30px -10px hsl(40 62% 42% / 0.55);
+    --shadow-teal: 0 1px 2px hsl(38 60% 25% / 0.18), 0 8px 18px -8px hsl(42 75% 45% / 0.50);
+    --shadow-teal-lg: 0 1px 2px hsl(38 60% 25% / 0.20), 0 14px 30px -10px hsl(42 75% 45% / 0.55);
   }
 
   * {
@@ -352,62 +352,22 @@
   .bg-accent\/12 { background-color: hsl(var(--accent) / 0.12); }
 }
 
-/* Scrollbars. The page itself has no track and no gutter: on mouse and
-   trackpad screens the root scrollbar is hidden and <ScrollThumb> floats a
-   gold thumb over the content. Inner scroll areas keep a slim gold thumb on a
-   clear track. */
+/* Native scrollbars are hidden everywhere; <ScrollIndicator> draws a slim gold
+   thumb in their place that fades in while the page scrolls and away when it
+   stops. Scrolling itself is untouched: wheel, trackpad, touch, keyboard and
+   in-page links all still work. Firefox reads scrollbar-width; Chrome, Edge
+   and Safari read the ::-webkit-scrollbar pseudo-element. */
 @layer base {
   html {
     scroll-behavior: smooth;
   }
 
-  /* Chrome 121+ ignores the ::-webkit-scrollbar styling below whenever
-     scrollbar-color or scrollbar-width is set, so the standard properties are
-     limited to browsers without those pseudo-elements (Firefox), which accept
-     only colours and a width keyword. */
-  @supports not selector(::-webkit-scrollbar) {
-    html {
-      scrollbar-width: thin;
-      scrollbar-color: hsl(var(--accent) / 0.75) transparent;
-    }
+  * {
+    scrollbar-width: none;
   }
 
-  /* After the block above, so Firefox takes `none` too. Touch screens keep
-     their native overlay scrollbars, which already have no track. */
-  @media (pointer: fine) {
-    html {
-      scrollbar-width: none;
-    }
-
-    html::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-
-  ::-webkit-scrollbar-track,
-  ::-webkit-scrollbar-corner {
-    background: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--accent) / 0.7);
-    /* A transparent border clipped away keeps the thumb slim and off the edge. */
-    border: 2px solid transparent;
-    background-clip: padding-box;
-    border-radius: 9999px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: hsl(var(--accent) / 0.9);
-  }
-
-  ::-webkit-scrollbar-thumb:active {
-    background-color: hsl(var(--accent));
+  *::-webkit-scrollbar {
+    display: none;
   }
 }
 

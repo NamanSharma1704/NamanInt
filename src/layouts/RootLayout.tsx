@@ -5,7 +5,7 @@ import { ScrollRestoration } from 'react-router';
 import Footer from '@/layouts/parts/Footer';
 import Header from '@/layouts/parts/Header';
 import HomepageSameAsJsonLd from '@/components/HomepageSameAsJsonLd';
-import ScrollThumb from '@/components/ScrollThumb';
+import ScrollIndicator from '@/components/ScrollIndicator';
 import Website from '@/layouts/Website';
 
 /**
@@ -33,7 +33,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <Header />
       {children}
       <Footer />
-      <ScrollThumb />
+      <ScrollIndicator />
     </Website>
   );
 }
