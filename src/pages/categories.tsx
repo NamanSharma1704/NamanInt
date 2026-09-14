@@ -1,12 +1,10 @@
-import { useState, type FocusEvent } from 'react';
+import { useState } from 'react';
 import { Helmet } from '@dr.pogodin/react-helmet';
 import { useJsonLdSiteUrl } from '@/lib/json-ld-site-url-context';
 import { mediaUrl } from '@/lib/media';
-import ResponsiveImage from '@/components/ResponsiveImage';
-import HousingInspection from '@/components/housing-inspection/HousingInspection';
-import { useInspectionDrawingAvailable } from '@/lib/housing-inspection/capability';
-import { useInspectionView } from '@/lib/housing-inspection/use-inspection-view';
-import { ArrowRight, Check, Clock, MapPin } from 'lucide-react';
+import PortfolioArticle from '@/components/category-inspection/PortfolioArticle';
+import { CATEGORY_SEQUENCES } from '@/components/category-inspection/sequences';
+import { ArrowRight, Clock, MapPin } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Link } from 'react-router';
 import { categories } from 'virtual:content';
@@ -158,40 +156,13 @@ const reveal = (reduced: boolean | null) => ({
 /** "30–45 Days (Tooling + Production)" becomes "30–45 Days" for the hero index. */
 const shortLeadTime = (leadTime: string): string => leadTime.split(' (')[0];
 
-/** Keyboard focus previews an inspection point; focus that follows a tap does not. */
-function isKeyboardFocus(event: FocusEvent<HTMLElement>): boolean {
-  try {
-    return event.currentTarget.matches(':focus-visible');
-  } catch {
-    return true;
-  }
-}
-
-function CheckChip() {
-  return (
-    <span
-      aria-hidden="true"
-      className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/15 ring-1 ring-inset ring-accent/30"
-    >
-      <Check size={12} strokeWidth={2.75} className="text-accent-on-tint" />
-    </span>
-  );
-}
-
 export default function CategoriesPage() {
   const siteUrl = useJsonLdSiteUrl();
   const url = `${siteUrl}/categories`;
   const reducedMotion = useReducedMotion();
   const [selectedFilter, setSelectedFilter] = useState(categoryFilters[0].id);
-  // Precision Hardware's figure can switch from its photograph to an inspection drawing of the
-  // housing in it. The switch only appears once the browser has confirmed capable WebGL.
-  const inspectionAvailable = useInspectionDrawingAvailable();
-  const inspection = useInspectionView();
 
   const selectCategory = (id: string): void => {
-    // Leaving a category returns its figure to the photograph, which also releases the drawing's WebGL context
-    // rather than keeping it in a hidden panel.
-    if (id !== selectedFilter) inspection.showPhotograph();
     setSelectedFilter(id);
   };
 
@@ -315,7 +286,8 @@ export default function CategoriesPage() {
         {/* ═══════════════════════════════════════════════════════
             3 — PORTFOLIO. One category at a time, chosen from the filter
             bar or the hero index: the photograph on a raised stage beside
-            its specification.
+            its specification, switchable to a scrolled inspection process
+            where the category has an inspection model.
         ═══════════════════════════════════════════════════════ */}
         <section id="portfolios" className="mx-auto max-w-[1440px] scroll-mt-20 px-5 pb-20 pt-24 sm:px-8 lg:px-10 lg:pb-24 lg:pt-28">
           <div className="max-w-2xl">
@@ -366,167 +338,16 @@ export default function CategoriesPage() {
               own because one (grid) would override [hidden]. Lazy images
               in hidden panels don't load until their panel is shown. */}
           <div>
-            {portfolioCategories.map((item) => {
-              const isSelected = item.id === selectedFilter;
-              const isDefault = item.id === categoryFilters[0].id;
-              const offersInspection = item.id === 'hardware' && inspectionAvailable;
-              const inspecting = offersInspection && inspection.on;
-              return (
-                <article key={item.id} id={`category-${item.id}`} hidden={!isSelected}>
-                  <motion.div
-                    initial={false}
-                    animate={isSelected ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-                    transition={{ duration: reducedMotion ? 0 : 0.3, ease: 'easeOut' }}
-                    className="grid items-center gap-10 py-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 lg:py-14"
-                  >
-                    <div>
-                      <figure className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-muted shadow-[0_32px_64px_-32px_hsl(220_45%_15%/0.35)] ring-1 ring-border/70">
-                        <ResponsiveImage
-                          src={item.image}
-                          alt={item.imageAlt}
-                          width={1200}
-                          height={900}
-                          sizes="(min-width: 1024px) 38vw, 100vw"
-                          loading={isDefault ? 'eager' : 'lazy'}
-                          fetchPriority={isDefault ? 'high' : 'auto'}
-                          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out motion-reduce:transition-none ${
-                            inspecting && inspection.ready ? 'opacity-0' : 'opacity-100'
-                          }`}
-                        />
-                        {inspecting && (
-                          <HousingInspection
-                            protocols={item.standards}
-                            highlight={inspection.highlight}
-                            onReady={inspection.markReady}
-                            onFailed={inspection.showPhotograph}
-                          />
-                        )}
-                      </figure>
-
-                      {/* Underline switch, matching the category filter bar above. The
-                          photograph stays the default; the drawing loads on request. */}
-                      {offersInspection && (
-                        <div role="group" aria-label="Figure view" className="mt-4 flex gap-6 border-b border-border">
-                          {[
-                            { drawing: false, label: 'Photograph' },
-                            { drawing: true, label: 'Inspection drawing' },
-                          ].map((option) => {
-                            const selected = inspection.on === option.drawing;
-                            return (
-                              <button
-                                key={option.label}
-                                type="button"
-                                aria-pressed={selected}
-                                onClick={option.drawing ? inspection.showDrawing : inspection.showPhotograph}
-                                className={`relative pb-3 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-                                  selected ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
-                                }`}
-                              >
-                                {option.label}
-                                {selected && <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-0.5 bg-accent-on-tint" />}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
-
-                    <div>
-                      <div className="flex items-center gap-3">
-                        <span className="font-mono text-xs tracking-[0.18em] text-gold">{item.number}</span>
-                        <div className="h-px w-6 bg-border" />
-                        <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                          {item.categoryTag}
-                        </span>
-                      </div>
-
-                      <h3 className="mt-5 font-heading text-2xl leading-[1.15] text-balance text-foreground sm:text-3xl">
-                        {item.title}
-                      </h3>
-                      <p className="mt-4 max-w-2xl text-base leading-[1.8] text-muted-foreground">{item.description}</p>
-
-                      {/* Specification in a soft ivory block: grades and commercial terms on the left, inspection
-                          protocols on the right. The page section is not a card, so this is the only box. */}
-                      <div className="mt-8 grid gap-x-10 gap-y-6 rounded-2xl border border-border bg-muted p-6 sm:grid-cols-2 sm:p-7">
-                        <dl className="space-y-4">
-                          <div>
-                            <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                              Key material grades
-                            </dt>
-                            <dd className="mt-1.5 text-sm leading-[1.7] text-foreground">{item.materials.join(' · ')}</dd>
-                          </div>
-                          <div>
-                            <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                              Lead time
-                            </dt>
-                            <dd className="mt-1.5 text-sm leading-[1.7] text-foreground">{item.leadTime}</dd>
-                          </div>
-                          <div>
-                            <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                              Volume profile
-                            </dt>
-                            <dd className="mt-1.5 text-sm leading-[1.7] text-foreground">{item.volumeProfile}</dd>
-                          </div>
-                        </dl>
-
-                        <div>
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                            Inspection protocols
-                          </p>
-                          <ul className="mt-1.5">
-                            {item.standards.map((std, index) => (
-                              <li
-                                key={std}
-                                className="border-t border-border py-2.5 text-sm leading-[1.7] text-foreground first:border-t-0 first:pt-1"
-                              >
-                                {inspecting ? (
-                                  // In the inspection view each protocol controls its numbered
-                                  // point: mouse hover or keyboard focus previews it, a press pins it.
-                                  <button
-                                    type="button"
-                                    aria-pressed={inspection.pinned === index}
-                                    onClick={() => inspection.togglePin(index)}
-                                    onPointerEnter={(event) => {
-                                      if (event.pointerType === 'mouse') inspection.preview(index);
-                                    }}
-                                    onPointerLeave={(event) => {
-                                      if (event.pointerType === 'mouse') inspection.preview(null);
-                                    }}
-                                    onFocus={(event) => {
-                                      if (isKeyboardFocus(event)) inspection.preview(index);
-                                    }}
-                                    onBlur={() => inspection.preview(null)}
-                                    className={`flex w-full items-baseline gap-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-                                      inspection.highlight === index ? 'text-accent-on-tint' : 'hover:text-accent-on-tint'
-                                    }`}
-                                  >
-                                    <span className="font-mono text-xs text-gold">{index + 1}</span>
-                                    <span>{std}</span>
-                                  </button>
-                                ) : (
-                                  <span className="flex items-start gap-2.5">
-                                    <CheckChip />
-                                    <span>{std}</span>
-                                  </span>
-                                )}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-
-                      <Link
-                        to={`/contact?category=${item.contactParam}`}
-                        className="group mt-8 inline-flex w-fit items-center gap-2 text-sm font-semibold text-accent-on-tint transition-colors hover:text-foreground"
-                      >
-                        <span>Inquire for this category</span>
-                        <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
-                      </Link>
-                    </div>
-                  </motion.div>
-                </article>
-              );
-            })}
+            {portfolioCategories.map((item) => (
+              <PortfolioArticle
+                key={item.id}
+                item={item}
+                selected={item.id === selectedFilter}
+                isDefault={item.id === categoryFilters[0].id}
+                sequence={CATEGORY_SEQUENCES[item.id]}
+                reducedMotion={reducedMotion}
+              />
+            ))}
           </div>
         </section>
 

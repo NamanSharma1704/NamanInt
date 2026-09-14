@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { INSPECTION_MARKERS } from '@/lib/housing-inspection/geometry';
+import type { InspectionMarker } from '@/lib/inspection-drawing/solids';
 import { hslToRgb, parseHslTriplet, type Hsl } from '@/lib/trade-network/model';
 import { prefersReducedMotionNow, usePrefersReducedMotion } from '@/lib/use-reduced-motion';
 
-import type { HousingScene, InspectionPalette, MarkerPosition, Rgb } from './scene';
+import type { InspectionPalette, InspectionScene, InspectionSceneOptions, MarkerPosition, Rgb } from './scene';
 
 const TOKEN_FALLBACKS: Record<'--foreground' | '--background' | '--accent-on-tint', Hsl> = {
   '--foreground': { h: 220, s: 0.45, l: 0.11 },
@@ -24,29 +24,40 @@ function groundColour(element: HTMLElement | null, fallback: Rgb): Rgb {
   return [Number(match[1]) / 255, Number(match[2]) / 255, Number(match[3]) / 255];
 }
 
-export interface HousingInspectionProps {
+/** A drawing's scene factory, with its solids and effects already bound. */
+export type SceneFactory = (options: Omit<InspectionSceneOptions, 'drawing' | 'effects'>) => InspectionScene;
+
+export interface InspectionCanvasProps {
+  readonly markers: readonly InspectionMarker[];
   /** The category's inspection protocols, in the order the markers are numbered. */
   readonly protocols: readonly string[];
-  /** Protocol whose point and part are emphasised, or null. */
+  /** Protocol whose point and parts are emphasised, or null; the other points step back. */
   readonly highlight: number | null;
+  /** Opening sentence of the text description, naming what is drawn. */
+  readonly subject: string;
+  /** Loads the drawing's Three.js module on demand and returns its scene factory. */
+  readonly loadScene: () => Promise<SceneFactory>;
   readonly onReady: () => void;
-  /** WebGL failed to load, start, or lost its context: the page should show the photograph again. */
+  /** WebGL failed to load, start, or lost its context: the page should fall back. */
   readonly onFailed: () => void;
+  /** Hands the running scene to the owner (for scroll progress), and null when it goes away. */
+  readonly onScene?: (scene: InspectionScene | null) => void;
 }
 
 /**
- * The inspection drawing of the housing in the Precision Hardware photograph. Rendered only when a
- * visitor switches the figure to it; the WebGL module loads at that moment. The canvas and markers
- * are decorative — the text description and the protocol list carry the content.
+ * The canvas and numbered markers of a Categories inspection drawing. It fills its positioned parent
+ * and takes that parent's background as the drawing's ground. The WebGL module loads when this
+ * mounts. The canvas and markers are decorative; the text description and the page's steps carry the
+ * content.
  */
-export default function HousingInspection({ protocols, highlight, onReady, onFailed }: HousingInspectionProps) {
+export default function InspectionCanvas({ markers, protocols, highlight, subject, loadScene, onReady, onFailed, onScene }: InspectionCanvasProps) {
   const frameRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const markerRefs = useRef<Array<HTMLLIElement | null>>([]);
-  const sceneRef = useRef<HousingScene | null>(null);
+  const sceneRef = useRef<InspectionScene | null>(null);
   const highlightRef = useRef(highlight);
-  const callbacks = useRef({ onReady, onFailed });
-  callbacks.current = { onReady, onFailed };
+  const callbacks = useRef({ onReady, onFailed, loadScene, onScene });
+  callbacks.current = { onReady, onFailed, loadScene, onScene };
   const reducedMotion = usePrefersReducedMotion();
   const reducedMotionRef = useRef(reducedMotion);
   const [ready, setReady] = useState(false);
@@ -68,7 +79,7 @@ export default function HousingInspection({ protocols, highlight, onReady, onFai
     let disposed = false;
     let teardown: (() => void) | null = null;
 
-    // Marker positions change every frame while the part sways, so they are written straight to
+    // Marker positions change every frame while the drawing moves, so they are written straight to
     // the DOM rather than through React state.
     const placeMarkers = (positions: readonly MarkerPosition[]): void => {
       for (const { protocol, x, y } of positions) {
@@ -78,14 +89,14 @@ export default function HousingInspection({ protocols, highlight, onReady, onFai
     };
 
     const fail = (message: string, error?: unknown): void => {
-      if (import.meta.env.DEV) console.warn(`[housing-inspection] ${message}`, error);
+      if (import.meta.env.DEV) console.warn(`[inspection-drawing] ${message}`, error);
       if (!disposed) callbacks.current.onFailed();
     };
 
     void (async () => {
-      let sceneModule: typeof import('./scene');
+      let createScene: SceneFactory;
       try {
-        sceneModule = await import('./scene');
+        createScene = await callbacks.current.loadScene();
       } catch (error) {
         fail('WebGL module failed to load', error);
         return;
@@ -100,9 +111,9 @@ export default function HousingInspection({ protocols, highlight, onReady, onFai
         ground: groundColour(frame.parentElement, token(style, '--background')),
       };
 
-      let scene: HousingScene;
+      let scene: InspectionScene;
       try {
-        scene = sceneModule.createHousingScene({
+        scene = createScene({
           canvas,
           palette,
           reducedMotion: reducedMotionRef.current || prefersReducedMotionNow(),
@@ -142,10 +153,12 @@ export default function HousingInspection({ protocols, highlight, onReady, onFai
       teardown = () => {
         for (const observer of observers) observer.disconnect();
         document.removeEventListener('visibilitychange', onVisibility);
+        callbacks.current.onScene?.(null);
         scene.dispose();
         sceneRef.current = null;
       };
       setReady(true);
+      callbacks.current.onScene?.(scene);
       callbacks.current.onReady();
     })();
 
@@ -161,18 +174,19 @@ export default function HousingInspection({ protocols, highlight, onReady, onFai
     <div ref={frameRef} className="absolute inset-0">
       <canvas ref={canvasRef} aria-hidden="true" className={`block h-full w-full ${fade}`} />
       <ol aria-hidden="true" className={`pointer-events-none absolute inset-0 ${fade}`}>
-        {INSPECTION_MARKERS.map((marker) => {
+        {markers.map((marker) => {
           const emphasised = highlight === marker.protocol;
+          const receded = highlight !== null && !emphasised;
           return (
             <li
               key={marker.protocol}
               ref={(element) => {
                 markerRefs.current[marker.protocol] = element;
               }}
-              className="absolute left-0 top-0"
+              className={`absolute left-0 top-0 transition-opacity duration-300 motion-reduce:transition-none ${receded ? 'opacity-40' : 'opacity-100'}`}
             >
               {/* A dot on the inspected feature and a leader out to the numbered balloon, so the
-                  balloon never covers the feature it names (the side fitting is only a few pixels). */}
+                  balloon never covers the feature it names. */}
               <span className="absolute -left-[3px] -top-[3px] h-1.5 w-1.5 rounded-full bg-accent-on-tint" />
               <span className="absolute left-0 top-0 h-px w-[26px] origin-left -rotate-45 bg-accent-on-tint" />
               <span
@@ -188,8 +202,8 @@ export default function HousingInspection({ protocols, highlight, onReady, onFai
         })}
       </ol>
       <p className="sr-only">
-        Inspection drawing of the machined aluminium housing shown in the photograph.{' '}
-        {INSPECTION_MARKERS.map((marker) => `Point ${marker.protocol + 1}: ${protocols[marker.protocol] ?? ''}, applied to ${marker.place}.`).join(' ')}
+        {subject}{' '}
+        {markers.map((marker) => `Point ${marker.protocol + 1}: ${protocols[marker.protocol] ?? ''}, applied to ${marker.place}.`).join(' ')}
       </p>
     </div>
   );

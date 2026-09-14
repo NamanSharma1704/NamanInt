@@ -1,5 +1,5 @@
 /**
- * Geometry of the machined aluminium housing drawn in the Precision Hardware inspection view.
+ * Geometry of the machined aluminium housing drawn in the Precision Hardware inspection sequence.
  *
  * The dimensions are the final state of a procedural reconstruction of the housing in
  * public/assets/images/category-precision-hardware.jpg, credited through its blockout, structural
@@ -8,61 +8,22 @@
  *
  * Pure data and arithmetic with no Three.js or DOM, so the WebGL scene and the tests share it.
  */
+import {
+  arc,
+  circle,
+  round,
+  roundedRect,
+  solidBounds,
+  type Bounds,
+  type InspectionDrawing,
+  type InspectionMarker,
+  type Point2,
+  type Solid,
+  type Vec3,
+} from '@/lib/inspection-drawing/solids';
 
-export type Vec3 = readonly [number, number, number];
-export type Point2 = readonly [number, number];
-
-/** A flat outline in plan view, as (x, z), extruded upward from `y` by `height`. */
-export interface PlanPrism {
-  readonly kind: 'plan-prism';
-  readonly id: string;
-  readonly outline: readonly Point2[];
-  readonly holes: readonly (readonly Point2[])[];
-  readonly y: number;
-  readonly height: number;
-}
-
-/** A flat outline in front view, as (x, y), extruded from `z` toward the viewer by `depth`. */
-export interface FrontPrism {
-  readonly kind: 'front-prism';
-  readonly id: string;
-  readonly outline: readonly Point2[];
-  readonly z: number;
-  readonly depth: number;
-}
-
-/** A closed profile of (radius, z) revolved about the Z-parallel axis through (x, y). */
-export interface ZLathe {
-  readonly kind: 'z-lathe';
-  readonly id: string;
-  readonly profile: readonly Point2[];
-  readonly x: number;
-  readonly y: number;
-}
-
-/** A solid cylinder between two points. */
-export interface Rod {
-  readonly kind: 'rod';
-  readonly id: string;
-  readonly start: Vec3;
-  readonly end: Vec3;
-  readonly radius: number;
-}
-
-export type Solid = PlanPrism | FrontPrism | ZLathe | Rod;
-
-export interface InspectionMarker {
-  /** Index into the Precision Hardware category's inspection protocols. */
-  readonly protocol: number;
-  /** Where on the part the protocol applies, in plain words for the accessible description. */
-  readonly place: string;
-  readonly anchor: Vec3;
-}
-
-export interface Bounds {
-  readonly min: Vec3;
-  readonly max: Vec3;
-}
+export { arc, circle, roundedRect } from '@/lib/inspection-drawing/solids';
+export type { Bounds, FrontPrism, InspectionMarker, PlanPrism, Point2, Rod, Solid, Vec3, ZLathe } from '@/lib/inspection-drawing/solids';
 
 const BASE_TOP = 0.27;
 const DECK = { y: 0.25, height: 0.06 } as const;
@@ -85,32 +46,8 @@ const FITTING = { y: 0.6775, z: -0.03 } as const;
 
 export const RIM_TOP = RIM.y + RIM.height;
 
-/** The angle the photo was taken from, used as the drawing's resting view. */
+/** The angle the photo was taken from, used as the drawing's camera. */
 export const REFERENCE_VIEW = { azimuthDeg: 6, elevationDeg: 48 } as const;
-
-const round = (value: number): number => Math.round(value * 10000) / 10000;
-
-export function arc(cx: number, cy: number, radius: number, from: number, to: number, steps: number): Point2[] {
-  const points: Point2[] = [];
-  for (let i = 0; i <= steps; i += 1) {
-    const angle = from + ((to - from) * i) / steps;
-    points.push([round(cx + radius * Math.cos(angle)), round(cy + radius * Math.sin(angle))]);
-  }
-  return points;
-}
-
-export function circle(cx: number, cy: number, radius: number, steps = 32): Point2[] {
-  return arc(cx, cy, radius, 0, Math.PI * 2, steps).slice(0, steps);
-}
-
-export function roundedRect(x0: number, x1: number, y0: number, y1: number, radius: number, steps = 6): Point2[] {
-  return [
-    ...arc(x1 - radius, y0 + radius, radius, -Math.PI / 2, 0, steps),
-    ...arc(x1 - radius, y1 - radius, radius, 0, Math.PI / 2, steps),
-    ...arc(x0 + radius, y1 - radius, radius, Math.PI / 2, Math.PI, steps),
-    ...arc(x0 + radius, y0 + radius, radius, Math.PI, Math.PI * 1.5, steps),
-  ];
-}
 
 /** Half-width of the notch the bore collar sits in, where it meets the base top face. */
 export const NOTCH_HALF_WIDTH = round(Math.sqrt(BORE.outer ** 2 - (BASE_TOP - BORE.y) ** 2));
@@ -254,48 +191,47 @@ export const INSPECTION_MARKERS: readonly InspectionMarker[] = [
   { protocol: 2, place: 'the side fitting', anchor: [0.555, FITTING.y, FITTING.z] },
 ];
 
+const PROBE_CONTACT = INSPECTION_MARKERS[0]!.anchor;
+
+/** Where the sequence's drawn effects sit, in model space. */
+export const HOUSING_EFFECT_ANCHORS = {
+  /** CMM probe: its ball comes down onto the top bore's front rim, from `travel` above it. */
+  probe: { contact: PROBE_CONTACT, ballRadius: 0.018, travel: 0.2, shaft: 0.28 },
+  /** Restricted-substance screening: a plane sweeps down through the base block, from just above its top to the floor. */
+  screening: {
+    x: [-0.56, 0.56] as const,
+    z: [round(Z_BASE.back - 0.04), round(BORE.front + 0.04)] as const,
+    y: [round(BASE_TOP + 0.05), 0] as const,
+  },
+  /** Salt spray: droplets travel from a nozzle beside the part to the side fitting. */
+  spray: {
+    nozzle: [0.8, round(FITTING.y + 0.1), round(FITTING.z + 0.06)] as Vec3,
+    target: [0.555, FITTING.y, FITTING.z] as Vec3,
+    spread: 0.03,
+  },
+} as const;
+
 /** Axis-aligned bounds of every solid, for framing the camera. */
 export function housingBounds(solids: readonly Solid[] = HOUSING_SOLIDS): Bounds {
-  const min = [Infinity, Infinity, Infinity];
-  const max = [-Infinity, -Infinity, -Infinity];
-  const include = (x: number, y: number, z: number): void => {
-    min[0] = Math.min(min[0]!, x);
-    min[1] = Math.min(min[1]!, y);
-    min[2] = Math.min(min[2]!, z);
-    max[0] = Math.max(max[0]!, x);
-    max[1] = Math.max(max[1]!, y);
-    max[2] = Math.max(max[2]!, z);
-  };
-  for (const solid of solids) {
-    switch (solid.kind) {
-      case 'plan-prism':
-        for (const [x, z] of solid.outline) {
-          include(x, solid.y, z);
-          include(x, solid.y + solid.height, z);
-        }
-        break;
-      case 'front-prism':
-        for (const [x, y] of solid.outline) {
-          include(x, y, solid.z);
-          include(x, y, solid.z + solid.depth);
-        }
-        break;
-      case 'z-lathe':
-        for (const [radius, z] of solid.profile) {
-          include(solid.x - radius, solid.y - radius, z);
-          include(solid.x + radius, solid.y + radius, z);
-        }
-        break;
-      case 'rod':
-        for (const point of [solid.start, solid.end]) {
-          include(point[0] - solid.radius, point[1] - solid.radius, point[2] - solid.radius);
-          include(point[0] + solid.radius, point[1] + solid.radius, point[2] + solid.radius);
-        }
-        break;
-    }
-  }
-  return {
-    min: [round(min[0]!), round(min[1]!), round(min[2]!)],
-    max: [round(max[0]!), round(max[1]!), round(max[2]!)],
-  };
+  return solidBounds(solids);
 }
+
+export const HOUSING_DRAWING: InspectionDrawing = {
+  solids: HOUSING_SOLIDS,
+  markers: INSPECTION_MARKERS,
+  view: REFERENCE_VIEW,
+  /**
+   * The part turns a little toward each inspection point: square to the top plate for the CMM probe, to the base
+   * block's front for screening, and well round for the side fitting, which is edge-on at the photograph's angle.
+   */
+  sequence: { stepYawDeg: [-8, 0, -34], idleSwayDeg: 2.5, idlePeriodSeconds: 16 },
+  framingPoints: [
+    [PROBE_CONTACT[0], round(PROBE_CONTACT[1] + HOUSING_EFFECT_ANCHORS.probe.travel + 0.04), PROBE_CONTACT[2]],
+    HOUSING_EFFECT_ANCHORS.spray.nozzle,
+  ],
+  protocolParts: {
+    0: ['top-plate', 'top-rim'],
+    1: ['base-block', 'base-deck-left', 'base-deck-right'],
+    2: ['fitting-collar', 'fitting-nipple'],
+  },
+};

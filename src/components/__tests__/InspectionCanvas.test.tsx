@@ -1,41 +1,52 @@
 /**
- * HousingInspection against a stand-in scene: jsdom has no WebGL, so these cover what the
- * component owns — palette, marker placement, highlight forwarding, fallback and teardown.
+ * InspectionCanvas against a stand-in scene: jsdom has no WebGL, so these cover what the canvas owns:
+ * palette, marker placement and emphasis, highlight forwarding, handing the scene to its owner,
+ * fallback and teardown.
  */
 import { act, cleanup, render, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { HousingSceneOptions } from '../housing-inspection/scene'
+import { INSPECTION_MARKERS } from '@/lib/housing-inspection/geometry'
 
-const sceneModule = vi.hoisted(() => ({ createHousingScene: vi.fn() }))
-vi.mock('../housing-inspection/scene', () => sceneModule)
-
-import HousingInspection from '../housing-inspection/HousingInspection'
+import InspectionCanvas, { type SceneFactory } from '../inspection-drawing/InspectionCanvas'
+import type { InspectionScene } from '../inspection-drawing/scene'
 
 const PROTOCOLS = ['CMM 3D Coordinate inspection (±0.05mm)', 'RoHS & REACH compliance', 'Salt spray 96h corrosion test']
+const SUBJECT = 'Inspection drawing of a machined aluminium housing.'
 
 function fakeScene() {
-  return { resize: vi.fn(), setHighlight: vi.fn(), setReducedMotion: vi.fn(), setActive: vi.fn(), dispose: vi.fn() }
+  return { resize: vi.fn(), setHighlight: vi.fn(), setProgress: vi.fn(), setReducedMotion: vi.fn(), setActive: vi.fn(), dispose: vi.fn() }
 }
 
-let options: HousingSceneOptions
+type FactoryOptions = Parameters<SceneFactory>[0]
+let options: FactoryOptions
 let scene: ReturnType<typeof fakeScene>
+const factory = vi.fn((next: FactoryOptions) => {
+  options = next
+  scene = fakeScene()
+  return scene as unknown as InspectionScene
+})
 
-function renderDrawing(highlight: number | null = null) {
+function renderCanvas(highlight: number | null = null, loadScene: () => Promise<SceneFactory> = () => Promise.resolve(factory)) {
   const onReady = vi.fn()
   const onFailed = vi.fn()
-  const view = render(
+  const onScene = vi.fn()
+  const element = (next: number | null) => (
     <figure style={{ backgroundColor: 'rgb(236, 240, 243)' }}>
-      <HousingInspection protocols={PROTOCOLS} highlight={highlight} onReady={onReady} onFailed={onFailed} />
-    </figure>,
+      <InspectionCanvas
+        markers={INSPECTION_MARKERS}
+        protocols={PROTOCOLS}
+        highlight={next}
+        subject={SUBJECT}
+        loadScene={loadScene}
+        onReady={onReady}
+        onFailed={onFailed}
+        onScene={onScene}
+      />
+    </figure>
   )
-  const rerender = (next: number | null) =>
-    view.rerender(
-      <figure style={{ backgroundColor: 'rgb(236, 240, 243)' }}>
-        <HousingInspection protocols={PROTOCOLS} highlight={next} onReady={onReady} onFailed={onFailed} />
-      </figure>,
-    )
-  return { ...view, rerender, onReady, onFailed }
+  const view = render(element(highlight))
+  return { ...view, rerender: (next: number | null) => view.rerender(element(next)), onReady, onFailed, onScene }
 }
 
 /** The shared setup's ResizeObserver mock cannot be constructed with `new`. */
@@ -48,11 +59,7 @@ class InertResizeObserver {
 beforeEach(() => {
   vi.stubGlobal('ResizeObserver', InertResizeObserver)
   vi.spyOn(console, 'warn').mockImplementation(() => {})
-  sceneModule.createHousingScene.mockReset().mockImplementation((next: HousingSceneOptions) => {
-    options = next
-    scene = fakeScene()
-    return scene
-  })
+  factory.mockClear()
 })
 
 afterEach(() => {
@@ -61,11 +68,11 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-describe('HousingInspection', () => {
+describe('InspectionCanvas', () => {
   it('starts the scene on the figure ground with the current highlight, then reports ready', async () => {
-    const { onReady, onFailed } = renderDrawing(1)
+    const { onReady, onFailed } = renderCanvas(1)
     await waitFor(() => expect(onReady).toHaveBeenCalledTimes(1))
-    expect(sceneModule.createHousingScene).toHaveBeenCalledTimes(1)
+    expect(factory).toHaveBeenCalledTimes(1)
     expect(options.palette.ground).toEqual([236 / 255, 240 / 255, 243 / 255])
     for (const channel of [...options.palette.line, ...options.palette.accent]) {
       expect(channel).toBeGreaterThanOrEqual(0)
@@ -76,8 +83,16 @@ describe('HousingInspection', () => {
     expect(onFailed).not.toHaveBeenCalled()
   })
 
+  it('hands the running scene to its owner, and null when it goes away', async () => {
+    const { onScene, unmount } = renderCanvas()
+    await waitFor(() => expect(onScene).toHaveBeenCalledWith(scene))
+    unmount()
+    expect(onScene).toHaveBeenLastCalledWith(null)
+    expect(scene.dispose).toHaveBeenCalledTimes(1)
+  })
+
   it('moves the numbered markers to where the scene projects them', async () => {
-    const { container, onReady } = renderDrawing()
+    const { container, onReady } = renderCanvas()
     await waitFor(() => expect(onReady).toHaveBeenCalled())
     act(() =>
       options.onMarkers([
@@ -93,16 +108,19 @@ describe('HousingInspection', () => {
     expect(markers[1]!.textContent).toBe('2')
   })
 
-  it('forwards a new highlight to the running scene without restarting it', async () => {
-    const { container, rerender, onReady } = renderDrawing()
+  it('emphasises the highlighted point and steps the others back, without restarting the scene', async () => {
+    const { container, rerender, onReady } = renderCanvas()
     await waitFor(() => expect(onReady).toHaveBeenCalled())
+    expect([...container.querySelectorAll('ol > li')].every((li) => li.className.includes('opacity-100'))).toBe(true)
     rerender(2)
     expect(scene.setHighlight).toHaveBeenLastCalledWith(2)
-    expect(sceneModule.createHousingScene).toHaveBeenCalledTimes(1)
+    expect(factory).toHaveBeenCalledTimes(1)
     const badges = container.querySelectorAll('[data-balloon]')
-    expect(badges).toHaveLength(3)
     expect(badges[2]!.className).toContain('bg-accent')
     expect(badges[0]!.className).not.toContain('bg-accent')
+    const items = container.querySelectorAll('ol > li')
+    expect(items[2]!.className).toContain('opacity-100')
+    expect(items[0]!.className).toContain('opacity-40')
   })
 
   it('starts still when the visitor prefers reduced motion', async () => {
@@ -115,44 +133,44 @@ describe('HousingInspection', () => {
         removeEventListener: vi.fn(),
       })),
     )
-    const { onReady } = renderDrawing()
+    const { onReady } = renderCanvas()
     await waitFor(() => expect(onReady).toHaveBeenCalled())
     expect(options.reducedMotion).toBe(true)
   })
 
-  it('hands back to the photograph when WebGL cannot start', async () => {
-    sceneModule.createHousingScene.mockImplementation(() => {
-      throw new Error('Error creating WebGL context.')
-    })
-    const { onReady, onFailed } = renderDrawing()
+  it('falls back when the WebGL module cannot load', async () => {
+    const { onReady, onFailed } = renderCanvas(null, () => Promise.reject(new Error('chunk failed')))
     await waitFor(() => expect(onFailed).toHaveBeenCalledTimes(1))
     expect(onReady).not.toHaveBeenCalled()
   })
 
-  it('hands back to the photograph when the context is lost', async () => {
-    const { onReady, onFailed } = renderDrawing()
+  it('falls back when WebGL cannot start', async () => {
+    const failing = vi.fn(() => {
+      throw new Error('Error creating WebGL context.')
+    })
+    const { onReady, onFailed } = renderCanvas(null, () => Promise.resolve(failing as unknown as SceneFactory))
+    await waitFor(() => expect(onFailed).toHaveBeenCalledTimes(1))
+    expect(onReady).not.toHaveBeenCalled()
+  })
+
+  it('falls back when the context is lost, and ignores late events after unmount', async () => {
+    const { onReady, onFailed, unmount } = renderCanvas()
     await waitFor(() => expect(onReady).toHaveBeenCalled())
     act(() => options.onContextLost())
     expect(onFailed).toHaveBeenCalledTimes(1)
-  })
-
-  it('disposes the scene on unmount and ignores its late events', async () => {
-    const { unmount, onReady, onFailed } = renderDrawing()
-    await waitFor(() => expect(onReady).toHaveBeenCalled())
     unmount()
-    expect(scene.dispose).toHaveBeenCalledTimes(1)
     options.onContextLost()
-    expect(onFailed).not.toHaveBeenCalled()
+    expect(onFailed).toHaveBeenCalledTimes(1)
   })
 
   it('describes every inspection point in text, since the canvas and markers are hidden', async () => {
-    const { container, onReady } = renderDrawing()
+    const { container, onReady } = renderCanvas()
     await waitFor(() => expect(onReady).toHaveBeenCalled())
     expect(container.querySelector('canvas')).toHaveAttribute('aria-hidden', 'true')
     expect(container.querySelector('ol')).toHaveAttribute('aria-hidden', 'true')
     const description = container.querySelector('p.sr-only')!.textContent!
+    expect(description.startsWith(SUBJECT)).toBe(true)
     expect(description).toContain('Point 1: CMM 3D Coordinate inspection (±0.05mm), applied to the rim of the top bore.')
-    expect(description).toContain('Point 2: RoHS & REACH compliance, applied to the machined base block.')
     expect(description).toContain('Point 3: Salt spray 96h corrosion test, applied to the side fitting.')
   })
 })

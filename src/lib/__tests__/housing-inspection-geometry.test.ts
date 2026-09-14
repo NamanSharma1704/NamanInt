@@ -4,6 +4,8 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  HOUSING_DRAWING,
+  HOUSING_EFFECT_ANCHORS,
   HOUSING_SOLIDS,
   INSPECTION_MARKERS,
   NOTCH_HALF_WIDTH,
@@ -136,6 +138,22 @@ describe('housing inspection geometry', () => {
       })
       expect(marker.place.length).toBeGreaterThan(3)
     }
+  })
+
+  it('gives the sequence one turn per protocol and frames the probe and spray nozzle', () => {
+    expect(HOUSING_DRAWING.sequence.stepYawDeg).toHaveLength(INSPECTION_MARKERS.length)
+    const { probe, screening, spray } = HOUSING_EFFECT_ANCHORS
+    expect(probe.contact).toEqual(INSPECTION_MARKERS[0]!.anchor)
+    const { min, max } = housingBounds(HOUSING_SOLIDS)
+    // The screening plane spans the base block and sweeps from above its top face to the floor.
+    expect(screening.x[0]).toBeLessThan(min[0])
+    expect(screening.x[1]).toBeGreaterThan(0.5)
+    expect(screening.y[0]).toBeGreaterThan(0.27)
+    expect(screening.y[1]).toBe(0)
+    expect(spray.target).toEqual(INSPECTION_MARKERS[2]!.anchor)
+    const framing = HOUSING_DRAWING.framingPoints ?? []
+    expect(framing).toContainEqual(spray.nozzle)
+    expect(Math.max(...framing.map(([, y]) => y))).toBeGreaterThan(max[1])
   })
 
   it('builds closed loops for circles and rounded rectangles', () => {

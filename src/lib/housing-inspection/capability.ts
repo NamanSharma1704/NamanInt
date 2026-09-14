@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { hasCapableWebGL2 } from '@/lib/webgl2';
 
 /**
- * Whether the Precision Hardware inspection drawing can run in this browser. The drawing only loads when a visitor
- * asks for it, so this probe decides whether the view switch is offered at all.
+ * Whether the Categories inspection drawings can run in this browser. A drawing only loads when a visitor asks for it
+ * (Precision Hardware) or reaches it (Packaging & Retail), so this probe decides whether it is offered at all.
  */
 export function canRunInspectionDrawing(): boolean {
   return hasCapableWebGL2();
