@@ -16,6 +16,8 @@ export interface InspectionStep {
 export interface CategorySequence {
   /** Opening sentence of the drawing's text description. */
   readonly subject: string;
+  /** The note under the process caption; the line drawings default to "Illustrative drawing, not to scale." */
+  readonly note?: string;
   /** One step per inspection protocol, in the order the category lists them. */
   readonly steps: readonly InspectionStep[];
   readonly markers: readonly InspectionMarker[];
@@ -60,5 +62,27 @@ export const CATEGORY_SEQUENCES: Readonly<Partial<Record<string, CategorySequenc
     ],
     markers: PACKAGING_MARKERS,
     loadScene: () => import('@/components/packaging-inspection/scene').then((module) => module.createPackagingScene),
+  },
+  textiles: {
+    subject:
+      'Three-dimensional model of a fabric roll on its cardboard tube, with a sheet unrolled from it that carries a certification tag near the roll and five colour swatches; in the tear test its edge tears, leaving loose fibres.',
+    note: 'Illustrative 3D model, not to scale.',
+    steps: [
+      {
+        title: 'OEKO-TEX Standard 100 certification',
+        text: 'Each fabric lot is tested against the OEKO-TEX Standard 100 limits for harmful substances, and its certification travels with the lot into production.',
+      },
+      {
+        title: 'Colour fastness, AATCC 8 and 116',
+        text: 'Cut samples are rubbed dry and wet on a crockmeter, and the colour they give up is graded against the grey scale.',
+      },
+      {
+        title: 'Tensile tear resistance',
+        text: 'A notched strip is pulled apart until it tears, confirming the fabric holds its rated tear strength before the lot ships.',
+      },
+    ],
+    // One scene with no numbered points: the step list and captions name each element, and the scene moves it.
+    markers: [],
+    loadScene: () => import('@/components/textiles-inspection/scene').then((module) => module.createTextilesScene),
   },
 };

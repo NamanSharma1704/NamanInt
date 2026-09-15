@@ -56,7 +56,8 @@ function CheckChip() {
  * photograph's 4:3 frame, pinned beneath the header beside a process panel (the step list on a progress rail and the current
  * step's caption), while the title, specification and inquiry link step aside until the photograph is
  * chosen again. Scrolling moves through the category's protocols: the model turns toward each
- * inspection point and plays out that step, and its caption crossfades in.
+ * inspection point and plays out that step (in the Textiles 3D scene, the element itself moves), and
+ * the step's caption crossfades in.
  */
 export default function PortfolioArticle({ item, selected, isDefault, sequence, reducedMotion }: PortfolioArticleProps) {
   const inspection = useInspectionSequence(sequence?.steps.length ?? 0, selected);
@@ -217,7 +218,7 @@ export default function PortfolioArticle({ item, selected, isDefault, sequence, 
                       );
                     })}
                   </ol>
-                  <p className="mt-4 text-xs leading-[1.6] text-muted-foreground">Illustrative drawing, not to scale.</p>
+                  <p className="mt-4 text-xs leading-[1.6] text-muted-foreground">{process.note ?? 'Illustrative drawing, not to scale.'}</p>
                 </div>
               </div>
             </div>
