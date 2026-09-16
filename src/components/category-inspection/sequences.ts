@@ -107,4 +107,26 @@ export const CATEGORY_SEQUENCES: Readonly<Partial<Record<string, CategorySequenc
     markers: [],
     loadScene: () => import('@/components/home-inspection/scene').then((module) => module.createHomeScene),
   },
+  seasonal: {
+    subject:
+      'Three-dimensional model of a kraft shipping carton packed with printed retail gift boxes, beside the timber pallet it ships from; in the process it is lifted onto the pallet, a sample of the gift boxes is drawn out and one opened, and the carton is closed, taped and labelled.',
+    note: 'Illustrative 3D model, not to scale.',
+    steps: [
+      {
+        title: 'Guaranteed drop-dead shipping window',
+        text: "Production is scheduled back from the programme's fixed ship date, so every packed carton is on the pallet inside its dispatch window, never after it.",
+      },
+      {
+        title: 'AQL 2.5 major / 4.0 minor inspection',
+        text: 'A sample drawn from the packed cartons is inspected to AQL, and the lot is accepted only if major defects stay within 2.5 and minor ones within 4.0.',
+      },
+      {
+        title: 'Pre-cartoned retail packaging',
+        text: 'Every unit leaves in its finished retail pack, cartoned, taped and labelled for the store or distribution centre, with nothing to repack on arrival.',
+      },
+    ],
+    // One scene with no numbered points: the step list and captions name each act, and the scene carries it out.
+    markers: [],
+    loadScene: () => import('@/components/seasonal-inspection/scene').then((module) => module.createSeasonalScene),
+  },
 };
