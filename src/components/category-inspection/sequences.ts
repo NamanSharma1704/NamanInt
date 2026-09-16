@@ -85,4 +85,26 @@ export const CATEGORY_SEQUENCES: Readonly<Partial<Record<string, CategorySequenc
     markers: [],
     loadScene: () => import('@/components/textiles-inspection/scene').then((module) => module.createTextilesScene),
   },
+  home: {
+    subject:
+      'Three-dimensional model of a fluted glazed pitcher standing in a steel test bath, with a beaker of food simulant beside it; in the tests it is filled to its line, a coupon is cut from its wall to show the glaze over the ceramic body, and the bath fills around it.',
+    note: 'Illustrative 3D model, not to scale.',
+    steps: [
+      {
+        title: 'FDA 21 CFR food contact safe',
+        text: 'The piece is filled with a food simulant and held under the conditions it will be used in, and what the glaze and the body give up to it is measured against the food-contact limits.',
+      },
+      {
+        title: 'LFGB German food standard pass',
+        text: 'A coupon cut from the wall is tested to the LFGB methods, which look at the glaze over the ceramic body and what either releases into food.',
+      },
+      {
+        title: 'Thermal shock & dishwasher tested',
+        text: 'The piece goes from hot into a cold bath, then through repeated dishwasher cycles, and the glaze is checked for crazing before the lot ships.',
+      },
+    ],
+    // One scene with no numbered points: the step list and captions name each test, and the scene carries it out.
+    markers: [],
+    loadScene: () => import('@/components/home-inspection/scene').then((module) => module.createHomeScene),
+  },
 };
