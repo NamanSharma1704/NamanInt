@@ -4,6 +4,7 @@ import {
   buildModel,
   hslToRgb,
   parseHslTriplet,
+  stationAnchors,
   svgDrawing,
   type Hsl,
   type Layout,
@@ -16,9 +17,11 @@ import type { ScenePalette, TradeNetworkScene } from './scene';
 /** Tailwind's `sm` breakpoint — the same one that swaps the fallback drawings. */
 const WIDE_QUERY = '(min-width: 640px)';
 
+const MODELS = { wide: buildModel('wide'), compact: buildModel('compact') } as const;
+
 const DRAWINGS: Record<Layout, SvgDrawing> = {
-  wide: svgDrawing(buildModel('wide')),
-  compact: svgDrawing(buildModel('compact')),
+  wide: svgDrawing(MODELS.wide),
+  compact: svgDrawing(MODELS.compact),
 };
 
 /**
@@ -32,6 +35,15 @@ const WIDE_MIN_ASPECT = 2.8;
 const FRAME_ASPECT: Record<Layout, number> = {
   wide: Math.max(WIDE_MIN_ASPECT, DRAWINGS.wide.width / DRAWINGS.wide.height),
   compact: DRAWINGS.compact.width / DRAWINGS.compact.height,
+};
+
+/**
+ * Each station's centre across the frame, as a percentage from its left edge. The drawing is centred inside a frame
+ * that may be wider than it (the wide layout's letterbox), so its anchors are scaled toward the middle to match.
+ */
+const LABEL_LEFT: Record<Layout, readonly number[]> = {
+  wide: stationAnchors(MODELS.wide).map((anchor) => (0.5 + (anchor - 0.5) * (DRAWINGS.wide.width / DRAWINGS.wide.height / FRAME_ASPECT.wide)) * 100),
+  compact: stationAnchors(MODELS.compact).map((anchor) => anchor * 100),
 };
 
 /**
@@ -146,12 +158,45 @@ function FallbackDrawing({ drawing, aspect, highlightStep, className, faded }: F
   );
 }
 
+export interface StationLabel {
+  /** The station's name where there is room, as the route stages name it. */
+  readonly place: string;
+  /** A shorter name for the narrow drawing, where the stations sit closer together. */
+  readonly short: string;
+}
+
 export interface TradeNetworkProps {
   /** Route step to emphasise: 0 origin, 1 consolidation, 2 destination. */
   readonly highlightStep: number | null;
-  readonly origin: string;
-  readonly destination: string;
+  /** The three stations' names, in route order, set under the stations they name. */
+  readonly stations: readonly StationLabel[];
   readonly className?: string;
+}
+
+interface StationLabelsProps {
+  readonly layout: Layout;
+  readonly stations: readonly StationLabel[];
+  readonly highlightStep: number | null;
+  readonly className: string;
+}
+
+/** The stations' names under the drawing, each centred on its station and lit with it. Visual only: the stages carry the same names. */
+function StationLabels({ layout, stations, highlightStep, className }: StationLabelsProps) {
+  return (
+    <div aria-hidden="true" className={`${className} relative mt-3 h-5`}>
+      {stations.map((station, index) => (
+        <span
+          key={station.place}
+          style={{ left: `${LABEL_LEFT[layout][index] ?? 50}%` }}
+          className={`absolute top-0 -translate-x-1/2 whitespace-nowrap text-xs font-semibold transition-colors duration-200 motion-reduce:transition-none ${
+            highlightStep === index ? 'text-accent-on-tint' : 'text-muted-foreground'
+          }`}
+        >
+          {layout === 'wide' ? station.place : station.short}
+        </span>
+      ))}
+    </div>
+  );
 }
 
 /**
@@ -160,7 +205,7 @@ export interface TradeNetworkProps {
  * viewport, on idle, and only where WebGL 2 runs well. Anywhere it doesn't —
  * no WebGL, Save-Data, a lost context, a failed chunk — the SVG simply stays.
  */
-export default function TradeNetwork({ highlightStep, origin, destination, className }: TradeNetworkProps) {
+export default function TradeNetwork({ highlightStep, stations, className }: TradeNetworkProps) {
   const frameRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sceneRef = useRef<TradeNetworkScene | null>(null);
@@ -290,20 +335,17 @@ export default function TradeNetwork({ highlightStep, origin, destination, class
           }`}
         />
       </div>
+      <StationLabels layout="compact" stations={stations} highlightStep={highlightStep} className="block sm:hidden" />
+      <StationLabels layout="wide" stations={stations} highlightStep={highlightStep} className="hidden sm:block" />
 
-      <figcaption className="mt-5">
+      <figcaption className="mt-4">
         <span className="sr-only">
           Diagram of the sourcing route. Goods leave factories in South and East China along three supplier lanes,
           pass a single inspection gate at the Hong Kong consolidation hub, and ship as consolidated freight to North
           America. Above the route, orders travel back toward the factories and inspection sign-offs rise from the
           gate.
         </span>
-        <span className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-          <span>{origin}</span>
-          <span aria-hidden="true" className="hidden h-px flex-1 bg-border sm:block" />
-          <span>{destination}</span>
-        </span>
-        <span aria-hidden="true" className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground">
+        <span aria-hidden="true" className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground">
           <span className="flex items-center gap-2">
             <span className="h-2 w-3 bg-accent/90" />
             Goods in transit

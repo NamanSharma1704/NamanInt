@@ -367,6 +367,26 @@ export function buildModel(layout: Layout): TradeNetworkModel {
   };
 }
 
+/**
+ * Where each station stands across the drawing, in route order: the middle of its projected outline as a share of the
+ * view's width from its left edge, 0 to 1. The drawing's station labels are placed from these, so they sit under the
+ * stations whichever renderer is showing.
+ */
+export function stationAnchors(model: TradeNetworkModel): number[] {
+  return model.stations.map((station) => {
+    let min = Infinity;
+    let max = -Infinity;
+    for (const segment of station.segments) {
+      for (const point of segment) {
+        const [x] = project(point, model.center);
+        min = Math.min(min, x);
+        max = Math.max(max, x);
+      }
+    }
+    return ((min + max) / 2 - model.view.minX) / model.view.width;
+  });
+}
+
 // ─── motion ─────────────────────────────────────────────────────────────────
 
 /** 0 at a lane's ends, 1 through its middle — units grow in and out, never pop. */

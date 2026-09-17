@@ -6,6 +6,7 @@ import Footer from '@/layouts/parts/Footer';
 import Header from '@/layouts/parts/Header';
 import HomepageSameAsJsonLd from '@/components/HomepageSameAsJsonLd';
 import ScrollIndicator from '@/components/ScrollIndicator';
+import SkipLink from '@/components/SkipLink';
 import Website from '@/layouts/Website';
 
 /**
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </Helmet>
       <HomepageSameAsJsonLd />
       <ScrollRestoration />
+      <SkipLink />
       <Header />
       {children}
       <Footer />

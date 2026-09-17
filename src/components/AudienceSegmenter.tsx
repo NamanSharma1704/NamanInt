@@ -1,6 +1,7 @@
-import { motion, useReducedMotion } from 'motion/react';
 import { Store, Building2, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
+
+import { Reveal } from '@/components/ui/reveal';
 
 export type AudienceType = 'retail' | 'wholesale';
 
@@ -83,18 +84,10 @@ const audiences: AudienceData[] = [
  * costs no extra height and lets a visitor self-identify at a glance.
  */
 export default function AudienceSegmenter() {
-  const reducedMotion = useReducedMotion();
-
   return (
     <section className="border-y border-border bg-card">
       <div className="mx-auto max-w-[1440px] px-5 pb-14 pt-20 sm:px-8 lg:px-14 lg:pt-24">
-        <motion.div
-          initial={{ opacity: 0, y: reducedMotion ? 0 : 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: reducedMotion ? 0 : 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-2xl"
-        >
+        <Reveal rise={24} amount={0.3} className="max-w-2xl">
           <div className="mb-5 flex items-center gap-2">
             <div className="h-px w-8 bg-gold" />
             <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
@@ -108,7 +101,7 @@ export default function AudienceSegmenter() {
             Two commercial profiles, each with its own operational protocol, compliance
             standard, and logistics model.
           </p>
-        </motion.div>
+        </Reveal>
       </div>
 
       {/* Two-up, split by hairlines: one full-bleed rule across the top and one
@@ -121,16 +114,11 @@ export default function AudienceSegmenter() {
             const Icon = audience.icon;
             const isSecond = index === 1;
             return (
-              <motion.div
+              <Reveal
                 key={audience.id}
-                initial={{ opacity: 0, y: reducedMotion ? 0 : 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{
-                  duration: reducedMotion ? 0 : 0.55,
-                  ease: [0.16, 1, 0.3, 1],
-                  delay: reducedMotion ? 0 : index * 0.08,
-                }}
+                rise={20}
+                duration={0.55}
+                delay={index * 0.08}
                 className={
                   'flex flex-col px-5 py-12 sm:px-8 lg:px-14 lg:py-16' +
                   (isSecond ? ' border-t border-border lg:border-l lg:border-t-0' : '')
@@ -181,10 +169,10 @@ export default function AudienceSegmenter() {
                     className="group mt-8 inline-flex w-fit items-center gap-3 rounded-xl bg-accent px-7 py-3.5 text-sm font-semibold text-accent-foreground shadow-teal transition-[background-color,box-shadow] duration-300 hover:bg-accent-hover hover:shadow-teal-lg"
                   >
                     <span>{audience.ctaText}</span>
-                    <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
+                    <ArrowRight size={15} aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
                 </div>
-              </motion.div>
+              </Reveal>
             );
           })}
         </div>

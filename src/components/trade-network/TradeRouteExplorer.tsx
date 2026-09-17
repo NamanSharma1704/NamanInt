@@ -6,13 +6,13 @@ export interface RouteStep {
   readonly num: string;
   readonly label: string;
   readonly place: string;
+  /** A shorter name for the station label under the narrow drawing. */
+  readonly short: string;
   readonly desc: string;
 }
 
 interface TradeRouteExplorerProps {
   readonly steps: readonly RouteStep[];
-  readonly origin: string;
-  readonly destination: string;
 }
 
 /** Keyboard focus previews a stage; focus that follows a tap does not. */
@@ -27,17 +27,27 @@ function isKeyboardFocus(event: FocusEvent<HTMLElement>): boolean {
 /**
  * The route diagram and its three stages. The stages are the diagram's
  * controls: hovering with a mouse or focusing with a keyboard previews that
- * station in the drawing, and pressing a stage pins the highlight. The text is
- * the accessible source of truth — the drawing itself is aria-hidden.
+ * station in the drawing, and pressing a stage pins the highlight. The stations
+ * are named under the drawing, and a name lights with its station, so a stage
+ * and the part of the drawing it controls read as one. The text is the
+ * accessible source of truth — the drawing itself is aria-hidden.
+ *
+ * On phones the stages stack below the drawing, so the drawing pins beneath the
+ * header while they scroll past; a tap on stage 02 or 03 lights a station that
+ * is still on screen.
  */
-export default function TradeRouteExplorer({ steps, origin, destination }: TradeRouteExplorerProps) {
+export default function TradeRouteExplorer({ steps }: TradeRouteExplorerProps) {
   const [pinnedStep, setPinnedStep] = useState<number | null>(null);
   const [previewStep, setPreviewStep] = useState<number | null>(null);
   const highlightStep = previewStep ?? pinnedStep;
 
   return (
     <>
-      <TradeNetwork className="mt-10" highlightStep={highlightStep} origin={origin} destination={destination} />
+      <TradeNetwork
+        className="sticky top-[72px] z-10 mt-10 bg-background pb-4 pt-2 sm:static sm:pb-0 sm:pt-0"
+        highlightStep={highlightStep}
+        stations={steps}
+      />
 
       <ol className="mt-8 grid gap-px border border-border bg-border sm:grid-cols-3">
         {steps.map((step, index) => {
@@ -66,7 +76,7 @@ export default function TradeRouteExplorer({ steps, origin, destination }: Trade
               >
                 <span className="flex items-center gap-3">
                   <span className="font-mono text-xs text-gold">{step.num}</span>
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  <span className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                     {step.label}
                   </span>
                 </span>

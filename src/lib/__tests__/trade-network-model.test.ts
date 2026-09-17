@@ -14,6 +14,7 @@ import {
   parseHslTriplet,
   pointOnLane,
   project,
+  stationAnchors,
   svgDrawing,
   unitStates,
   type Lane,
@@ -239,6 +240,21 @@ describe('trade network model', () => {
     it('draws the reduced-motion frame by default', () => {
       const model = buildModel('wide')
       expect(svgDrawing(model)).toEqual(svgDrawing(model, STATIC_TIME))
+    })
+  })
+
+  describe('station anchors', () => {
+    it('places each station across the drawing in route order, inside the view', () => {
+      for (const layout of LAYOUTS) {
+        const anchors = stationAnchors(buildModel(layout))
+        expect(anchors).toHaveLength(3)
+        for (const anchor of anchors) {
+          expect(anchor).toBeGreaterThan(0)
+          expect(anchor).toBeLessThan(1)
+        }
+        expect(anchors[0]!).toBeLessThan(anchors[1]!)
+        expect(anchors[1]!).toBeLessThan(anchors[2]!)
+      }
     })
   })
 })

@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { motion, useReducedMotion } from 'motion/react';
+import { useReducedMotion } from 'motion/react';
 
 import ResponsiveImage from '@/components/ResponsiveImage';
+import { Reveal } from '@/components/ui/reveal';
 import { Link001 } from '@/components/ui/skiper-ui/skiper40';
 
 export interface ServiceStep {
@@ -22,8 +23,11 @@ interface ServicesSequenceProps {
 /** Height of the sticky site header (h-[72px]); the sequence pins beneath it. */
 const HEADER_OFFSET = 72;
 
-/** Scroll distance, in viewport heights, spent on each step after the first. */
-const STEP_VH = 60;
+/**
+ * Scroll distance, in viewport heights, spent on each step after the first. Kept short: four one-paragraph services
+ * do not need two screens of scrolling to get through.
+ */
+const STEP_VH = 32;
 
 /**
  * The step a scroll position shows. `scrolled` is how far the pinned frame has
@@ -97,12 +101,7 @@ export default function ServicesSequence({ eyebrow, title, intro, cta, steps }: 
           {/* The brief scrolls normally on small screens and pins beside the
               stage on large ones, where it also carries the step index. */}
           <div className="pt-24 lg:sticky lg:top-[72px] lg:flex lg:h-[calc(100svh-72px)] lg:flex-col lg:justify-center lg:self-start lg:pt-0">
-            <motion.div
-              initial={{ opacity: 0, y: reducedMotion ? 0 : 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: reducedMotion ? 0 : 0.6, ease: [0.16, 1, 0.3, 1] }}
-            >
+            <Reveal>
               <div className="mb-5 flex items-center gap-2">
                 <div className="h-px w-8 bg-gold" />
                 <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">
@@ -113,7 +112,7 @@ export default function ServicesSequence({ eyebrow, title, intro, cta, steps }: 
                 {title}
               </h2>
               <p className="mt-6 max-w-md text-base leading-[1.8] text-muted-foreground">{intro}</p>
-            </motion.div>
+            </Reveal>
 
             <ol aria-label="Jump to a service" className="relative mt-10 hidden lg:block">
               <span aria-hidden="true" className="absolute inset-y-0 left-0 w-px bg-border" />
@@ -149,7 +148,7 @@ export default function ServicesSequence({ eyebrow, title, intro, cta, steps }: 
               className="mt-10 flex w-fit items-center gap-2 text-sm font-semibold text-accent-on-tint transition-colors hover:text-foreground"
             >
               <span>{cta.label}</span>
-              <ArrowRight size={14} />
+              <ArrowRight size={14} aria-hidden="true" />
             </Link001>
           </div>
 

@@ -404,6 +404,31 @@
   animation-play-state: paused;
 }
 
+/* Hero entrance. CSS rather than a script, so the hero runs from the first paint and never waits on JavaScript to
+   become visible: a slow or failed bundle still shows the headline. `--hero-delay` staggers the pieces. */
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes hero-photo {
+  from { opacity: 0; transform: scale(1.06); }
+  to { opacity: 1; transform: none; }
+}
+
+.hero-rise {
+  animation: hero-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--hero-delay, 0s) both;
+}
+
+.hero-photo {
+  animation: hero-photo 1.8s ease-out both;
+}
+
+/* The skip link sends focus to <main>, which takes it only to move the reading position; it draws no ring. */
+main:focus {
+  outline: none;
+}
+
 /* Hero gradient shimmer */
 @keyframes shimmer {
   0% { background-position: -200% center; }
@@ -441,7 +466,9 @@
 
   .logo-slider__track,
   .hero-shimmer,
-  .animate-pulse {
+  .animate-pulse,
+  .hero-rise,
+  .hero-photo {
     animation: none !important;
   }
 
